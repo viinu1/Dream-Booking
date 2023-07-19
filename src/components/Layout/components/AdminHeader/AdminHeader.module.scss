@@ -1,0 +1,72 @@
+.header {
+    box-shadow: -2px -4px 8px #ccc;
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+    background-color: #fff;
+}
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+}
+.logo {
+    font-weight: bold;
+    font-size: 3rem;
+    cursor: pointer;
+    color: darkblue;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.icon-nav {
+    font-size: 2.4rem;
+    cursor: pointer;
+    color: #555;
+}
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.nav-avatar {
+    position: relative;
+}
+.nav-avatar::after {
+    position: absolute;
+    content: '';
+    width: 120px;
+    height: 20px;
+    left: -50%;
+    top: 95%;
+}
+
+.nav-avatar:hover .menu {
+    display: block;
+}
+
+.menu {
+    width: 120px;
+    position: absolute;
+    left: -50%;
+    top: 110%;
+    background-color: #fff;
+    box-shadow: 2px 2px 4px #797979;
+    padding: 8px;
+    display: none;
+}
+.menu .dropdown-item {
+    font-size: 1.6rem;
+    font-weight: 300;
+    text-decoration: none;
+    color: #000;
+}
