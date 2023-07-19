@@ -69,16 +69,16 @@
     width: 50%;
 }
 .card-price {
-    padding: 0 12px;
     color: #ccc;
     text-decoration: line-through;
     border-right: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 14px;
+    margin: 0 4px 0 0;
 }
 .card-price-discount {
-    padding: 0 12px;
+    margin-bottom: 0;
     color: red;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .btn-order {
