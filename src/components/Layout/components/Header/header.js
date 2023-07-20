@@ -29,19 +29,19 @@ function Header() {
                         </Link>
                     </li>
                     <li className={cx('nav-item')}>
-                        <a className={cx('nav-item__link')} href="/following">
+                        <Link className={cx('nav-item__link')} to="/following">
                             Facilities
-                        </a>
+                        </Link>
                     </li>
                     <li className={cx('nav-item')}>
-                        <a className={cx('nav-item__link')} href="/profile">
+                        <Link className={cx('nav-item__link')} to="/profile">
                             Contact Us
-                        </a>
+                        </Link>
                     </li>
                     <li className={cx('nav-item')}>
-                        <a className={cx('nav-item__link')} href="/upload">
+                        <Link className={cx('nav-item__link')} to="/upload">
                             About
-                        </a>
+                        </Link>
                     </li>
 
                     {islogin ? (
