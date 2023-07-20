@@ -25,7 +25,7 @@ header {
 .nav {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 12px;
     padding-left: 0;
 }
 
@@ -40,10 +40,10 @@ header {
 }
 
 .nav-item:hover .nav-item__link {
-    text-decoration: underline;
-    background-color: #ccc;
-    border-radius: 8px;
+    border-bottom: 1px solid #000;
 }
+
+
 .account {
     position: relative;
 }
@@ -66,6 +66,7 @@ header {
     background-color: #fff;
     box-shadow: 0 0 4px #ccc;
     display: none;
+    z-index: 100;
 }
 .menu-account::before {
     content: '';

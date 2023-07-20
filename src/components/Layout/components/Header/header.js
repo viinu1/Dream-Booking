@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './header.module.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
-const isLogin = false;
 function Header() {
+
+    const [islogin,setIslogin] = useState(false)
     return (
         <header className={cx('container-fluid', 'bg-white')}>
             <div className={cx('container', 'header')}>
@@ -28,22 +29,22 @@ function Header() {
                         </Link>
                     </li>
                     <li className={cx('nav-item')}>
-                        <a className={cx('nav-item__link')} href="#">
+                        <a className={cx('nav-item__link')} href="/following">
                             Facilities
                         </a>
                     </li>
                     <li className={cx('nav-item')}>
-                        <a className={cx('nav-item__link')} href="#">
+                        <a className={cx('nav-item__link')} href="/profile">
                             Contact Us
                         </a>
                     </li>
                     <li className={cx('nav-item')}>
-                        <a className={cx('nav-item__link')} href="#">
+                        <a className={cx('nav-item__link')} href="/upload">
                             About
                         </a>
                     </li>
 
-                    {isLogin ? (
+                    {islogin ? (
                         <>
                             <div className={cx('account')}>
                                 <img

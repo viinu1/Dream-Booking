@@ -6,7 +6,22 @@ import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
+const data = [{"id":1,"nameRoom":"São Borja Airport","descripton":"Removal of Extraluminal Device from Left Eye, Open Approach","price":"$763.31","priceDiscount":"$226.90"},
+{"id":2,"nameRoom":"Vilankulo Airport","descripton":"Excision of Peroneal Nerve, Percutaneous Approach, Diagn","price":"$177.10","priceDiscount":"$747.16"},
+{"id":3,"nameRoom":"Fleetlands Heliport","descripton":"Bypass Innom Art to Bi Up Leg Art w Autol Vn, Open","price":"$196.12","priceDiscount":"$318.41"},
+{"id":4,"nameRoom":"Quảng Ngãi Airfield","descripton":"Beam Radiation of Hard Palate using Photons 1 - 10 MeV","price":"$621.09","priceDiscount":"$288.61"},
+{"id":5,"nameRoom":"Gabbs Airport","descripton":"Removal of Brace on Left Upper Arm","price":"$312.38","priceDiscount":"$728.48"},
+{"id":6,"nameRoom":"Maun Airport","descripton":"Release Left Lesser Saphenous Vein, Open Approach","price":"$145.78","priceDiscount":"$821.62"},
+{"id":7,"nameRoom":"Konge Airport","descripton":"Drainage of Left Carpal Joint, Percutaneous Approach, Diagn","price":"$424.73","priceDiscount":"$721.40"},
+{"id":8,"nameRoom":"Igiugig Airport","descripton":"Removal of Autol Sub from L Acromioclav Jt, Perc Approach","price":"$244.71","priceDiscount":"$216.46"},
+{"id":9,"nameRoom":"Innisfail Airport","descripton":"Extirpate matter from Conduction Mechanism, Perc Endo","price":"$188.08","priceDiscount":"$138.61"},
+{"id":10,"nameRoom":"Matão Airport","descripton":"Supplement Hyoid Bone with Nonaut Sub, Perc Approach","price":"$812.71","priceDiscount":"$706.26"},
+{"id":11,"nameRoom":"Malamala Airport","descripton":"Dilate L Fem Art, Bifurc, w 3 Drug-elut, Perc Endo","price":"$179.50","priceDiscount":"$657.05"},
+{"id":12,"nameRoom":"Fulleborn Airport","descripton":"Fluoroscopy of Right Renal Artery using Low Osmolar Contrast","price":"$268.82","priceDiscount":"$704.25"}]
+
+
 function Home() {
+    
     return (
         <div className={cx('home')}>
             <div className={cx('banner', 'row')}>
@@ -76,241 +91,35 @@ function Home() {
                     </button>
                 </div>
             </div>
-            {/* <div className={cx('container')}>
-                <div className={cx('search-content','row')}>
-                    <div className={cx('search-input')}>
-                        <input type="text" placeholder="Nhập điểm đến" />
-                        <FontAwesomeIcon icon={faSearch} className={cx('search-icon')} />
-                    </div>
-                    <div className={cx('search-date')}>
-                        <div className={cx('date-start')}>
-                            <input type="date" id="date-start" value="2018-07-22" />
-                        </div>
-                        <div className={cx('date-end')}>
-                            <input type="date" id="date-end" value="2018-07-22" />
-                        </div>
-                        <div className={cx('number-member', 'dropdown')}>
-                            <div
-                                className=""
-                                type="button"
-                                id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                                Dropdown button
-                            </div>
-                            <ul className={cx('dropdown-menu')} aria-labelledby="dropdownMenuButton1">
-                                <li>
-                                    <div className={cx('dropdown-item')}>Action</div>
-                                </li>
-                                <li>
-                                    <div className={cx('dropdown-item')}>Another action</div>
-                                </li>
-                                <li>
-                                    <div className={cx('dropdown-item')}>Something else here</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
 
             <div className={cx('container')}>
                 <section className={cx('room-list')}>
                     <div className={cx('room-list__title')}>Danh sách Phòng</div>
                     <div className={cx('row')}>
-                        <div className={cx('col-lg-3')}>
-                            <div className={cx('card', 'card-item')}>
-                                <img
-                                    src="https://imgcy.trivago.com/c_lfill,d_dummy.jpeg,e_sharpen:60,f_auto,h_225,q_auto,w_225/partner-images/20/ca/30c4e6746c52fb5bdaa2a3592c042abad405b8d4be5691abcced2be10dec.jpeg"
-                                    alt="phòng khách sạn"
-                                    className={cx('room-img')}
-                                />
-                                <div className={cx('card-body')}>
-                                    <h5 className={cx('card-title')}>Room name</h5>
-                                    <p className={cx('card-text')}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacus velit, cursus
-                                        nec varius vel, faucibus quis justo. Nunc elementum est ac nisl mattis lobortis
-                                        ut sed sem. Sed arcu
-                                    </p>
-                                    <div className={cx('price')}>
-                                        <p className={cx('card-price')}>4 $</p>
-                                        <p className={cx('card-price-discount')}>3 $</p>
+                        {data.map((item,index)=>(
+                            <div className={cx('col-lg-3')} key={index}>
+                                <div className={cx('card', 'card-item')}>
+                                    <img
+                                        src="https://imgcy.trivago.com/c_lfill,d_dummy.jpeg,e_sharpen:60,f_auto,h_225,q_auto,w_225/partner-images/20/ca/30c4e6746c52fb5bdaa2a3592c042abad405b8d4be5691abcced2be10dec.jpeg"
+                                        alt="phòng khách sạn"
+                                        className={cx('room-img')}
+                                    />
+                                    <div className={cx('card-body')}>
+                                        <h5 className={cx('card-title')}>{item.nameRoom}</h5>
+                                        <p className={cx('card-text')}>
+                                           {item.descripton}
+                                        </p>
+                                        <div className={cx('price')}>
+                                            <p className={cx('card-price')}>{item.price}</p>
+                                            <p className={cx('card-price-discount')}>{item.priceDiscount}</p>
+                                        </div>
+                                        <Link className={cx('btn', 'btn-primary', 'btn-order')} to="">
+                                            Order now
+                                        </Link>
                                     </div>
-                                    <Link className={cx('btn', 'btn-primary', 'btn-order')} to="">
-                                        Order now
-                                    </Link>
                                 </div>
                             </div>
-                        </div>
-                        <div className={cx('col-lg-3')}>
-                            <div className={cx('card', 'card-item')}>
-                                <img
-                                    src="https://imgcy.trivago.com/c_lfill,d_dummy.jpeg,e_sharpen:60,f_auto,h_225,q_auto,w_225/partner-images/20/ca/30c4e6746c52fb5bdaa2a3592c042abad405b8d4be5691abcced2be10dec.jpeg"
-                                    alt="phòng khách sạn"
-                                    className={cx('room-img')}
-                                />
-                                <div className={cx('card-body')}>
-                                    <h5 className={cx('card-title')}>Room name</h5>
-                                    <p className={cx('card-text')}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacus velit, cursus
-                                        nec varius vel, faucibus quis justo. Nunc elementum est ac nisl mattis lobortis
-                                        ut sed sem. Sed arcu
-                                    </p>
-                                    <div className={cx('price')}>
-                                        <p className={cx('card-price')}>4 $</p>
-                                        <p className={cx('card-price-discount')}>3 $</p>
-                                    </div>
-                                    <Link className={cx('btn', 'btn-primary', 'btn-order')} to="">
-                                        Order now
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={cx('col-lg-3')}>
-                            <div className={cx('card', 'card-item')}>
-                                <img
-                                    src="https://imgcy.trivago.com/c_lfill,d_dummy.jpeg,e_sharpen:60,f_auto,h_225,q_auto,w_225/partner-images/20/ca/30c4e6746c52fb5bdaa2a3592c042abad405b8d4be5691abcced2be10dec.jpeg"
-                                    alt="phòng khách sạn"
-                                    className={cx('room-img')}
-                                />
-                                <div className={cx('card-body')}>
-                                    <h5 className={cx('card-title')}>Room name</h5>
-                                    <p className={cx('card-text')}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacus velit, cursus
-                                        nec varius vel, faucibus quis justo. Nunc elementum est ac nisl mattis lobortis
-                                        ut sed sem. Sed arcu
-                                    </p>
-                                    <div className={cx('price')}>
-                                        <p className={cx('card-price')}>1.000.000 vnđ</p>
-                                        <p className={cx('card-price-discount')}>700.000 vnđ</p>
-                                    </div>
-                                    <Link className={cx('btn', 'btn-primary', 'btn-order')} to="">
-                                        Order now
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={cx('col-lg-3')}>
-                            <div className={cx('card', 'card-item')}>
-                                <img
-                                    src="https://imgcy.trivago.com/c_lfill,d_dummy.jpeg,e_sharpen:60,f_auto,h_225,q_auto,w_225/partner-images/20/ca/30c4e6746c52fb5bdaa2a3592c042abad405b8d4be5691abcced2be10dec.jpeg"
-                                    alt="phòng khách sạn"
-                                    className={cx('room-img')}
-                                />
-                                <div className={cx('card-body')}>
-                                    <h5 className={cx('card-title')}>Room name</h5>
-                                    <p className={cx('card-text')}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacus velit, cursus
-                                        nec varius vel, faucibus quis justo. Nunc elementum est ac nisl mattis lobortis
-                                        ut sed sem. Sed arcu
-                                    </p>
-                                    <div className={cx('price')}>
-                                        <p className={cx('card-price')}>4 $</p>
-                                        <p className={cx('card-price-discount')}>3 $</p>
-                                    </div>
-                                    <Link className={cx('btn', 'btn-primary', 'btn-order')} to="">
-                                        Order now
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={cx('col-lg-3')}>
-                            <div className={cx('card', 'card-item')}>
-                                <img
-                                    src="https://imgcy.trivago.com/c_lfill,d_dummy.jpeg,e_sharpen:60,f_auto,h_225,q_auto,w_225/partner-images/20/ca/30c4e6746c52fb5bdaa2a3592c042abad405b8d4be5691abcced2be10dec.jpeg"
-                                    alt="phòng khách sạn"
-                                    className={cx('room-img')}
-                                />
-                                <div className={cx('card-body')}>
-                                    <h5 className={cx('card-title')}>Room name</h5>
-                                    <p className={cx('card-text')}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacus velit, cursus
-                                        nec varius vel, faucibus quis justo. Nunc elementum est ac nisl mattis lobortis
-                                        ut sed sem. Sed arcu
-                                    </p>
-                                    <div className={cx('price')}>
-                                        <p className={cx('card-price')}>4 $</p>
-                                        <p className={cx('card-price-discount')}>3 $</p>
-                                    </div>
-                                    <Link className={cx('btn', 'btn-primary', 'btn-order')} to="">
-                                        Order now
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={cx('col-lg-3')}>
-                            <div className={cx('card', 'card-item')}>
-                                <img
-                                    src="https://imgcy.trivago.com/c_lfill,d_dummy.jpeg,e_sharpen:60,f_auto,h_225,q_auto,w_225/partner-images/20/ca/30c4e6746c52fb5bdaa2a3592c042abad405b8d4be5691abcced2be10dec.jpeg"
-                                    alt="phòng khách sạn"
-                                    className={cx('room-img')}
-                                />
-                                <div className={cx('card-body')}>
-                                    <h5 className={cx('card-title')}>Room name</h5>
-                                    <p className={cx('card-text')}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacus velit, cursus
-                                        nec varius vel, faucibus quis justo. Nunc elementum est ac nisl mattis lobortis
-                                        ut sed sem. Sed arcu
-                                    </p>
-                                    <div className={cx('price')}>
-                                        <p className={cx('card-price')}>4 $</p>
-                                        <p className={cx('card-price-discount')}>3 $</p>
-                                    </div>
-                                    <Link className={cx('btn', 'btn-primary', 'btn-order')} to="">
-                                        Order now
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={cx('col-lg-3')}>
-                            <div className={cx('card', 'card-item')}>
-                                <img
-                                    src="https://imgcy.trivago.com/c_lfill,d_dummy.jpeg,e_sharpen:60,f_auto,h_225,q_auto,w_225/partner-images/20/ca/30c4e6746c52fb5bdaa2a3592c042abad405b8d4be5691abcced2be10dec.jpeg"
-                                    alt="phòng khách sạn"
-                                    className={cx('room-img')}
-                                />
-                                <div className={cx('card-body')}>
-                                    <h5 className={cx('card-title')}>Room name</h5>
-                                    <p className={cx('card-text')}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacus velit, cursus
-                                        nec varius vel, faucibus quis justo. Nunc elementum est ac nisl mattis lobortis
-                                        ut sed sem. Sed arcu
-                                    </p>
-                                    <div className={cx('price')}>
-                                        <p className={cx('card-price')}>4 $</p>
-                                        <p className={cx('card-price-discount')}>3 $</p>
-                                    </div>
-                                    <Link className={cx('btn', 'btn-primary', 'btn-order')} to="">
-                                        Order now
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={cx('col-lg-3')}>
-                            <div className={cx('card', 'card-item')}>
-                                <img
-                                    src="https://imgcy.trivago.com/c_lfill,d_dummy.jpeg,e_sharpen:60,f_auto,h_225,q_auto,w_225/partner-images/20/ca/30c4e6746c52fb5bdaa2a3592c042abad405b8d4be5691abcced2be10dec.jpeg"
-                                    alt="phòng khách sạn"
-                                    className={cx('room-img')}
-                                />
-                                <div className={cx('card-body')}>
-                                    <h5 className={cx('card-title')}>Room name</h5>
-                                    <p className={cx('card-text')}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacus velit, cursus
-                                        nec varius vel, faucibus quis justo. Nunc elementum est ac nisl mattis lobortis
-                                        ut sed sem. Sed arcu
-                                    </p>
-                                    <div className={cx('price')}>
-                                        <p className={cx('card-price')}>4 $</p>
-                                        <p className={cx('card-price-discount')}>3 $</p>
-                                    </div>
-                                    <Link className={cx('btn', 'btn-primary', 'btn-order')} to="">
-                                        Order now
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </section>
 
