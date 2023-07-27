@@ -24,14 +24,8 @@ const publicRoutes = [
         component: Profile,
     },
     {
-        path: '/upload',
-        component: Upload,
-        layout: HeaderOnly,
-    },
-    {
         path: '/search',
         component: Search,
-        layout: null,
     },
     {
         path: '/admin',

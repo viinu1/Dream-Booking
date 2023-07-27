@@ -1,6 +1,10 @@
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import { faChevronDown, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -21,7 +25,10 @@ const data = [{"id":1,"nameRoom":"São Borja Airport","descripton":"Removal of E
 
 
 function Home() {
-    
+    const [countRoom,setCountRoom] = useState(3)
+    const [countAdult,setCountAdult] = useState(3)
+    const [countChildren,setCountChildren] = useState(2)
+
     return (
         <div className={cx('home')}>
             <div className={cx('banner', 'row')}>
@@ -90,8 +97,65 @@ function Home() {
                         <span className={cx('visually-hidden')}>Next</span>
                     </button>
                 </div>
-            </div>
+                <div className={cx('search','container')} style={{width:'70%'}}>
+                    <div className={cx('search-title')}>Check Availability</div>              
+                    <form action='' method='' className={cx('form__search')}>
+                        <div className={cx('search-control')}>
+                            <FontAwesomeIcon className={cx('search-icon')} icon={faCalendar}/>
+                            <input type='date' className={cx('search-date','search-date__start')}/>
+                        </div>
+                        <div className={cx('search-control')}>
+                            <FontAwesomeIcon className={cx('search-icon')} icon={faCalendar}/>
+                            <input type='date' className={cx('search-date','search-date__end')}/>
+                        </div>
+                        <div className={cx('search-control')} role='button' id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <FontAwesomeIcon className={cx('search-icon')} icon={faUsers}/>
+                            <div className={cx('number')}>
+                                <div className={cx('number__people')}>
+                                    <div className={cx('number__adult')}>
+                                        <span>{countAdult}</span> Người lớn, <span>{countChildren}</span> trẻ em
+                                    </div>
+                                    <div className={cx('number__children')}>
 
+                                    </div>
+                                </div>
+                                <div className={cx('number__room')}>
+                                    {countRoom} Phòng
+                                </div>
+                            </div>
+                            <FontAwesomeIcon icon={faChevronDown} className={cx('search-icon','search-icon__down')}/>
+                        </div>
+                        <div className="dropdown-menu px-4" aria-labelledby="dropdownMenuLink" style={{width:'25%'}}>
+                            <div className={cx('chose')}>
+                                <div className={cx('chose-title')}>Phòng</div>
+                                <div className={cx('chose-click')}>
+                                    <button className={cx('chose-btn')}>-</button>
+                                    <span>{countRoom}</span>
+                                    <button className={cx('chose-btn')}>+</button>
+                                </div>
+                            </div>
+                            <div className={cx('chose')}>
+                                <div className={cx('chose-title')}>Người lớn</div>
+                                <div className={cx('chose-click')}>
+                                    <button className={cx('chose-btn')}>-</button>
+                                    <span>{countAdult}</span>
+                                    <button className={cx('chose-btn')}>+</button>
+                                </div>
+                            </div>
+                            <div className={cx('chose')}>
+                                <div className={cx('chose-title')}>Trẻ em</div>
+                                <div className={cx('chose-click')}>
+                                    <button className={cx('chose-btn')}>-</button>
+                                    <span>{countChildren}</span>
+                                    <button className={cx('chose-btn')}>+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form> 
+                    <button className='btn btn-primary w-100 mt-3'>Tìm Kiếm</button>            
+                </div>
+            </div>
+           
             <div className={cx('container')}>
                 <section className={cx('room-list')}>
                     <div className={cx('room-list__title')}>Danh sách Phòng</div>
@@ -143,7 +207,7 @@ function Home() {
                                     src="https://chuyenkhachsan.com/wp-content/uploads/2017/01/khach-san-avatar-da-nang-1.jpg"
                                     alt=""
                                 />
-                                <div className={cx('facilities-titile')}>Hà Nội</div>
+                                <div className={cx('facilities-titile')}>Hồ Chí Minh</div>
                             </div>
                         </div>
                         <div className="col">
@@ -153,7 +217,7 @@ function Home() {
                                     src="https://chuyenkhachsan.com/wp-content/uploads/2017/01/khach-san-avatar-da-nang-1.jpg"
                                     alt=""
                                 />
-                                <div className={cx('facilities-titile')}>Hà Nội</div>
+                                <div className={cx('facilities-titile')}>Đà Nẵng</div>
                             </div>
                         </div>
                         <div className="col">
@@ -163,7 +227,7 @@ function Home() {
                                     src="https://chuyenkhachsan.com/wp-content/uploads/2017/01/khach-san-avatar-da-nang-1.jpg"
                                     alt=""
                                 />
-                                <div className={cx('facilities-titile')}>Hà Nội</div>
+                                <div className={cx('facilities-titile')}>Cân thơ</div>
                             </div>
                         </div>
                         <div className="col">
@@ -173,7 +237,7 @@ function Home() {
                                     src="https://chuyenkhachsan.com/wp-content/uploads/2017/01/khach-san-avatar-da-nang-1.jpg"
                                     alt=""
                                 />
-                                <div className={cx('facilities-titile')}>Hà Nội</div>
+                                <div className={cx('facilities-titile')}>Vũng tàu</div>
                             </div>
                         </div>
                     </div>
