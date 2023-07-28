@@ -12,7 +12,7 @@
 
 .detail-img img{
     width: 100%;
-    height: 400px;
+    height: 450px;
     object-fit: cover;
     border-radius: 4px;
 }
@@ -65,4 +65,43 @@
 .convenient-desc{
     font-size: 1.4rem;
     color: #666;
+}
+
+// schedule
+.schedule-content{
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    color: #666;
+    font-style: italic;
+}
+.schedule-content-item{
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 1.4rem;
+}
+
+// price
+.price-total,
+.price{
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.price-primary{
+    font-size: 2rem;
+    text-decoration: line-through;
+    color: #000;
+}
+.price-discount{
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #ff567d;
+}
+
+.btn-book{
+    font-size: 2rem;
+    margin-top: 12px;
 }
