@@ -37,12 +37,12 @@ function Header() {
                         </Link>
                     </li>
                     <li className={cx('nav-item')}>
-                        <Link className={cx('nav-item__link')} to="/following">
+                        <Link className={cx('nav-item__link')} to="/">
                             Facilities
                         </Link>
                     </li>
                     <li className={cx('nav-item')}>
-                        <Link className={cx('nav-item__link')} to="/profile">
+                        <Link className={cx('nav-item__link')} to="/">
                             Contact Us
                         </Link>
                     </li>

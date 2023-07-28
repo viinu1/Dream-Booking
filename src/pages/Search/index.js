@@ -2,7 +2,7 @@
 
 function Search() {
     return (
-        <h3>Search pages</h3>
+        <h3 className="container">Search pages</h3>
     );
 }
 
