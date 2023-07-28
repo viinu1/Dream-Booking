@@ -192,7 +192,7 @@ function Home() {
                                 <div className={cx('card-comment__content')}>
                                     Tôi hoàn toàn hài lòng khi nghỉ tại Klausturhof. Cám ơn Agoda rất nhiều.
                                 </div>
-                                <div className={cx('card-comment__by')}>- Độ Mixi đến từ Cao Bằng</div>
+                                <div className={cx('card-comment__by')}>- By Độ Mixi</div>
                             </div>
                         </div>
                         <div className="col-lg-3">
@@ -202,7 +202,7 @@ function Home() {
                                 <div className={cx('card-comment__content')}>
                                     Tôi hoàn toàn hài lòng khi nghỉ tại Klausturhof. Cám ơn Agoda rất nhiều.
                                 </div>
-                                <div className={cx('card-comment__by')}>- Minh Thùy đến từ An Giang</div>
+                                <div className={cx('card-comment__by')}>- By Minh Thùy</div>
                             </div>
                         </div>
                         <div className="col-lg-3">
@@ -212,7 +212,7 @@ function Home() {
                                 <div className={cx('card-comment__content')}>
                                     Tôi hoàn toàn hài lòng khi nghỉ tại Klausturhof. Cám ơn Agoda rất nhiều.
                                 </div>
-                                <div className={cx('card-comment__by')}>- Anh Khoa đến từ Bình Dương</div>
+                                <div className={cx('card-comment__by')}>- By Anh Khoa</div>
                             </div>
                         </div>
                         <div className="col-lg-3">
@@ -222,7 +222,7 @@ function Home() {
                                 <div className={cx('card-comment__content')}>
                                     Tôi hoàn toàn hài lòng khi nghỉ tại Klausturhof. Cám ơn Agoda rất nhiều.
                                 </div>
-                                <div className={cx('card-comment__by')}>- Phương Thanh đến từ Dăklăk</div>
+                                <div className={cx('card-comment__by')}>- By Phương Thanh</div>
                             </div>
                         </div>
                     </div>
