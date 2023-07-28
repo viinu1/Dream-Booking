@@ -67,7 +67,7 @@ function Header() {
                         </>
                     ) : (
                         <>
-                            <a href='#exampleModalToggle' className={cx('nav-item__link', 'btn', 'btn-light')} role='button' data-bs-toggle="modal">
+                            <a href='#exampleModalToggle' style={{color:"#fff"}} className={cx('nav-item__link', 'btn', 'btn-primary')} role='button' data-bs-toggle="modal">
                                 Đăng nhập
                             </a>
                             
