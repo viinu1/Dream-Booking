@@ -1,0 +1,135 @@
+{
+    "hotels":[ {
+        "id": 1,
+        "idTinhThanh": 1,
+        "idHinhAnh": 1,
+        "maKhachSan": "MT",
+        "tenKhachSan": "Mường Thanh",
+        "diaChi": "Hà Nội",
+        "gioiThieu": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue posuere mi, posuere scelerisque libero ultrices at. Morbi finibus feugiat consectetur. Mauris ut interdum arcu, eget porta sem. Vestibulum non tortor ex. Praesent scelerisque nibh ligula, at sagittis ex cursus.",
+        "tieuDe": "",
+        "ghiChu": ""
+    },
+    {
+        "id": 2,
+        "idTinhThanh": 2,
+        "idHinhAnh": 2,
+        "maKhachSan": "KS02U",
+        "tenKhachSan": "Minh Thuy Hotel",
+        "diaChi": "string",
+        "gioiThieu": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue posuere mi, posuere scelerisque libero ultrices at. Morbi finibus feugiat consectetur. Mauris ut interdum arcu, eget porta sem. Vestibulum non tortor ex. Praesent scelerisque nibh ligula, at sagittis ex cursus.",
+        "tieuDe": "string",
+        "ghiChu": "string"
+    },
+    {
+        "id": 3,
+        "idTinhThanh": 2,
+        "idHinhAnh": 2,
+        "maKhachSan": "KS02U",
+        "tenKhachSan": "Why Not Hotel",
+        "diaChi": "string",
+        "gioiThieu": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue posuere mi, posuere scelerisque libero ultrices at. Morbi finibus feugiat consectetur. Mauris ut interdum arcu, eget porta sem. Vestibulum non tortor ex. Praesent scelerisque nibh ligula, at sagittis ex cursus.",
+        "tieuDe": "string",
+        "ghiChu": "hihi"
+    }],
+    "room":[
+        {
+            "id":1,
+            "idKhachSan":1,
+            "tenPhong":"Phòng đôi",
+            "soPhong":1,
+            "trangThai":"đang quét dọn",
+            "giaPhong":90,
+            "idLoai":1,
+            "active":true,
+            "hinhAnh":"",
+            "desc":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue posuere mi, posuere scelerisque libero ultrices at. Morbi finibus feugiat consectetur. Mauris ut interdum arcu, eget porta sem. Vestibulum non tortor ex. Praesent scelerisque nibh ligula, at sagittis ex cursus."
+            
+        },
+        {
+            "id":2,
+            "idKhachSan":1,
+            "tenPhong":"Phòng đôi",
+            "soPhong":1,
+            "trangThai":"đang quét dọn",
+            "giaPhong":90,
+            "idLoai":1,
+            "active":true,
+            "hinhAnh":"",
+            "desc":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue posuere mi, posuere scelerisque libero ultrices at. Morbi finibus feugiat consectetur. Mauris ut interdum arcu, eget porta sem. Vestibulum non tortor ex. Praesent scelerisque nibh ligula, at sagittis ex cursus."
+            
+        },{
+            "id":3,
+            "idKhachSan":2,
+            "tenPhong":"Phòng đôi",
+            "soPhong":1,
+            "trangThai":"đang quét dọn",
+            "giaPhong":90,
+            "idLoai":1,
+            "active":true,
+            "hinhAnh":"",
+            "desc":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue posuere mi, posuere scelerisque libero ultrices at. Morbi finibus feugiat consectetur. Mauris ut interdum arcu, eget porta sem. Vestibulum non tortor ex. Praesent scelerisque nibh ligula, at sagittis ex cursus."
+            
+        },{
+            "id":4,
+            "idKhachSan":3,
+            "tenPhong":"Phòng đôi",
+            "soPhong":1,
+            "trangThai":"đang quét dọn",
+            "giaPhong":90,
+            "idLoai":1,
+            "active":true,
+            "hinhAnh":"",
+            "desc":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue posuere mi, posuere scelerisque libero ultrices at. Morbi finibus feugiat consectetur. Mauris ut interdum arcu, eget porta sem. Vestibulum non tortor ex. Praesent scelerisque nibh ligula, at sagittis ex cursus."
+            
+        },{
+            "id":5,
+            "idKhachSan":2,
+            "tenPhong":"Phòng đôi",
+            "soPhong":1,
+            "trangThai":"đang quét dọn",
+            "giaPhong":90,
+            "idLoai":1,
+            "active":true,
+            "hinhAnh":"",
+            "desc":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue posuere mi, posuere scelerisque libero ultrices at. Morbi finibus feugiat consectetur. Mauris ut interdum arcu, eget porta sem. Vestibulum non tortor ex. Praesent scelerisque nibh ligula, at sagittis ex cursus."
+            
+        },{
+            "id":6,
+            "idKhachSan":3,
+            "tenPhong":"Phòng đôi",
+            "soPhong":1,
+            "trangThai":"đang quét dọn",
+            "giaPhong":90,
+            "idLoai":1,
+            "active":true,
+            "hinhAnh":"",
+            "desc":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue posuere mi, posuere scelerisque libero ultrices at. Morbi finibus feugiat consectetur. Mauris ut interdum arcu, eget porta sem. Vestibulum non tortor ex. Praesent scelerisque nibh ligula, at sagittis ex cursus."
+            
+        },{
+            "id":7,
+            "idKhachSan":1,
+            "tenPhong":"Phòng đôi",
+            "soPhong":1,
+            "trangThai":"đang quét dọn",
+            "giaPhong":90,
+            "idLoai":1,
+            "active":true,
+            "hinhAnh":"",
+            "desc":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue posuere mi, posuere scelerisque libero ultrices at. Morbi finibus feugiat consectetur. Mauris ut interdum arcu, eget porta sem. Vestibulum non tortor ex. Praesent scelerisque nibh ligula, at sagittis ex cursus."
+            
+        },{
+            "id":8,
+            "idKhachSan":1,
+            "tenPhong":"Phòng đôi",
+            "soPhong":1,
+            "trangThai":"đang quét dọn",
+            "giaPhong":90,
+            "idLoai":1,
+            "active":false,
+            "hinhAnh":"",
+            "desc":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam congue posuere mi, posuere scelerisque libero ultrices at. Morbi finibus feugiat consectetur. Mauris ut interdum arcu, eget porta sem. Vestibulum non tortor ex. Praesent scelerisque nibh ligula, at sagittis ex cursus."
+            
+        }
+    ]
+}

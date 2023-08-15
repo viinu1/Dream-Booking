@@ -1,100 +1,19 @@
-import classNames from 'classnames/bind';
-import styles from './Home.module.scss';
+import { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Banner from './Banner';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
+import classNames from 'classnames/bind';
+import styles from './Home.module.scss';
+
+import * as hotelService from "../../services/HotelService"
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
-const data = [
-    {
-        id: 1,
-        nameRoom: 'São Borja Airport',
-        descripton: 'Removal of Extraluminal Device from Left Eye, Open Approach',
-        price: '$763.31',
-        priceDiscount: '$226.90',
-    },
-    {
-        id: 2,
-        nameRoom: 'Vilankulo Airport',
-        descripton: 'Excision of Peroneal Nerve, Percutaneous Approach, Diagn',
-        price: '$177.10',
-        priceDiscount: '$747.16',
-    },
-    {
-        id: 3,
-        nameRoom: 'Fleetlands Heliport',
-        descripton: 'Bypass Innom Art to Bi Up Leg Art w Autol Vn, Open',
-        price: '$196.12',
-        priceDiscount: '$318.41',
-    },
-    {
-        id: 4,
-        nameRoom: 'Quảng Ngãi Airfield',
-        descripton: 'Beam Radiation of Hard Palate using Photons 1 - 10 MeV',
-        price: '$621.09',
-        priceDiscount: '$288.61',
-    },
-    {
-        id: 5,
-        nameRoom: 'Gabbs Airport',
-        descripton: 'Removal of Brace on Left Upper Arm',
-        price: '$312.38',
-        priceDiscount: '$728.48',
-    },
-    {
-        id: 6,
-        nameRoom: 'Maun Airport',
-        descripton: 'Release Left Lesser Saphenous Vein, Open Approach',
-        price: '$145.78',
-        priceDiscount: '$821.62',
-    },
-    {
-        id: 7,
-        nameRoom: 'Konge Airport',
-        descripton: 'Drainage of Left Carpal Joint, Percutaneous Approach, Diagn',
-        price: '$424.73',
-        priceDiscount: '$721.40',
-    },
-    {
-        id: 8,
-        nameRoom: 'Igiugig Airport',
-        descripton: 'Removal of Autol Sub from L Acromioclav Jt, Perc Approach',
-        price: '$244.71',
-        priceDiscount: '$216.46',
-    },
-    {
-        id: 9,
-        nameRoom: 'Innisfail Airport',
-        descripton: 'Extirpate matter from Conduction Mechanism, Perc Endo',
-        price: '$188.08',
-        priceDiscount: '$138.61',
-    },
-    {
-        id: 10,
-        nameRoom: 'Matão Airport',
-        descripton: 'Supplement Hyoid Bone with Nonaut Sub, Perc Approach',
-        price: '$812.71',
-        priceDiscount: '$706.26',
-    },
-    {
-        id: 11,
-        nameRoom: 'Malamala Airport',
-        descripton: 'Dilate L Fem Art, Bifurc, w 3 Drug-elut, Perc Endo',
-        price: '$179.50',
-        priceDiscount: '$657.05',
-    },
-    {
-        id: 12,
-        nameRoom: 'Fulleborn Airport',
-        descripton: 'Fluoroscopy of Right Renal Artery using Low Osmolar Contrast',
-        price: '$268.82',
-        priceDiscount: '$704.25',
-    },
-];
+
 
 const facilities = [
     {
@@ -125,14 +44,25 @@ const facilities = [
 ];
 
 function Home() {
+
+    const [hotel,setHotel]= useState([])
+    useEffect(()=>{
+       axios.get("http://localhost:3001/hotels")
+       .then((res)=>{setHotel(res.data)
+            console.log(res.data)})
+       .catch(err=>console.log(err)) 
+    },[])
+
+    
     return (
+
         <div className={cx('home')}>
             <Banner />
             <div className={cx('container')}>
                 <section className={cx('room-list')}>
                     <div className={cx('room-list__title')}>Danh sách Phòng</div>
                     <div className={cx('row')}>
-                        {data.map((item, index) => (
+                        {hotel.map((item, index) => (
                             <div className={cx('col-lg-3')} key={index}>
                                 <Link to={`/detail/${item.id}`} style={{textDecoration:'none'}}>
                                     <div className={cx('card', 'card-item')}>
@@ -142,8 +72,8 @@ function Home() {
                                             className={cx('room-img')}
                                         />
                                         <div className={cx('card-body')}>
-                                            <h5 className={cx('card-title')}>{item.nameRoom}</h5>
-                                            <p className={cx('card-text')}>{item.descripton}</p>
+                                            <h5 className={cx('card-title')}>{item.tenKhachSan}</h5>
+                                            <p className={cx('card-text')}>{item.gioiThieu}</p>
                                             <div className='d-flex gap-2'>
                                                 <FontAwesomeIcon icon={faStar} style={{color:"#ff567d",marginBottom:'8px'}}/>
                                                 <FontAwesomeIcon icon={faStar} style={{color:"#ff567d",marginBottom:'8px'}}/>
@@ -151,13 +81,6 @@ function Home() {
                                                 <FontAwesomeIcon icon={faStar} style={{color:"#ff567d",marginBottom:'8px'}}/>
                                                 <FontAwesomeIcon icon={faStar} style={{color:"#ff567d",marginBottom:'8px'}}/>
                                             </div>
-                                            <div className={cx('price')}>
-                                                <p className={cx('card-price')}>{item.price}</p>
-                                                <p className={cx('card-price-discount')}>{item.priceDiscount}</p>
-                                            </div>
-                                            {/* <Link className={cx('btn', 'btn-primary', 'btn-order')} to="/detail">
-                                                Book now
-                                            </Link> */}
                                         </div>
                                     </div>
                                 </Link>
@@ -167,7 +90,7 @@ function Home() {
                 </section>
 
                 <section className={cx('facilities')}>
-                    <div className={cx('room-list__title')}>Our Facilities</div>
+                    <div className={cx('room-list__title')}>Khám Phá</div>
                     <div className="row row-cols-5">
                         {facilities.map((item, index) => (
                             <div className="col" key={index}>

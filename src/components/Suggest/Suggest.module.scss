@@ -1,0 +1,78 @@
+.suggest-title{
+    margin-top: 28px;
+    margin-bottom: 18px;
+    font-size: 3.2rem;
+    font-weight: bold;
+}
+
+
+.room-list {
+    margin-top: 48px;
+}
+.room-list__title {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    padding: 12px;
+}
+
+.room-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+.card-item {
+    box-shadow: 1px 1px 2px #ccc;
+    margin-bottom: 12px;
+}
+.card-item:hover {
+    box-shadow: 1px 1px 8px #ccc;
+}
+
+.card-body {
+    padding: 20px;
+}
+.card-title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    font-style: italic;
+}
+.card-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    height: calc(16px * 1.5 * 2);
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* số dòng hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.card-price-discount,
+.card-price {
+    width: 50%;
+}
+.card-price {
+    color: #ccc;
+    text-decoration: line-through;
+    border-right: 1px solid #ccc;
+    font-size: 16px;
+    margin: 0 4px 0 0;
+}
+.card-price-discount {
+    margin-bottom: 0;
+    color: red;
+    font-size: 18px;
+}
+
+.btn-order {
+    text-align: right;
+    font-size: 16px;
+    margin-top: 12px;
+}

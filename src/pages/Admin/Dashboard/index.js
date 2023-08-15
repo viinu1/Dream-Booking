@@ -4,5 +4,9 @@ import styles from './dashboard.module.scss';
 
 const cx = classNames.bind(styles);
 export default function Dashboard() {
-    return <div className={cx('dashboard')}>Wellcome to Admin page</div>;
+    return (
+        <div>
+            Dashboard
+        </div>
+    );
 }
