@@ -16,8 +16,8 @@ export default function HeaderAdmin() {
                 <nav className={cx('nav')}>
                     <div className={cx('position-relative')}>
                         <FontAwesomeIcon className={cx('notification', 'icon-nav')} icon={faBell} />
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            0<span class="visually-hidden">unread messages</span>
+                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            0<span className="visually-hidden">unread messages</span>
                         </span>
                     </div>
                     <div className={cx('position-relative')}>

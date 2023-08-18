@@ -1,11 +1,13 @@
 import Detail from "../pages/Detail/Detail";
-import { AdminLayout } from "../components/Layout";
-import { addCustomer, listCustomer } from "../pages/Admin/Customer";
-import Dashboard from "../pages/Admin/Dashboard";
-import { listRoom } from "../pages/Admin/Room";
-import { listService } from "../pages/Admin/Services";
+// import { AdminLayout } from "../components/Layout";
 import Home from "../pages/Home/Home";
 import Search from "../pages/Search";
+import Dashboard from "../Admin/Dashboard";
+import { AdminLayout } from "../components/Layout";
+import { addCustomer, listCustomer } from "../Admin/Customer";
+import {  listService } from "../Admin/Services";
+import { listRoom } from "../Admin/Room";
+
 
 //public Routes
 const publicRoutes = [
@@ -13,7 +15,6 @@ const publicRoutes = [
         path: '/',
         component: Home,
     },
-
     {
         path: '/search',
         component: Search,
@@ -25,7 +26,8 @@ const publicRoutes = [
     {
         path: '/admin',
         component: Dashboard,
-        layout: AdminLayout,
+        layout:AdminLayout,
+       
     },
     {
         path: '/admin/customer',

@@ -1,10 +1,12 @@
 import axios from 'axios';
 
 const httpRequest = axios.create({
-    baseURL: "http://localhost:3001/",
-    mode:'no-cors',
-    headers: {
+    baseURL: "https://localhost:44319/api/",
+    withCredentials: false,
+    headers: { 
         'content-type': 'application/json',
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS', 
     },
 });
 

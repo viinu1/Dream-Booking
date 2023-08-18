@@ -5,7 +5,7 @@ import styles from './dashboard.module.scss';
 const cx = classNames.bind(styles);
 export default function Dashboard() {
     return (
-        <div>
+        <div className={cx('dashboard')}>
             Dashboard
         </div>
     );

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/scope */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Room.module.scss';
@@ -121,6 +121,16 @@ const ROOMS = [
 ];
 
 export default function Room() {
+    const [files, setFiles] = useState([]);
+
+    const handleChange = (event) => {
+        const selectFiles = Array.from(event.target.files);
+
+        const imageArr = selectFiles.map((file) => URL.createObjectURL(file));
+        setFiles((prev)=>prev.concat(imageArr));
+    };
+
+    console.log(files);
     return (
         <div className={cx('room')}>
             <h3 className={cx('room-title')}>Quản lý danh sách phòng</h3>
@@ -130,9 +140,13 @@ export default function Room() {
                     <FontAwesomeIcon icon={faSearch} className={cx('search-icon')} />
                 </div>
                 <div className={cx('room__add')}>
-                    <Link to="/admin/room/add" className={cx('btn', 'btn-success', 'btn-add-room')}>
+                    <span
+                        className={cx('btn', 'btn-success', 'btn-add-room')}
+                        data-bs-toggle="modal"
+                        data-bs-target="#addCustomer"
+                    >
                         Thêm phòng mới
-                    </Link>
+                    </span>
                 </div>
             </div>
             <table className={cx('table', 'table-hover', 'table-room')}>
@@ -167,11 +181,13 @@ export default function Room() {
                             <td>{room.children}</td>
                             <td>{room.description}</td>
                             <td className={cx('action')}>
-                                <Link to="/admin/room/edit">
-                                    <a href="#" className={cx('btn', 'btn-primary', 'btn-room')}>
-                                        Edit
-                                    </a>
-                                </Link>
+                                <a
+                                    className={cx('btn', 'btn-success', 'btn-room')}
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#addCustomer"
+                                >
+                                    Edit
+                                </a>
                                 <a
                                     onClick={() => {
                                         alert('Bạn chắc chắn muốn xóa không?');
@@ -186,6 +202,110 @@ export default function Room() {
                     ))}
                 </tbody>
             </table>
+
+            <div
+                className="modal fade"
+                id="addCustomer"
+                tabIndex={-1}
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+                style={{ zIndex: '10000' }}
+            >
+                <div className="modal-dialog">
+                    <div className={cx('modal-content')}>
+                        <div className="modal-header">
+                            <h5 className={cx('modal-title', 'modal-heading')} id="exampleModalLabel">
+                                Thêm Phòng
+                            </h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                        </div>
+                        <div className="modal-body">
+                            <form action="" className={cx('form-addRoom')}>
+                                <div className={cx('control')}>
+                                    <label htmlFor="">Tên phòng:</label>
+                                    <br />
+                                    <input id="" type="text" placeholder="Nhập Tên Phòng" required />
+                                </div>
+                                <div className={cx('control')}>
+                                    <label htmlFor="">Số phòng:</label>
+                                    <br />
+                                    <input id="" type="text" placeholder="Nhập Số Phòng" required />
+                                </div>
+                                <div className={cx('control')}>
+                                    <label htmlFor="">Trạng thái phòng:</label>
+                                    <br />
+                                    <input
+                                        id=""
+                                        type="text"
+                                        placeholder="Nhập Tên Phòng"
+                                        disabled
+                                        required
+                                        value="Sẵn sàng"
+                                    />
+                                </div>
+                                <div className={cx('control')}>
+                                    <label htmlFor="">Giá phòng:</label>
+                                    <br />
+                                    <input id="" type="text" placeholder="Nhập Giá Phòng" required />
+                                </div>
+                                <div className={cx('control')}>
+                                    <label htmlFor="">Active:</label>
+                                    <br />
+                                    <select style={{ width: '100%' }}>
+                                        <option value={1}>True</option>
+                                        <option value={0}>False</option>
+                                    </select>
+                                </div>
+                                <div className={cx('control')}>
+                                    <label htmlFor="">Khách sạn:</label>
+                                    <br />
+                                    <select style={{ width: '100%' }}>
+                                        <option value={1}>Minh Thùy</option>
+                                        <option value={0}>Văn Vĩ</option>
+                                    </select>
+                                </div>
+                                <div className={cx('control')}>
+                                    <label htmlFor="">Hình ảnh:</label>
+                                    <br />
+                                    <input
+                                        name="img"
+                                        type="file"
+                                        multiple
+                                        onChange={handleChange}
+                                        accept="image/png,image/jpeg,image/webp"
+                                    />
+                                    <div className={cx('list-img')}>
+                                        {files &&
+                                            files.map((item, index) => (
+                                                <div key={index} className={cx('img')}>
+                                                    <img className={cx('list-img__item')} src={item} alt="" />
+                                                    <button
+                                                        className={cx('btn-delete')}
+                                                        onClick={(event) => {
+                                                            event.preventDefault();
+                                                            setFiles(files.filter((e) => e !== item));
+                                                        }}
+                                                    >
+                                                        x
+                                                    </button>
+                                                </div>
+                                            ))}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                type="button"
+                                className="btn btn-success"
+                                style={{ width: '100%', fontSize: '16px' }}
+                            >
+                                Thêm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

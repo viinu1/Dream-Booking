@@ -12,7 +12,7 @@ export default function Footer() {
                     <div className="col-lg-3 d-flex align-items-center justify-content-center">
                         <div className='d-flex'>
                             <img
-                                src="https://scontent.xx.fbcdn.net/v/t1.15752-9/353739863_1280996072514678_1945119932929597176_n.png?_nc_cat=104&ccb=1-7&_nc_sid=aee45a&_nc_ohc=mRpoRjLigaQAX-Bq5Xd&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdT-3WTjHpEjbnMwLBigTpLvkC18PXmoqCqXrfVLyZDJxg&oe=64C9A438"
+                                src="https://c8.alamy.com/comp/W1RKXM/hotel-vector-icon-illustration-creative-sign-from-icons-collection-filled-flat-hotel-icon-for-computer-and-mobile-symbol-logo-vector-graphics-W1RKXM.jpg"
                                 alt=""
                                 className={cx('footer-img__logo')}
                             />

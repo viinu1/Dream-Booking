@@ -1,0 +1,31 @@
+.sidebar{
+    margin-top: 12px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px 24px;
+    box-shadow: 0 0 8px #99999970;
+}
+.sort{
+    border-bottom: 1px solid #ccc;
+}
+
+.sortPrice{
+    .PriceTitle{
+        font-size: 1.8rem;
+        font-weight: 700;
+        font-style: italic;
+        padding: 6px 0px;
+    }
+
+    .Sort-control{
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        label{
+            font-size: 1.6rem;
+            font-weight: 400;
+        }
+    }
+}

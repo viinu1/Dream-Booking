@@ -11,6 +11,10 @@ export default function Banner() {
     const [countRoom,setCountRoom] = useState(1)
     const [countAdult,setCountAdult] = useState(1)
     const [countChildren,setCountChildren] = useState(0)
+
+    let today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ today.getDate();
+    console.log(date);
   return (
     <div className={cx('banner', 'row')}>
                 <div id="carouselExampleIndicators" className={cx('carousel', 'slide')} data-bs-ride="carousel">

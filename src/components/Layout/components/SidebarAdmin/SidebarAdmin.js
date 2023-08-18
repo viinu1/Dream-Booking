@@ -17,38 +17,38 @@ export default function SidebarAdmin() {
                         <Link to="/admin/customer" style={{ textDecoration: 'none' }}>
                             <li className={cx('sidebarItem')}>
                                 <FontAwesomeIcon className={cx('sidebarIcon')} icon={faUser} />
-                                <a href="#" className={cx('sidebarLink')}>
+                                <span className={cx('sidebarLink')}>
                                     Khách hàng
-                                </a>
+                                </span>
                             </li>
                         </Link>
                         <Link to="/admin/service" style={{ textDecoration: 'none' }}>
                             <li className={cx('sidebarItem')}>
                                 <FontAwesomeIcon className={cx('sidebarIcon')} icon={faHouse} />
-                                <a href="#" className={cx('sidebarLink')}>
+                                <span className={cx('sidebarLink')}>
                                     Dịch vụ
-                                </a>
+                                </span>
                             </li>
                         </Link>
                         <Link to="/admin/room" style={{ textDecoration: 'none' }}>
                             <li className={cx('sidebarItem')}>
                                 <FontAwesomeIcon className={cx('sidebarIcon')} icon={faList} />
-                                <a href="#" className={cx('sidebarLink')}>
+                                <span className={cx('sidebarLink')}>
                                     Danh sách phòng
-                                </a>
+                                </span>
                             </li>
                         </Link>
                         <li className={cx('sidebarItem')}>
                             <FontAwesomeIcon className={cx('sidebarIcon')} icon={faList} />
-                            <a href="#" className={cx('sidebarLink')}>
+                            <span className={cx('sidebarLink')}>
                                 Danh sách đặt phòng
-                            </a>
+                            </span>
                         </li>
                         <li className={cx('sidebarItem')}>
                             <FontAwesomeIcon className={cx('sidebarIcon')} icon={faRadio} />
-                            <a href="#" className={cx('sidebarLink')}>
+                            <span className={cx('sidebarLink')}>
                                 Vai trò
-                            </a>
+                            </span>
                         </li>
                     </ul>
                 </div>
