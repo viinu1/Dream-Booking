@@ -14,7 +14,6 @@ export default function Banner() {
 
     let today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ today.getDate();
-    console.log(date);
   return (
     <div className={cx('banner', 'row')}>
                 <div id="carouselExampleIndicators" className={cx('carousel', 'slide')} data-bs-ride="carousel">

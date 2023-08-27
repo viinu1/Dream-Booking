@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Fragment } from 'react';
 import { publicRoutes } from './routes';
 import { AdminLayout, DefaultLayout } from './components/Layout';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     return (
@@ -20,8 +21,6 @@ function App() {
                         } else if (route.layout === null) {
                             Layout = Fragment;
                         }
-                        
-
                         return (
                             <Route
                                 key={index}

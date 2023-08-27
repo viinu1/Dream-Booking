@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './ListRoom.module.scss';
-import axios from 'axios';
+import httpRequest from '../../api/httpRequests';
 
 const cx = classNames.bind(styles);
 
-export default function ListRoom({ data, name }) {
+export default function ListRoom({ data }) {
     const [rooms, setListRooms] = useState([]);
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:3001/room?idKhachSan=${data}`)
-            .then((res) => {
+        const fetchApi = async () => {
+            try {
+                const res = await httpRequest.get(`Phong`, {
+                    idKhachSan: data,
+                });
                 setListRooms(res.data);
-                console.log(res.data);
-            })
-            .catch((err) => console.log(err));
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchApi();
+        console.log(rooms);
     }, [data]);
 
     return (
@@ -34,13 +40,15 @@ export default function ListRoom({ data, name }) {
                                 </div>
                                 <div className={cx('room-info')}>
                                     <div className={cx('room-name')}>{room.tenPhong}</div>
-                                    <div className={cx('room-desc')}>{room.desc}</div>
+                                    <div className={cx('room-desc')}>{room.moTa}</div>
                                     <div className={cx('room-price')}>
-                                        ${room.giaPhong} /night
-                                        <a href="/" className={cx('btn', 'btn-success', 'btn-book')}>
-                                            Book Now
-                                        </a>
+                                        <span>${room.giaPhong} /night</span>
                                     </div>
+                                </div>
+                                <div>
+                                    <a href="/" className={cx('btn', 'btn-success', 'btn-book')}>
+                                        Book Now
+                                    </a>
                                 </div>
                             </div>
                         );

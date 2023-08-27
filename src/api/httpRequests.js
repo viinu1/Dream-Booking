@@ -5,8 +5,8 @@ const httpRequest = axios.create({
     withCredentials: false,
     headers: { 
         'content-type': 'application/json',
-        'Access-Control-Allow-Origin' : '*',
-        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS', 
+        // 'Access-Control-Allow-Origin' : '*',
+        // 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS', 
     },
 });
 
@@ -19,5 +19,6 @@ export const post = async (path, options = {}) => {
     const response = await httpRequest.post(path, options);
     return response.data;
 };
+
 
 export default httpRequest;

@@ -1,136 +1,41 @@
 /* eslint-disable jsx-a11y/scope */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
 import styles from './Room.module.scss';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import * as httpRequest from '../../api/httpRequests';
 const cx = classNames.bind(styles);
 
-const ROOMS = [
-    {
-        idRoom: 1,
-        image: 'https://danviet.mediacdn.vn/296231569849192448/2022/8/28/4649abc-1-1661651678807-16616516792281980495798.jpg',
-        type: 'single',
-        price: 1000000,
-        size: 4,
-        amount: 8,
-        Adults: 6,
-        children: 2,
-        description:
-            'phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhất phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấphong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấ',
-    },
-    {
-        idRoom: 1,
-        image: 'https://danviet.mediacdn.vn/296231569849192448/2022/8/28/4649abc-1-1661651678807-16616516792281980495798.jpg',
-        type: 'single',
-        price: 1000000,
-        size: 4,
-        amount: 8,
-        Adults: 6,
-        children: 2,
-        description:
-            'phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhất phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấphong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấ',
-    },
-    {
-        idRoom: 1,
-        image: 'https://danviet.mediacdn.vn/296231569849192448/2022/8/28/4649abc-1-1661651678807-16616516792281980495798.jpg',
-        type: 'single',
-        price: 1000000,
-        size: 4,
-        amount: 8,
-        Adults: 6,
-        children: 2,
-        description:
-            'phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhất phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấphong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấ',
-    },
-    {
-        idRoom: 1,
-        image: 'https://danviet.mediacdn.vn/296231569849192448/2022/8/28/4649abc-1-1661651678807-16616516792281980495798.jpg',
-        type: 'single',
-        price: 1000000,
-        size: 4,
-        amount: 8,
-        Adults: 6,
-        children: 2,
-        description:
-            'phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhất phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấphong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấ',
-    },
-    {
-        idRoom: 1,
-        image: 'https://danviet.mediacdn.vn/296231569849192448/2022/8/28/4649abc-1-1661651678807-16616516792281980495798.jpg',
-        type: 'single',
-        price: 1000000,
-        size: 4,
-        amount: 8,
-        Adults: 6,
-        children: 2,
-        description:
-            'phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhất phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấphong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấ',
-    },
-    {
-        idRoom: 1,
-        image: 'https://danviet.mediacdn.vn/296231569849192448/2022/8/28/4649abc-1-1661651678807-16616516792281980495798.jpg',
-        type: 'single',
-        price: 1000000,
-        size: 4,
-        amount: 8,
-        Adults: 6,
-        children: 2,
-        description:
-            'phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhất phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấphong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấ',
-    },
-    {
-        idRoom: 1,
-        image: 'https://danviet.mediacdn.vn/296231569849192448/2022/8/28/4649abc-1-1661651678807-16616516792281980495798.jpg',
-        type: 'single',
-        price: 1000000,
-        size: 4,
-        amount: 8,
-        Adults: 6,
-        children: 2,
-        description:
-            'phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhất phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấphong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấ',
-    },
-    {
-        idRoom: 1,
-        image: 'https://danviet.mediacdn.vn/296231569849192448/2022/8/28/4649abc-1-1661651678807-16616516792281980495798.jpg',
-        type: 'single',
-        price: 1000000,
-        size: 4,
-        amount: 8,
-        Adults: 6,
-        children: 2,
-        description:
-            'phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhất phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấphong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấ',
-    },
-    {
-        idRoom: 1,
-        image: 'https://danviet.mediacdn.vn/296231569849192448/2022/8/28/4649abc-1-1661651678807-16616516792281980495798.jpg',
-        type: 'single',
-        price: 1000000,
-        size: 4,
-        amount: 8,
-        Adults: 6,
-        children: 2,
-        description:
-            'phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhất phong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấphong xịn lắm nhá các bạn sẽ được trãi nghiệm thoải mái nhấ',
-    },
-];
+
 
 export default function Room() {
     const [files, setFiles] = useState([]);
+    const [rooms,setRooms] = useState([]);
+
 
     const handleChange = (event) => {
         const selectFiles = Array.from(event.target.files);
-
         const imageArr = selectFiles.map((file) => URL.createObjectURL(file));
         setFiles((prev)=>prev.concat(imageArr));
     };
 
-    console.log(files);
+    useEffect(() => {
+        const fetchApi = async () => {
+            try {
+                const res = await httpRequest.get('KhachSans')
+                setRooms(res.data);
+                console.log(res);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchApi();
+    }, [])
+
     return (
         <div className={cx('room')}>
             <h3 className={cx('room-title')}>Quản lý danh sách phòng</h3>
@@ -167,7 +72,7 @@ export default function Room() {
                     </tr>
                 </thead>
                 <tbody className={cx('formRoom')}>
-                    {ROOMS.map((room, index) => (
+                    {/* {ROOMS.map((room, index) => (
                         <tr key={index}>
                             <td>active</td>
                             <td scope="row">
@@ -199,7 +104,7 @@ export default function Room() {
                                 </a>
                             </td>
                         </tr>
-                    ))}
+                    ))} */}
                 </tbody>
             </table>
 

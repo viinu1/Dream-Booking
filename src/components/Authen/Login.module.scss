@@ -1,0 +1,55 @@
+.login-title{
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+.form{
+    width: 100%;
+    padding: 12px;
+}
+.form-label{
+    font-size: 16px;
+    font-weight: bold;
+}
+.form-control-form{
+    width: 100%;
+    margin-bottom: 12px;
+    position: relative;    
+}
+
+.form-input{
+    width: 100%;
+    padding: 8px 12px;    
+}
+
+.form-icon__eyeSlash,
+.form-icon__eye{
+    position: absolute;
+    font-size: 20px;
+    top: 50%;
+    right: 12px;
+    cursor: pointer;
+}
+
+
+.btn-login{
+    font-size: 16px;
+    width: 100%;
+}
+
+.register-form-login{
+    color: red;
+    font-size: 16px;
+    cursor: pointer;
+}
+.backtologin{
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.error{
+    font-size: 1.4rem;
+    color: red;
+}

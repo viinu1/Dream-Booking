@@ -1,0 +1,224 @@
+.order {
+}
+.pay__header {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+.discount-info,
+.room__info,
+.total_price,
+.info,
+.pay {
+    background-color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 4px #ccc;
+    margin-bottom: 12px;
+}
+.pay__control {
+    .pay__option {
+        display: none;
+    }
+
+    label {
+        position: relative;
+        padding-left: 24px;
+    }
+    label:before {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        content: '';
+        background: #fff;
+        border: 1px solid black;
+    }
+    .pay__option:checked ~ label:after {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 4px;
+        content: '';
+        background: blue;
+    }
+
+    .pay__money-info {
+        padding: 12px;
+        background-color: #f3f9f2;
+        margin-left: 12px;
+        margin-top: 8px;
+    }
+}
+
+// info
+.info__header {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 500;
+    color: #333;
+}
+
+.info__control {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 12px;
+    .info__label {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 400;
+        color: #333;
+    }
+    .info__input {
+        display: block;
+        appearance: none;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+        width: 100%;
+        color: rgb(42, 42, 46);
+        border: 1px solid rgb(206, 208, 212);
+        padding: 8px;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    .info__input:focus {
+        border-color: rgb(83, 146, 249);
+        outline: 0px;
+        box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px inset, rgb(83, 146, 249) 0px 0px 6px;
+    }
+}
+
+// info room
+
+.room__info {
+    display: flex;
+    gap: 12px;
+    .room_img {
+        flex: 1;
+
+        img {
+            width: 100%;
+        }
+    }
+    .room__info-detail {
+        flex: 2;
+        .room__info-name {
+            font-size: 20px;
+            line-height: 28px;
+            font-weight: 400;
+        }
+        .room__info-address {
+            font-size: 12px;
+            line-height: 18px;
+            font-weight: 300;
+        }
+    }
+}
+
+// price
+.price__control{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .price__control-right,
+    .price__control-left{
+        font-size: 1.4rem;
+        font-weight: 400;
+        color: #333;
+        margin-bottom: 12px;
+
+    }
+    .total{
+        font-size: 1.8rem;
+        font-weight: 700;
+
+    }
+
+    
+}
+.discount{
+    background-color: #d8eed5;
+    border: 1px dotted #28871c;
+    color: #28871c;
+    padding:6px;
+    margin-bottom: 12px;
+    .price__icon{
+        color: #32a923;
+    }
+    .discount__name{
+        margin-left: 6px;
+        color: #1aac5b;
+        font-size: 1.4rem;
+        font-weight: 400;
+    }
+    .discount__price{
+        color: #1aac5b;
+        font-size: 1.4rem;
+        font-weight: 400;
+    }
+}
+
+//discount 
+.discount-info{
+
+    .discount__control{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        .discount__control-header{
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 500;
+            color: rgb(240, 87, 0);
+        }
+    }
+
+    label {
+        position: relative;
+        padding-left: 32px;
+        font-weight: 600;
+        color: rgb(36, 38, 44);
+        fill: rgb(36, 38, 44);
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        line-height: calc(18px);
+        font-size: 14px;
+    }
+    label:before {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        content: '';
+        background: #fff;
+        border: 1px solid blue;
+    }
+    .discount__control-input:checked ~ label:after {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 4px;
+        content: '';
+        background: blue;
+    }
+
+}

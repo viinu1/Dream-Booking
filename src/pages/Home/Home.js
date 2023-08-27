@@ -7,9 +7,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
-
-import * as hotelService from "../../services/HotelService"
-import axios from 'axios';
+import httpRequest from '../../api/httpRequests';
 
 const cx = classNames.bind(styles);
 
@@ -45,15 +43,19 @@ const facilities = [
 
 function Home() {
 
-    const [hotel,setHotel]= useState([])
+    const [hotels,setHotel]= useState([])
     useEffect(()=>{
-       axios.get("http://localhost:3001/hotels")
-       .then((res)=>{setHotel(res.data)
-            console.log(res.data)})
-       .catch(err=>console.log(err)) 
+        const fetchApi = async () => {
+            try {
+                const res = await httpRequest.get("KhachSans");
+                setHotel(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchApi();
     },[])
-
-    
+     
     return (
 
         <div className={cx('home')}>
@@ -62,12 +64,16 @@ function Home() {
                 <section className={cx('room-list')}>
                     <div className={cx('room-list__title')}>Danh sách Phòng</div>
                     <div className={cx('row')}>
-                        {hotel.map((item, index) => (
-                            <div className={cx('col-lg-3')} key={index}>
+                        {hotels.map((item, index) => {
+                            console.log(item.hinhAnh);
+                            const res = item.hinhAnh.split(';')
+                            console.log(res);
+                            return <div className={cx('col-lg-3')} key={index}>
                                 <Link to={`/detail/${item.id}`} style={{textDecoration:'none'}}>
                                     <div className={cx('card', 'card-item')}>
                                         <img
-                                            src="https://imgcy.trivago.com/c_lfill,d_dummy.jpeg,e_sharpen:60,f_auto,h_225,q_auto,w_225/partner-images/20/ca/30c4e6746c52fb5bdaa2a3592c042abad405b8d4be5691abcced2be10dec.jpeg"
+                                
+                                            src={`https://localhost:44319/${res[0]}`}
                                             alt="phòng khách sạn"
                                             className={cx('room-img')}
                                         />
@@ -85,7 +91,7 @@ function Home() {
                                     </div>
                                 </Link>
                             </div>
-                        ))}
+                        })}
                     </div>
                 </section>
 

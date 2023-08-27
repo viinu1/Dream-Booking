@@ -4,10 +4,11 @@ import Home from "../pages/Home/Home";
 import Search from "../pages/Search";
 import Dashboard from "../Admin/Dashboard";
 import { AdminLayout } from "../components/Layout";
-import { addCustomer, listCustomer } from "../Admin/Customer";
 import {  listService } from "../Admin/Services";
 import { listRoom } from "../Admin/Room";
-
+import Customer from "../Admin/Customer/Customer";
+import OrderRoom from "../pages/OrderRoom";
+import Account from "../components/Account/Account";
 
 //public Routes
 const publicRoutes = [
@@ -20,8 +21,16 @@ const publicRoutes = [
         component: Search,
     },
     {
+        path: '/account',
+        component: Account,
+    },
+    {
         path: '/detail/:id',
         component: Detail,
+    },
+    {
+        path: '/detail/:id/order',
+        component: OrderRoom,
     },
     {
         path: '/admin',
@@ -31,14 +40,10 @@ const publicRoutes = [
     },
     {
         path: '/admin/customer',
-        component: listCustomer,
+        component: Customer,
         layout: AdminLayout,
     },
-    {
-        path: '/admin/customer/add',
-        component: addCustomer,
-        layout: AdminLayout,
-    },
+    
     {
         path: '/admin/room',
         component: listRoom,

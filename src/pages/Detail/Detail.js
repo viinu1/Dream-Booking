@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-
 import styles from './Detail.module.scss';
 import classNames from 'classnames/bind';
 import {
@@ -20,20 +18,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Suggest from '../../components/Suggest';
 import ListRoom from '../../components/ListRoom';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import httpRequest from '../../api/httpRequests';
 const cx = classNames.bind(styles);
 
 export default function Detail() {
     const { id } = useParams();
-    const [hotel,setHotel] = useState({})
-    
-    useEffect(()=>{
-        axios.get(`http://localhost:3001/hotels/${id}`)
-        .then((res)=>{setHotel(res.data)
-             console.log(res.data)})
-        .catch(err=>console.log(err)) 
-    },[id])
-    
+    const [hotel, setHotel] = useState({});
+    useEffect(() => {
+        const fetchApi = async () => {
+            try {
+                const res = await httpRequest.get(`KhachSans/${id}`);
+                setHotel(res.data);
+                console.log(res);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchApi()
+    }, [id]);
+
     return (
         <div className="container">
             <div className={cx('detail')}>
@@ -44,7 +47,6 @@ export default function Detail() {
                             src="https://baokhanhhoa.vn/file/e7837c02857c8ca30185a8c39b582c03/dataimages/201806/original/images5334836_PR5_1.jpg"
                             alt=""
                         />
-                        
                     </div>
                     <div className={cx('detail-content', 'col-lg-7')}>
                         <div className={cx('detail-content__name')}>
@@ -52,7 +54,6 @@ export default function Detail() {
                                 {hotel.tenKhachSan}
                                 <p className={cx('detail-content__address')}>{hotel.diaChi}</p>
                             </div>
-                            
                         </div>
                         <div className={cx('detail-content__votes')}>
                             <div className="d-flex gap-2">
@@ -64,9 +65,7 @@ export default function Detail() {
                             </div>
                             <div className={cx('detail-content__danhgia')}>4 Đánh giá</div>
                         </div>
-                        <div className={cx('detail-desc')}>
-                            {hotel.gioiThieu}
-                        </div>
+                        <div className={cx('detail-desc')}>{hotel.gioiThieu}</div>
                         <div className={cx('detail-convenient')}>
                             <div className={cx('detail-convenient__title')}>Tiện Nghi:</div>
                             <div className="row">
@@ -141,7 +140,7 @@ export default function Detail() {
                         </div>
                     </div>
                 </div>
-                <ListRoom data={id} name={hotel.tenKhachSan}/>
+                <ListRoom data={hotel.id} name={hotel.tenKhachSan} />
                 <Suggest />
             </div>
         </div>
