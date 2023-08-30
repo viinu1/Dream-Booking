@@ -1,24 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './header.module.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { Register, Login } from '../../../Authen';
 import { useWindowWidthAndHeight } from '../../../CustomerHook/WithHook';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 
+import jwt from 'jwt-decode';
+
 const cx = classNames.bind(styles);
 
 function Header() {
-    // const isLogin = false;
+    const isLogin = useSelector((state) => state.user.isAuthenticated);
     const [toggle, setToggle] = useState(false);
+    const [role, setRole] = useState('');
+
     const [width, height] = useWindowWidthAndHeight();
-    const handleClick = ()=>{
-        setToggle(!toggle)
+    const handleClick = () => {
+        setToggle(!toggle);
+    };
+    const token = localStorage.getItem('token');
+    useEffect(() => {
+        if (token) {
+            const decode = jwt(token);
+            const roles = decode['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+            setRole(roles);
+        }
+    }, [token]);
+
+    const handleLogout =()=>{
+        localStorage.clear()
+        window.location.href='/'
     }
-    const isLogin = useSelector((state) => state.user.isLogin)
 
     return (
         <header className={cx('container-fluid', 'bg-white')}>
@@ -58,11 +73,33 @@ function Header() {
                                     About
                                 </Link>
                             </li>
+                            {role && role === 'Admin' ? (
+                                <li className={cx('nav-item')}>
+                                    <Link className={cx('nav-item__link')} to="/admin">
+                                        Admin
+                                    </Link>
+                                </li>
+                            ) : (
+                                ''
+                            )}
                         </>
                     ) : (
-                        <div className='position-relative'>
-                            <FontAwesomeIcon className={cx('icon-nav')} onClick={handleClick}  icon={faBars} width={32} height={32} />
-                            <div className={cx('nav-responsive')} style={toggle ? {transform:'translateX(0)',display:'block'}:{transform:'translateX(100%)',display:'none'}} >
+                        <div className="position-relative">
+                            <FontAwesomeIcon
+                                className={cx('icon-nav')}
+                                onClick={handleClick}
+                                icon={faBars}
+                                width={32}
+                                height={32}
+                            />
+                            <div
+                                className={cx('nav-responsive')}
+                                style={
+                                    toggle
+                                        ? { transform: 'translateX(0)', display: 'block' }
+                                        : { transform: 'translateX(100%)', display: 'none' }
+                                }
+                            >
                                 <li className={cx('nav-item')}>
                                     <a className={cx('nav-item__link')} href="/">
                                         Home
@@ -100,8 +137,13 @@ function Header() {
                                     alt=""
                                 />
                                 <div className={cx('menu-account')}>
-                                    <Link to={`/account`}  className={cx('menu-account__item','text-decoration-none','w-100')}>Tài khoản</Link>
-                                    <Link  className={cx('menu-account__item')}>Đăng xuất</Link>
+                                    <Link
+                                        to={`/account`}
+                                        className={cx('menu-account__item', 'text-decoration-none', 'w-100')}
+                                    >
+                                        Tài khoản
+                                    </Link>
+                                    <Link className={cx('menu-account__item')} onClick={handleLogout}>Đăng xuất</Link>
                                 </div>
                             </div>
                         </>

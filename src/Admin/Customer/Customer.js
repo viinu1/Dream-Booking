@@ -62,7 +62,6 @@ export default function Customer() {
             handleDialog("",false)
         }
     };
-
     return (
         <div className={cx('customer')}>
             <h3 className={cx('customerTitle')}>Quản lý khách hàng</h3>

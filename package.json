@@ -20,6 +20,7 @@
     "firebase": "^10.3.0",
     "jquery": "^3.7.0",
     "json-server": "^0.17.3",
+    "jsonwebtoken": "^9.0.1",
     "jwt-decode": "^3.1.2",
     "normalize.css": "^8.0.1",
     "popper.js": "^1.16.1",
