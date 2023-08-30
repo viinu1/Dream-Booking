@@ -14,7 +14,7 @@ export default function Search() {
                         <Sidebar />
                     </div>
                     <div className="col-lg-9">
-                      <ListRoom/>
+                      
                     </div>
                 </div>
             </div>

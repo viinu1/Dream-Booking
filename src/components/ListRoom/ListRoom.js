@@ -21,7 +21,7 @@ export default function ListRoom({ data }) {
         };
 
         fetchApi();
-        console.log(rooms);
+        // console.log(rooms);
     }, [data]);
 
     return (
@@ -29,30 +29,29 @@ export default function ListRoom({ data }) {
             <div className={cx('listRoom__header')}>Danh sách phòng</div>
             <div className={cx('room')}>
                 {rooms.map((room, index) => {
-                    if (room.active === true) {
-                        return (
-                            <div key={index} className={cx('room-item')}>
-                                <div className={cx('room-img')}>
-                                    <img
-                                        src="https://baokhanhhoa.vn/file/e7837c02857c8ca30185a8c39b582c03/dataimages/201806/original/images5334836_PR5_1.jpg"
-                                        alt=".."
-                                    />
-                                </div>
-                                <div className={cx('room-info')}>
-                                    <div className={cx('room-name')}>{room.tenPhong}</div>
-                                    <div className={cx('room-desc')}>{room.moTa}</div>
-                                    <div className={cx('room-price')}>
-                                        <span>${room.giaPhong} /night</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <a href="/" className={cx('btn', 'btn-success', 'btn-book')}>
-                                        Book Now
-                                    </a>
+                    
+                    return (
+                        <div key={index} className={cx('room-item')}>
+                            <div className={cx('room-img')}>
+                                <img
+                                    src="https://baokhanhhoa.vn/file/e7837c02857c8ca30185a8c39b582c03/dataimages/201806/original/images5334836_PR5_1.jpg"
+                                    alt=".."
+                                />
+                            </div>
+                            <div className={cx('room-info')}>
+                                <div className={cx('room-name')}>{room.tenPhong}</div>
+                                <div className={cx('room-desc')}>{room.moTa}</div>
+                                <div className={cx('room-price')}>
+                                    <span>{room.giaPhong} đ/night</span>
                                 </div>
                             </div>
-                        );
-                    }
+                            <div>
+                                <a href="/" className={cx('btn', 'btn-success', 'btn-book')}>
+                                    Book Now
+                                </a>
+                            </div>
+                        </div>
+                    );
                 })}
             </div>
         </div>

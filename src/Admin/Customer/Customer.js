@@ -8,9 +8,13 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import * as httpRequest from '../../api/httpRequests';
 import axios from 'axios';
 import Dialog from '../component/Dialog/Dialog';
+import { useSelector } from 'react-redux';
 const cx = classNames.bind(styles);
 
 export default function Customer() {
+
+    const isAuthenticated = useSelector(state=>state.user.islogin)
+
     const [customer, setCustomer] = useState([]);
     const [dialog, setDialog] = useState({
         message: '',

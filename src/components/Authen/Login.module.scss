@@ -15,7 +15,9 @@
 .form-control-form{
     width: 100%;
     margin-bottom: 12px;
-    position: relative;    
+    position: relative;
+    display: flex;
+    flex-direction: column; 
 }
 
 .form-input{

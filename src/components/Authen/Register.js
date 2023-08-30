@@ -6,12 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import httpRequest from '../../api/httpRequests';
 
-import { useNavigate } from 'react-router-dom';
-
 const cx = classNames.bind(styles);
 
 export default function Register() {
-    const [showpass, setShowPass] = useState(false);
+    const [showpassword, setShowPass] = useState(false);
 
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -25,7 +23,7 @@ export default function Register() {
     const role = 'KhachHang';
 
     const hideOnPassword = () => {
-        setShowPass(!showpass);
+        setShowPass(!showpassword);
     };
 
     const handleSubmit = (e) => {
@@ -45,7 +43,7 @@ export default function Register() {
                         DiaChi: address,
                     });
                     if (res) {
-                        toast.success('wowwww');
+                        toast.success('Đã đăng ký thành công');
                     }
                 } catch (error) {
                     console.log('false');
@@ -55,12 +53,24 @@ export default function Register() {
         }
     };
     const validate = () => {
+        const regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        // const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         let result = true;
         if (email === '' || email === null) {
             result = false;
         }
         if (password === '' || password === null) {
             result = false;
+        }
+        if (password !== confirmPassword) {
+            result = false;
+            toast.error('mặt khẩu không trùng khớp')
+        }
+        if(regExp.test(password)){
+            result = true;
+        }else{
+            result = false
+            toast.error('Mặt khẩu cần ít nhất 1 chữ cái in hoa 1 số và 1 ký tư đặt biệt')
         }
         return result;
     };
@@ -120,8 +130,9 @@ export default function Register() {
                         </div>
                         <div className={cx('form-control-form')}>
                             <label className={cx('form-label')}>Giới tính</label>
-                            <select value={gender} onChange={(e) => setGender(e.target.value)}>
-                                <option value={1}>Nam</option>
+                            <select  className={cx('form-input')} value={gender} onChange={(e) => setGender(e.target.value)}>
+                                <option value={''}>-----Chọn Giới tính-----</option>
+                                <option style={{padding:'4px 8px'}} value={1}>Nam</option>
                                 <option value={0}>Nữ</option>
                             </select>
                         </div>
@@ -151,13 +162,13 @@ export default function Register() {
                             <label className={cx('form-label')}>Nhập password</label>
                             <input
                                 className={cx('form-input')}
-                                type={showpass ? 'text' : 'password'}
+                                type={showpassword ? 'text' : 'password'}
                                 required
                                 placeholder="Vui lòng nhập mặt khẩu"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            {showpass ? (
+                            {showpassword ? (
                                 <FontAwesomeIcon
                                     className={cx('form-icon__eye')}
                                     icon={faEye}
@@ -175,13 +186,13 @@ export default function Register() {
                             <label className={cx('form-label')}>Nhập lại password</label>
                             <input
                                 className={cx('form-input')}
-                                type={showpass ? 'text' : 'password'}
+                                type={showpassword ? 'text' : 'password'}
                                 required
                                 placeholder="Vui lòng nhập mặt khẩu"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
-                            {showpass ? (
+                            {showpassword ? (
                                 <FontAwesomeIcon
                                     className={cx('form-icon__eye')}
                                     icon={faEye}
@@ -214,7 +225,7 @@ export default function Register() {
             </div>
             <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={3000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick

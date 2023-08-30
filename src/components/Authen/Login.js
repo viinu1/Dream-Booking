@@ -1,60 +1,51 @@
 import React, { useEffect, useState } from 'react';
 
 import classNames from 'classnames/bind';
-import styles from './Login.module.scss'
+import styles from './Login.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import * as httpRequest from '../../api/httpRequests';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../Store/UserSlice';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
-const cx = classNames.bind(styles)
-
- 
-// var token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ2YW52aUBnbWFpbC5jb20iLCJqdGkiOiJhNWZhNzZlNC0zMWExLTRiNWQtYTA4Yi0xOWY2NWU1YjdiMTQiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY5Mjc2ODg0MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzA2MSIsImF1ZCI6IlVzZXIifQ.rj7tAeqGklR4lh6UnfZQlzqjY2_3cDPCBMxYzVdQbm-Y6hppRibEXSsOadQ_cHH8jcenEoQw4B7sdR9JotTssQ";
-
- 
-
-
-
-export default function Login () {
+const cx = classNames.bind(styles);
+export default function Login() {
     const [showpass, setShowPass] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
 
     const hideOnPassword = () => {
         setShowPass(!showpass);
     };
-    const handleSubmit = (e)=>{
+    const dispath = useDispatch();
+    const navigate = useNavigate();
+    const handleSubmit = (e) => {
         e.preventDefault();
-        if(validate()){
-            const fetchApi = async()=>{
-                try {
-                    const res = await httpRequest.post('TaiKhoan/DangNhap',{
-                        email,
-                        password
-                    })
-                    localStorage.setItem("user", JSON.stringify(res));
-                    return res;
-                } catch (error) {
-                    console.log("Login Error");
-                }
+        if (validate()) {
+            let user = {
+                email,
+                password,
+            };
+            const result = dispath(loginUser(user));
+            if (result) {
+                navigate('/')
+            }else{
+                toast.error("Đăng nhập thất bại!")
             }
-            fetchApi();
         }
-    }
+    };
 
-    const validate = ()=>{
+    const validate = () => {
         let result = true;
-        if(email === "" || email ===null){
-            result = false
-            
+        if (email === '' || email === null) {
+            result = false;
         }
-        if(password === "" || password ===null){
-            result = false
-           
+        if (password === '' || password === null) {
+            result = false;
         }
-        return result     
-    }
+        return result;
+    };
 
     return (
         <div className="modal-dialog modal-dialog-centered">
@@ -72,21 +63,18 @@ export default function Login () {
                             <input
                                 className={cx('form-input')}
                                 type="text"
-                                
                                 placeholder="Vui lòng nhập email"
-                                onChange={e=>setEmail(e.target.value)}
+                                onChange={(e) => setEmail(e.target.value)}
                                 value={email}
                             />
-                            <p className={cx('error')}>{error}</p>
                         </div>
                         <div className={cx('form-control-form')}>
                             <label className={cx('form-label')}>Nhập password</label>
                             <input
                                 className={cx('form-input')}
                                 type={showpass ? 'text' : 'password'}
-                                
                                 placeholder="Vui lòng nhập mặt khẩu"
-                                onChange={e=>setPassword(e.target.value)}
+                                onChange={(e) => setPassword(e.target.value)}
                                 value={password}
                             />
                             {showpass ? (
@@ -102,9 +90,10 @@ export default function Login () {
                                     onClick={hideOnPassword}
                                 />
                             )}
-                            <p className={cx('error')}>{error}</p>
                         </div>
-                        <button type='submit' className={cx('btn', 'btn-success', 'btn-login')}>Đăng nhập</button>
+                        <button type="submit" className={cx('btn', 'btn-success', 'btn-login')}>
+                            Đăng nhập
+                        </button>
                     </form>
                 </div>
                 <div className="modal-footer">
@@ -119,6 +108,18 @@ export default function Login () {
                     </div>
                 </div>
             </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"            
+            />
         </div>
     );
 }

@@ -22,6 +22,12 @@ export default function SidebarAdmin() {
                                 </span>
                             </li>
                         </Link>
+                        <Link to='/admin/khachsan' className={cx('sidebarItem')} style={{ textDecoration: 'none' }}>
+                            <FontAwesomeIcon className={cx('sidebarIcon')} icon={faRadio} />
+                            <span className={cx('sidebarLink')}>
+                                Quản Lý Khách Sạn
+                            </span>
+                        </Link>
                         <Link to="/admin/service" style={{ textDecoration: 'none' }}>
                             <li className={cx('sidebarItem')}>
                                 <FontAwesomeIcon className={cx('sidebarIcon')} icon={faHouse} />
@@ -44,12 +50,7 @@ export default function SidebarAdmin() {
                                 Danh sách đặt phòng
                             </span>
                         </li>
-                        <li className={cx('sidebarItem')}>
-                            <FontAwesomeIcon className={cx('sidebarIcon')} icon={faRadio} />
-                            <span className={cx('sidebarLink')}>
-                                Vai trò
-                            </span>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>

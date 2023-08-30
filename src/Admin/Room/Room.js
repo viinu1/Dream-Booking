@@ -1,41 +1,83 @@
 /* eslint-disable jsx-a11y/scope */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react';
-
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Room.module.scss';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import * as httpRequest from '../../api/httpRequests';
+import uploadImagesToFirebase from '../../until/uploadImagesToFirebase';
 const cx = classNames.bind(styles);
-
-
 
 export default function Room() {
     const [files, setFiles] = useState([]);
-    const [rooms,setRooms] = useState([]);
+    const [listImg, setListImg] = useState([]);
 
+    const [hotels, setHotels] = useState([]);
+    const [rooms, setRooms] = useState([]);
 
-    const handleChange = (event) => {
+    const [idKhachSan, setIdKhachSan] = useState('');
+    const [tenPhong, setTenPhong] = useState('');
+    const [soPhong, setSoPhong] = useState('');
+    const [giaPhong, setGiaPhong] = useState('');
+    const [loai, setLoai] = useState('');
+    const [moTa, setMoTa] = useState('');
+    const [soLuongNguoiLon, SetSoLuongNguoiLon] = useState('');
+    const [soLuongTreEm, SetSoLuongTreEm] = useState('');
+    useEffect(() => {
+        const getHotel = async () => {
+            try {
+                const result = await httpRequest.get('KhachSans');
+                setHotels(result);
+                console.log(result);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        const getPhong = async () => {
+            try {
+                const result = await httpRequest.get(`Phong`);
+                setRooms(result);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getPhong();
+        getHotel();
+    }, []);
+    // handle Image
+
+    const handleChange = async (event) => {
         const selectFiles = Array.from(event.target.files);
         const imageArr = selectFiles.map((file) => URL.createObjectURL(file));
-        setFiles((prev)=>prev.concat(imageArr));
-    };
+        setFiles((prev) => prev.concat(imageArr));
 
-    useEffect(() => {
+        setListImg(selectFiles);
+    };
+    const handleSubmit = async () => {
+        const uploadedImageUrls = await uploadImagesToFirebase(listImg);
         const fetchApi = async () => {
             try {
-                const res = await httpRequest.get('KhachSans')
-                setRooms(res.data);
-                console.log(res);
+                const res = await httpRequest.post(`Phong`, {
+                    idKhachSan,
+                    tenPhong,
+                    soPhong,
+                    giaPhong: Number(giaPhong),
+                    loai: Number(loai),
+                    hinhAnh: uploadedImageUrls,
+                    moTa,
+                    soLuongNguoiLon: Number(soLuongNguoiLon),
+                    soLuongTreEm: Number(soLuongTreEm),
+                });
+                if (res) {
+                    window.location.href = '/admin/room';
+                }
             } catch (error) {
                 console.log(error);
             }
         };
         fetchApi();
-    }, [])
-
+    };
     return (
         <div className={cx('room')}>
             <h3 className={cx('room-title')}>Quản lý danh sách phòng</h3>
@@ -57,54 +99,71 @@ export default function Room() {
             <table className={cx('table', 'table-hover', 'table-room')}>
                 <thead>
                     <tr className={cx('header__table')}>
-                        <th scope="col">Status</th>
-                        <th scope="col">Image room</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Size</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Adults</th>
-                        <th scope="col">Children</th>
-                        <th scope="col" className={cx('description__table')}>
-                            Description
+                        <th style={{ minWidth: '150px' }} scope="col">
+                            id Khách Sạn
                         </th>
-                        <th scope="col">Action</th>
+                        <th style={{ minWidth: '200px' }} scope="col">
+                            Hình ảnh
+                        </th>
+                        <th style={{ minWidth: '200px' }} scope="col">
+                            Tên Phòng
+                        </th>
+                        <th style={{ minWidth: '100px' }} scope="col">
+                            Số Phòng
+                        </th>
+                        <th style={{ minWidth: '200px' }} scope="col">
+                            Giá Phòng
+                        </th>
+                        <th style={{ minWidth: '100px' }} scope="col">
+                            Loại
+                        </th>
+                        <th style={{ minWidth: '450px' }} scope="col">
+                            Mô tả
+                        </th>
+                        <th style={{ minWidth: '120px' }} scope="col">
+                            SL Người lớn
+                        </th>
+                        <th style={{ minWidth: '100px' }} scope="col">
+                            SL trẻ em
+                        </th>
+                        <th style={{ minWidth: '200px' }} scope="col">
+                            Action
+                        </th>
                     </tr>
                 </thead>
                 <tbody className={cx('formRoom')}>
-                    {/* {ROOMS.map((room, index) => (
-                        <tr key={index}>
-                            <td>active</td>
-                            <td scope="row">
-                                <img className={cx('room__img')} src={room.image} alt="" />
-                            </td>
-                            <td>{room.type}</td>
-                            <td>{room.price}đ</td>
-                            <td>{room.size}</td>
-                            <td>{room.amount}</td>
-                            <td>{room.Adults}</td>
-                            <td>{room.children}</td>
-                            <td>{room.description}</td>
-                            <td className={cx('action')}>
-                                <a
-                                    className={cx('btn', 'btn-success', 'btn-room')}
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#addCustomer"
-                                >
-                                    Edit
-                                </a>
-                                <a
-                                    onClick={() => {
-                                        alert('Bạn chắc chắn muốn xóa không?');
-                                    }}
-                                    href="#"
-                                    className={cx('btn', 'btn-danger', 'btn-room')}
-                                >
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                    ))} */}
+                    {rooms?.map((room, index) => {
+                        const result = room.hinhAnh.split(' ');
+                        result.splice(-1);
+                        const formattedNumber = new Intl.NumberFormat('en-US').format(room.giaPhong);
+                        return (
+                            <tr key={index}>
+                                <td>{room.idKhachSan}</td>
+                                <td scope="row">
+                                    <img className={cx('room__img')} src={result[0]} alt="" />
+                                </td>
+                                <td>{room.tenPhong}</td>
+                                <td>{room.soPhong}</td>
+                                <td>{formattedNumber} <span style={{textDecoration:'underline'}}>đ</span></td>
+                                <td>{room.loai}</td>
+                                <td className={cx('room-mota')}>{room.moTa}</td>
+                                <td>{room.soLuongNguoiLon}</td>
+                                <td>{room.soLuongTreEm}</td>
+                                <td className={cx('action')}>
+                                    
+                                    <a
+                                        onClick={() => {
+                                            alert('Bạn chắc chắn muốn xóa không?');
+                                        }}
+                                        href="#"
+                                        className={cx('btn', 'btn-danger', 'btn-room')}
+                                    >
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
 
@@ -129,44 +188,99 @@ export default function Room() {
                                 <div className={cx('control')}>
                                     <label htmlFor="">Tên phòng:</label>
                                     <br />
-                                    <input id="" type="text" placeholder="Nhập Tên Phòng" required />
+                                    <input
+                                        id=""
+                                        onChange={(e) => setTenPhong(e.target.value)}
+                                        type="text"
+                                        value={tenPhong}
+                                        placeholder="Nhập Tên Phòng"
+                                        required
+                                    />
                                 </div>
                                 <div className={cx('control')}>
                                     <label htmlFor="">Số phòng:</label>
                                     <br />
-                                    <input id="" type="text" placeholder="Nhập Số Phòng" required />
-                                </div>
-                                <div className={cx('control')}>
-                                    <label htmlFor="">Trạng thái phòng:</label>
-                                    <br />
                                     <input
+                                        onChange={(e) => setSoPhong(e.target.value)}
+                                        value={soPhong}
                                         id=""
                                         type="text"
-                                        placeholder="Nhập Tên Phòng"
-                                        disabled
+                                        placeholder="Nhập Số Phòng"
                                         required
-                                        value="Sẵn sàng"
                                     />
                                 </div>
+
                                 <div className={cx('control')}>
                                     <label htmlFor="">Giá phòng:</label>
                                     <br />
-                                    <input id="" type="text" placeholder="Nhập Giá Phòng" required />
+                                    <input
+                                        onChange={(e) => setGiaPhong(e.target.value)}
+                                        id=""
+                                        value={giaPhong}
+                                        type="text"
+                                        placeholder="Nhập Giá Phòng"
+                                        required
+                                    />
                                 </div>
                                 <div className={cx('control')}>
-                                    <label htmlFor="">Active:</label>
+                                    <label htmlFor="">Mô Tả:</label>
                                     <br />
-                                    <select style={{ width: '100%' }}>
-                                        <option value={1}>True</option>
-                                        <option value={0}>False</option>
-                                    </select>
+                                    <input
+                                        onChange={(e) => setMoTa(e.target.value)}
+                                        id=""
+                                        value={moTa}
+                                        type="text"
+                                        placeholder="Nhập mô tả"
+                                        required
+                                    />
+                                </div>
+                                <div className={cx('control')}>
+                                    <label htmlFor="">Loại</label>
+                                    <br />
+                                    <input
+                                        type="text"
+                                        value={loai}
+                                        onChange={(e) => setLoai(e.target.value)}
+                                        placeholder="Nhập loại"
+                                        required
+                                    />
+                                </div>
+                                <div className={cx('control')}>
+                                    <label htmlFor="">Số lượng người lớn</label>
+                                    <br />
+                                    <input
+                                        type="text"
+                                        value={soLuongNguoiLon}
+                                        onChange={(e) => SetSoLuongNguoiLon(e.target.value)}
+                                        placeholder="Nhập số lượng người lớn"
+                                        required
+                                    />
+                                </div>
+                                <div className={cx('control')}>
+                                    <label htmlFor="">Số lượng trẻ em</label>
+                                    <br />
+                                    <input
+                                        type="text"
+                                        value={soLuongTreEm}
+                                        onChange={(e) => SetSoLuongTreEm(e.target.value)}
+                                        placeholder="Nhập số lượng trẻ em"
+                                        required
+                                    />
                                 </div>
                                 <div className={cx('control')}>
                                     <label htmlFor="">Khách sạn:</label>
                                     <br />
-                                    <select style={{ width: '100%' }}>
-                                        <option value={1}>Minh Thùy</option>
-                                        <option value={0}>Văn Vĩ</option>
+                                    <select
+                                        value={idKhachSan}
+                                        onChange={(e) => setIdKhachSan(e.target.value)}
+                                        style={{ width: '100%' }}
+                                    >
+                                        <option>-----Chọn Khách Sạn-----</option>
+                                        {hotels?.map((hotel, index) => (
+                                            <option value={hotel.id} key={index}>
+                                                {hotel.tenKhachSan}
+                                            </option>
+                                        ))}
                                     </select>
                                 </div>
                                 <div className={cx('control')}>
@@ -176,7 +290,7 @@ export default function Room() {
                                         name="img"
                                         type="file"
                                         multiple
-                                        onChange={handleChange}
+                                        onChange={(e) => handleChange(e)}
                                         accept="image/png,image/jpeg,image/webp"
                                     />
                                     <div className={cx('list-img')}>
@@ -201,7 +315,7 @@ export default function Room() {
                         </div>
                         <div className="modal-footer">
                             <button
-                                type="button"
+                                onClick={handleSubmit}
                                 className="btn btn-success"
                                 style={{ width: '100%', fontSize: '16px' }}
                             >

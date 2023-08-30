@@ -4,17 +4,21 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import { Register,Login } from '../../../Authen';
+import { Register, Login } from '../../../Authen';
+import { useWindowWidthAndHeight } from '../../../CustomerHook/WithHook';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
 function Header() {
-    const [islogin, setIslogin] = useState(true);
-    const [showpass, setShowPass] = useState(false);
-    const hideOnPassword = () => {
-        setShowPass(!showpass);
-    };    
-    const user = JSON.parse(localStorage.getItem('user'))
+    // const isLogin = false;
+    const [toggle, setToggle] = useState(false);
+    const [width, height] = useWindowWidthAndHeight();
+    const handleClick = ()=>{
+        setToggle(!toggle)
+    }
+    const isLogin = useSelector((state) => state.user.isLogin)
 
     return (
         <header className={cx('container-fluid', 'bg-white')}>
@@ -27,33 +31,68 @@ function Header() {
                     />
                 </a>
                 <ul className={cx('nav')}>
-                    <li className={cx('nav-item')}>
-                        <a className={cx('nav-item__link')} href="/">
-                            Home
-                        </a>
-                    </li>
-                    <li className={cx('nav-item')}>
-                        <Link className={cx('nav-item__link')} to="/search">
-                            Room
-                        </Link>
-                    </li>
-                    <li className={cx('nav-item')}>
-                        <Link className={cx('nav-item__link')} to="/">
-                            Facilities
-                        </Link>
-                    </li>
-                    <li className={cx('nav-item')}>
-                        <Link className={cx('nav-item__link')} to="/">
-                            Contact Us
-                        </Link>
-                    </li>
-                    <li className={cx('nav-item')}>
-                        <Link className={cx('nav-item__link')} to="/upload">
-                            About
-                        </Link>
-                    </li>
+                    {width > 992 ? (
+                        <>
+                            <li className={cx('nav-item')}>
+                                <a className={cx('nav-item__link')} href="/">
+                                    Home
+                                </a>
+                            </li>
+                            <li className={cx('nav-item')}>
+                                <Link className={cx('nav-item__link')} to="/search">
+                                    Room
+                                </Link>
+                            </li>
+                            <li className={cx('nav-item')}>
+                                <Link className={cx('nav-item__link')} to="/">
+                                    Facilities
+                                </Link>
+                            </li>
+                            <li className={cx('nav-item')}>
+                                <Link className={cx('nav-item__link')} to="/">
+                                    Contact Us
+                                </Link>
+                            </li>
+                            <li className={cx('nav-item')}>
+                                <Link className={cx('nav-item__link')} to="/upload">
+                                    About
+                                </Link>
+                            </li>
+                        </>
+                    ) : (
+                        <div className='position-relative'>
+                            <FontAwesomeIcon className={cx('icon-nav')} onClick={handleClick}  icon={faBars} width={32} height={32} />
+                            <div className={cx('nav-responsive')} style={toggle ? {transform:'translateX(0)',display:'block'}:{transform:'translateX(100%)',display:'none'}} >
+                                <li className={cx('nav-item')}>
+                                    <a className={cx('nav-item__link')} href="/">
+                                        Home
+                                    </a>
+                                </li>
+                                <li className={cx('nav-item')}>
+                                    <Link className={cx('nav-item__link')} to="/search">
+                                        Room
+                                    </Link>
+                                </li>
+                                <li className={cx('nav-item')}>
+                                    <Link className={cx('nav-item__link')} to="/">
+                                        Facilities
+                                    </Link>
+                                </li>
+                                <li className={cx('nav-item')}>
+                                    <Link className={cx('nav-item__link')} to="/">
+                                        Contact Us
+                                    </Link>
+                                </li>
+                                <li className={cx('nav-item')}>
+                                    <Link className={cx('nav-item__link')} to="/upload">
+                                        About
+                                    </Link>
+                                </li>
+                            </div>
+                        </div>
+                    )}
 
-                    {islogin ? (
+                    {isLogin ? (
                         <>
                             <div className={cx('account')}>
                                 <img
@@ -61,8 +100,8 @@ function Header() {
                                     alt=""
                                 />
                                 <div className={cx('menu-account')}>
-                                    <div className={cx('menu-account__item')}>Tài khoản</div>
-                                    <div className={cx('menu-account__item')}>Đăng xuất</div>
+                                    <Link to={`/account`}  className={cx('menu-account__item','text-decoration-none','w-100')}>Tài khoản</Link>
+                                    <Link  className={cx('menu-account__item')}>Đăng xuất</Link>
                                 </div>
                             </div>
                         </>
@@ -84,7 +123,7 @@ function Header() {
                                 aria-labelledby="exampleModalToggleLabel"
                                 tabIndex={-1}
                             >
-                                <Login/>
+                                <Login />
                             </div>
                             <div
                                 className="modal fade"
@@ -93,7 +132,7 @@ function Header() {
                                 aria-labelledby="exampleModalToggleLabel2"
                                 tabIndex={-1}
                             >
-                                <Register/>
+                                <Register />
                             </div>
                         </>
                     )}

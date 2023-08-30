@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import classnames from 'classnames/bind';
 import styles from './OrderRoom.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import httpRequest from '../../api/httpRequests';
 
 const cx = classnames.bind(styles);
 export default function OrderRoom() {
+
+
+    
+
+
     return (
         <div className="container my-2">
             <div className={cx('order')}>
@@ -23,13 +29,7 @@ export default function OrderRoom() {
                                 </div>
                             </div>
                             <hr />
-                            <div className={cx('pay__control')}>
-                                <input id="pay__cart" className={cx('pay__option')} type="radio" name="pay" />
-                                <label htmlFor="pay__cart">Thanh toán Ngay</label>
-                                <div className={cx('pay__money-info')}>
-                                    Bạn có thể chọn thanh toán ngay bằng thẻ tín dụng hoặc phương thức thanh toán khác
-                                </div>
-                            </div>
+                            
                         </div>
 
                         <div className={cx('info')}>
@@ -41,17 +41,39 @@ export default function OrderRoom() {
                                 <input type="text" id="nameUser" className={cx('info__input')} />
                             </div>
                             <div className={cx('info__control')}>
+                                <label htmlFor="dateUser" className={cx('info__label')}>
+                                    Ngày Sinh <span style={{ color: 'red' }}>*</span>
+                                </label>
+                                <input type="text" id="dateUser" className={cx('info__input')} />
+                            </div>
+                            <div className={cx('info__control')}>
                                 <label htmlFor="emailUser" className={cx('info__label')}>
                                     Email<span style={{ color: 'red' }}>*</span>
                                 </label>
                                 <input type="text" id="emailUser" className={cx('info__input')} />
                             </div>
                             <div className={cx('info__control')}>
-                                <label htmlFor="conformemailUser" className={cx('info__label')}>
-                                    Nhập lại Email<span style={{ color: 'red' }}>*</span>
+                                <label htmlFor="addresslUser" className={cx('info__label')}>
+                                    Địa chỉ<span style={{ color: 'red' }}>*</span>
                                 </label>
-                                <input type="text" id="conformemailUser" className={cx('info__input')} />
+                                <input type="text" id="addresslUser" className={cx('info__input')} />
                             </div>
+
+                            <div className={cx('info__control','gap-2','flex-row')}>
+                                <div className='w-50'>
+                                    <label htmlFor="dateComelUser" className={cx('info__label')}>
+                                        Ngày nhận phòng<span style={{ color: 'red' }}>*</span>
+                                    </label>
+                                    <input type="date" id="dateComelUser" className={cx('info__input')} />
+                                </div>
+                                <div className='w-50'>
+                                    <label htmlFor="dateBacklUser" className={cx('info__label')}>
+                                        Ngày trả phòng<span style={{ color: 'red' }}>*</span>
+                                    </label>
+                                    <input type="date" id="dateBacklUser" className={cx('info__input')} />
+                                </div>
+                            </div>
+
                             <div className={cx('info__control')}>
                                 <label htmlFor="cccdUser" className={cx('info__label')}>
                                     Nhập CCCD/CMND<span style={{ color: 'red' }}>*</span>
@@ -126,6 +148,7 @@ export default function OrderRoom() {
                                     2.000.000 <span style={{ textDecoration: 'underline' }}>đ</span>
                                 </div>
                             </div>
+                            <o className={cx('btn','btn-success','btn-order')}>Đặt ngay</o>
                         </div>
                     </div>
                 </div>

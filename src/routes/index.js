@@ -8,7 +8,8 @@ import {  listService } from "../Admin/Services";
 import { listRoom } from "../Admin/Room";
 import Customer from "../Admin/Customer/Customer";
 import OrderRoom from "../pages/OrderRoom";
-import Account from "../components/Account/Account";
+import Account from "../pages/Account";
+import Hotel from "../Admin/Hotel/Hotel";
 
 //public Routes
 const publicRoutes = [
@@ -52,6 +53,11 @@ const publicRoutes = [
     {
         path: '/admin/service',
         component: listService,
+        layout: AdminLayout,
+    },
+    {
+        path: '/admin/khachsan',
+        component: Hotel,
         layout: AdminLayout,
     },
 ];

@@ -24,12 +24,13 @@ const cx = classNames.bind(styles);
 export default function Detail() {
     const { id } = useParams();
     const [hotel, setHotel] = useState({});
+
     useEffect(() => {
         const fetchApi = async () => {
             try {
                 const res = await httpRequest.get(`KhachSans/${id}`);
                 setHotel(res.data);
-                console.log(res);
+                console.log(res.data);
             } catch (error) {
                 console.log(error);
             }
@@ -44,7 +45,7 @@ export default function Detail() {
                     <div className={cx('detail-img', 'col-lg-5')}>
                         <img
                             className={cx('img__primary')}
-                            src="https://baokhanhhoa.vn/file/e7837c02857c8ca30185a8c39b582c03/dataimages/201806/original/images5334836_PR5_1.jpg"
+                            src={hotel.hinhAnh}
                             alt=""
                         />
                     </div>
@@ -140,8 +141,8 @@ export default function Detail() {
                         </div>
                     </div>
                 </div>
-                <ListRoom data={hotel.id} name={hotel.tenKhachSan} />
-                <Suggest />
+                <ListRoom data={hotel.id} />
+                {/* <Suggest /> */}
             </div>
         </div>
     );

@@ -49,6 +49,7 @@ function Home() {
             try {
                 const res = await httpRequest.get("KhachSans");
                 setHotel(res.data);
+                console.log(res.data);
             } catch (error) {
                 console.log(error);
             }
@@ -65,15 +66,13 @@ function Home() {
                     <div className={cx('room-list__title')}>Danh sách Phòng</div>
                     <div className={cx('row')}>
                         {hotels.map((item, index) => {
-                            console.log(item.hinhAnh);
-                            const res = item.hinhAnh.split(';')
-                            console.log(res);
+                            
                             return <div className={cx('col-lg-3')} key={index}>
                                 <Link to={`/detail/${item.id}`} style={{textDecoration:'none'}}>
                                     <div className={cx('card', 'card-item')}>
                                         <img
                                 
-                                            src={`https://localhost:44319/${res[0]}`}
+                                            src={item.hinhAnh}
                                             alt="phòng khách sạn"
                                             className={cx('room-img')}
                                         />

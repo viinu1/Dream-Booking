@@ -10,7 +10,7 @@ export default function Footer() {
             <div className={cx('container')}>
                 <div className="row">
                     <div className="col-lg-3 d-flex align-items-center justify-content-center">
-                        <div className='d-flex'>
+                        <div className='d-flex w-50'>
                             <img
                                 src="https://c8.alamy.com/comp/W1RKXM/hotel-vector-icon-illustration-creative-sign-from-icons-collection-filled-flat-hotel-icon-for-computer-and-mobile-symbol-logo-vector-graphics-W1RKXM.jpg"
                                 alt=""
