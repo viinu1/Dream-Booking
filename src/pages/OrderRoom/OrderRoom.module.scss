@@ -108,6 +108,8 @@
 
         img {
             width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     }
     .room__info-detail {
@@ -118,6 +120,7 @@
             font-weight: 400;
         }
         .room__info-address {
+            text-align: justify;
             font-size: 12px;
             line-height: 18px;
             font-weight: 300;
@@ -174,9 +177,10 @@
 .discount-info{
 
     .discount__control{
-        display: flex;
-        align-items: center;
+        // display: flex;
+        
         gap: 12px;
+        flex-direction: column;
         .discount__control-header{
             font-size: 14px;
             line-height: 20px;
@@ -186,8 +190,6 @@
     }
 
     label {
-        position: relative;
-        padding-left: 32px;
         font-weight: 600;
         color: rgb(36, 38, 44);
         fill: rgb(36, 38, 44);
@@ -196,31 +198,15 @@
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         line-height: calc(18px);
-        font-size: 14px;
+        font-size: 16px;
+        cursor: pointer;
+
     }
-    label:before {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 0;
-        content: '';
-        background: #fff;
-        border: 1px solid blue;
+   
+    .discount__control-input{
+        cursor: pointer;
     }
-    .discount__control-input:checked ~ label:after {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 4px;
-        content: '';
-        background: blue;
-    }
+
 
 }
 

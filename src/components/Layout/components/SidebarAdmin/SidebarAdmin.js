@@ -28,11 +28,11 @@ export default function SidebarAdmin() {
                                 Quản Lý Khách Sạn
                             </span>
                         </Link>
-                        <Link to="/admin/service" style={{ textDecoration: 'none' }}>
+                        <Link to="/admin/discount" style={{ textDecoration: 'none' }}>
                             <li className={cx('sidebarItem')}>
                                 <FontAwesomeIcon className={cx('sidebarIcon')} icon={faHouse} />
                                 <span className={cx('sidebarLink')}>
-                                    Dịch vụ
+                                    Quản Lý Mã giảm Giá
                                 </span>
                             </li>
                         </Link>
@@ -46,9 +46,9 @@ export default function SidebarAdmin() {
                         </Link>
                         <li className={cx('sidebarItem')}>
                             <FontAwesomeIcon className={cx('sidebarIcon')} icon={faList} />
-                            <span className={cx('sidebarLink')}>
+                            <Link to={`/admin/order`} className={cx('sidebarLink')}>
                                 Danh sách đặt phòng
-                            </span>
+                            </Link>
                         </li>
                         
                     </ul>

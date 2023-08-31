@@ -8,7 +8,6 @@ const initialState = {
 };
 
 export const loginUser = createAsyncThunk('user/loginUser', async (user) => {
-    
     try {
         const request = await httpRequests.post('TaiKhoan/DangNhap', user);
         localStorage.setItem('token', JSON.stringify(request.token));

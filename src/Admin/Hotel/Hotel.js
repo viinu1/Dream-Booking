@@ -3,14 +3,12 @@ import classnames from 'classnames/bind';
 import styles from './Hotel.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import httpRequest from '../../api/httpRequests';
+import * as httpRequest from '../../api/httpRequests';
 
 import { imgDB } from '../../until/config';
 import { v4 } from 'uuid';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import Dialog from '../component/Dialog/Dialog';
-import axios from 'axios';
-
+import Dialog from '../../components/Dialog'
 
 const cx = classnames.bind(styles);
 export default function Hotel() {
@@ -26,13 +24,13 @@ export default function Hotel() {
     const [gioiThieu, setGioiThieu] = React.useState('');
     const [tieuDe, setTieuDe] = React.useState('');
     const [ghiChu, setGhiChu] = React.useState('');
-    const [hinhAnh, setHinhAnhFile] = React.useState('');
+    // const [hinhAnh, setHinhAnhFile] = React.useState('');
 
     const [dialog, setDialog] = React.useState({
         message: '',
         isLoading: false,
     });
-    const idCustomer = useRef();
+    const idHotels = useRef();
     const handleDialog = (message,isLoading)=>{
         setDialog({
             message,
@@ -41,17 +39,17 @@ export default function Hotel() {
     }
     const handleDelete = (item) => {
         handleDialog("Are You Sure Delete Item??",true)
-        idCustomer.current =item
+        idHotels.current =item
     };
 
     
 
     const AreUSureDelete = (choose) => {
         if (choose) {
-            axios.delete(`https://localhost:44319/api/KhachSans/${idCustomer.current}`);
+            httpRequest.deleTe(`KhachSans/${idHotels.current}`);
             setHotels(
                 hotels.filter((post) => {
-                    return post.id !== idCustomer.current;
+                    return post.id !== idHotels.current;
                 }),
             );
             handleDialog("",false)
@@ -64,7 +62,7 @@ export default function Hotel() {
         const fetchApi = async () => {
             try {
                 const result = await httpRequest.get('TinhThanh');
-                setTinh(result.data);
+                setTinh(result);
             } catch (error) {
                 console.log(error);
             }
@@ -72,7 +70,8 @@ export default function Hotel() {
         const getHotel = async () => {
             try {
                 const result = await httpRequest.get('KhachSans');
-                setHotels(result.data);
+                setHotels(result);
+                console.log(result);
             } catch (error) {
                 console.log(error);
             }
@@ -90,9 +89,11 @@ export default function Hotel() {
     const handleSubmit = async (e) => {
         const imgs = ref(imgDB, `Imgs${v4()}`);
         const img = await uploadBytes(imgs, files).then((data) => {
-            console.log(data, 'imgs');
+            // console.log(data, 'imgs');
             return getDownloadURL(data.ref);
         });
+
+
         const addHotel = async () => {
             try {
                 const result = await httpRequest.post(`KhachSans`, {
@@ -105,11 +106,13 @@ export default function Hotel() {
                     tieuDe,
                     ghiChu
                 });
-                console.log(result.data);
-                return result.data;
+                console.log(result);
+                return result;
                 
             } catch (error) {
-                console.log(error);
+                if (error.response && error.response.status === 401) {
+                   console.log("lỗi xác thực rồi");
+                  } 
             }
         };
        addHotel()
@@ -133,9 +136,9 @@ export default function Hotel() {
                         <th className={cx('header-hotel')} style={{ minWidth: '200px' }} scope="col">
                             Hình ảnh
                         </th>
-                        <th className={cx('header-hotel')} style={{ minWidth: '100px' }} scope="col">
+                        {/* <th className={cx('header-hotel')} style={{ minWidth: '100px' }} scope="col">
                             Tỉnh Thành
-                        </th>
+                        </th> */}
                         <th className={cx('header-hotel')} style={{ minWidth: '150px' }} scope="col">
                             Tên Khách sạn
                         </th>
@@ -166,7 +169,7 @@ export default function Hotel() {
                                 <td>
                                     <img style={{width:'100%'}} src={hotel.hinhAnh} alt="" />
                                 </td>
-                                <td>{hotel.idTinhThanh}</td>
+                                {/* <td>{hotel.idTinhThanh}</td> */}
                                 <td>{hotel.tenKhachSan}</td>
                                 <td>{hotel.maKhachSan} </td>
                                 <td>{hotel.diaChi} </td>
@@ -228,7 +231,7 @@ export default function Hotel() {
                                         className={cx('hotel-input')}
                                     >
                                         <option>-----Chọn tỉnh thành-----</option>
-                                        {tinh.map((item) => (
+                                        {tinh?.map((item) => (
                                             <option value={item.id} key={item.id}>
                                                 {item.tenTinhThanh}
                                             </option>

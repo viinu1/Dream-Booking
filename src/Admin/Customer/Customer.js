@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './customer.module.scss';
-import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import * as httpRequest from '../../api/httpRequests';
+import Dialog from '../../components/Dialog'
 import axios from 'axios';
-import Dialog from '../component/Dialog/Dialog';
+
 import { useSelector } from 'react-redux';
 const cx = classNames.bind(styles);
 

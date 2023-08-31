@@ -1,15 +1,16 @@
 import Detail from "../pages/Detail/Detail";
 // import { AdminLayout } from "../components/Layout";
-import Home from "../pages/Home/Home";
+import Home from "../pages/Home";
 import Search from "../pages/Search";
 import Dashboard from "../Admin/Dashboard";
 import { AdminLayout } from "../components/Layout";
-import {  listService } from "../Admin/Services";
 import { listRoom } from "../Admin/Room";
-import Customer from "../Admin/Customer/Customer";
+import Customer from "../Admin/Customer";
 import OrderRoom from "../pages/OrderRoom";
 import Account from "../pages/Account";
 import Hotel from "../Admin/Hotel/Hotel";
+import Discount from "../Admin/Discount";
+import RoomOrder from "../Admin/RoomOrder";
 
 //public Routes
 const publicRoutes = [
@@ -30,7 +31,7 @@ const publicRoutes = [
         component: Detail,
     },
     {
-        path: '/detail/:id/order',
+        path: '/:idHotel/:id/order',
         component: OrderRoom,
     },
     {
@@ -51,13 +52,18 @@ const publicRoutes = [
         layout: AdminLayout,
     },
     {
-        path: '/admin/service',
-        component: listService,
+        path: '/admin/discount',
+        component: Discount,
         layout: AdminLayout,
     },
     {
         path: '/admin/khachsan',
         component: Hotel,
+        layout: AdminLayout,
+    },
+    {
+        path: '/admin/order',
+        component: RoomOrder,
         layout: AdminLayout,
     },
 ];

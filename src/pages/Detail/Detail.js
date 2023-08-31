@@ -15,10 +15,10 @@ import {
     faWifi,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Suggest from '../../components/Suggest';
+// import Suggest from '../../components/Suggest';
 import ListRoom from '../../components/ListRoom';
 import { useParams } from 'react-router-dom';
-import httpRequest from '../../api/httpRequests';
+import * as httpRequest from '../../api/httpRequests';
 const cx = classNames.bind(styles);
 
 export default function Detail() {
@@ -29,8 +29,8 @@ export default function Detail() {
         const fetchApi = async () => {
             try {
                 const res = await httpRequest.get(`KhachSans/${id}`);
-                setHotel(res.data);
-                console.log(res.data);
+                setHotel(res);
+                // console.log(res.data);
             } catch (error) {
                 console.log(error);
             }
@@ -141,8 +141,8 @@ export default function Detail() {
                         </div>
                     </div>
                 </div>
-                <ListRoom data={hotel.id} />
-                {/* <Suggest /> */}
+                <ListRoom id={hotel.id} name={hotel.tenKhachSan}/>
+                
             </div>
         </div>
     );

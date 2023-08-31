@@ -1,13 +1,14 @@
 import axios from 'axios';
 
 
-const token = localStorage.getItem('token')
+const token = JSON.parse(localStorage.getItem('token'))
+// console.log(token);
 const httpRequest = axios.create({
     baseURL: "https://localhost:44319/api/",
-    withCredentials: false,
+    // withCredentials: false,
     headers: { 
         'content-type': 'application/json',
-        'Authorization': `Bearer ${token ? token : ""}`,
+        Authorization: `Bearer ${token}`,
     },
 });
 

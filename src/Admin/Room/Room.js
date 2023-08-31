@@ -1,17 +1,19 @@
 /* eslint-disable jsx-a11y/scope */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Room.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import * as httpRequest from '../../api/httpRequests';
 import uploadImagesToFirebase from '../../until/uploadImagesToFirebase';
+import Dialog from '../../components/Dialog'
 const cx = classNames.bind(styles);
 
 export default function Room() {
     const [files, setFiles] = useState([]);
     const [listImg, setListImg] = useState([]);
+    const [error,setError] = useState()
 
     const [hotels, setHotels] = useState([]);
     const [rooms, setRooms] = useState([]);
@@ -46,7 +48,6 @@ export default function Room() {
         getHotel();
     }, []);
     // handle Image
-
     const handleChange = async (event) => {
         const selectFiles = Array.from(event.target.files);
         const imageArr = selectFiles.map((file) => URL.createObjectURL(file));
@@ -73,10 +74,39 @@ export default function Room() {
                     window.location.href = '/admin/room';
                 }
             } catch (error) {
-                console.log(error);
+                setError('Thêm không thành công')
             }
         };
         fetchApi();
+    };
+
+    const [dialog, setDialog] = useState({
+        message: '',
+        isLoading: false,
+    });
+    const idRooms = useRef();
+    const handleDialog = (message,isLoading)=>{
+        setDialog({
+            message,
+            isLoading
+        })
+    }
+    const handleDelete = (item) => {
+        handleDialog("Are You Sure Delete Item??",true)
+        idRooms.current =item
+    };
+    const AreUSureDelete = (choose) => {
+        if (choose) {
+            httpRequest.deleTe(`Phong/${idRooms.current}`);
+            setHotels(
+                rooms.filter((post) => {
+                    return post.id !== idRooms.current;
+                }),
+            );
+            handleDialog("",false)
+        }else{
+            handleDialog("",false)
+        }
     };
     return (
         <div className={cx('room')}>
@@ -139,6 +169,7 @@ export default function Room() {
                         return (
                             <tr key={index}>
                                 <td>{room.idKhachSan}</td>
+
                                 <td scope="row">
                                     <img className={cx('room__img')} src={result[0]} alt="" />
                                 </td>
@@ -152,9 +183,7 @@ export default function Room() {
                                 <td className={cx('action')}>
                                     
                                     <a
-                                        onClick={() => {
-                                            alert('Bạn chắc chắn muốn xóa không?');
-                                        }}
+                                        onClick={() => handleDelete(room.id)}
                                         href="#"
                                         className={cx('btn', 'btn-danger', 'btn-room')}
                                     >
@@ -311,8 +340,11 @@ export default function Room() {
                                             ))}
                                     </div>
                                 </div>
+                                <p style={{color:'red',fontSize:'16px',textAlign:'center'}}>{error}</p>
                             </form>
+                            
                         </div>
+                        
                         <div className="modal-footer">
                             <button
                                 onClick={handleSubmit}
@@ -325,6 +357,7 @@ export default function Room() {
                     </div>
                 </div>
             </div>
+            {dialog.isLoading && <Dialog onDialog={AreUSureDelete} message={dialog.message} />}
         </div>
     );
 }
