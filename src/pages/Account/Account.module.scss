@@ -11,10 +11,12 @@
         font-weight: 400;
         cursor: pointer;
     }
-    .pane.active{
+    .pane-active{
+        padding: 8px 12px;
         background-color: #99999999;
         border-left: 2px solid #000;
         font-weight:500;
+        font-size: 16px;
     }
 
     .pane:hover{
@@ -28,7 +30,8 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow:  0 0 4px #ccc;
-    .item.active{
+
+    .setting-account.item-active{
         display: block;
     }
     .item{
@@ -83,4 +86,8 @@
         margin-top: 12px;
         font-size: 1.6rem;
     }
+}
+
+.btn-cancel{
+    font-size: 1.6rem;
 }

@@ -8,13 +8,18 @@ import * as httpRequest from '../../api/httpRequests';
 import { imgDB } from '../../until/config';
 import { v4 } from 'uuid';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import Dialog from '../../components/Dialog'
+import Dialog from '../../components/Dialog';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const cx = classnames.bind(styles);
 export default function Hotel() {
     const [hotels, setHotels] = React.useState([]);
+    const [hotel, setHotel] = React.useState([]);
     const [tinh, setTinh] = React.useState([]);
-    const [files,setFiles] = useState(null)
+    const [files, setFiles] = useState(null);
+
+    const [editMode, setEditMode] = useState(false);
 
     // thong tin khach san
     const [idTinhThanh, setIdTinh] = React.useState('');
@@ -26,24 +31,22 @@ export default function Hotel() {
     const [ghiChu, setGhiChu] = React.useState('');
     // const [hinhAnh, setHinhAnhFile] = React.useState('');
 
+
     const [dialog, setDialog] = React.useState({
         message: '',
         isLoading: false,
     });
     const idHotels = useRef();
-    const handleDialog = (message,isLoading)=>{
+    const handleDialog = (message, isLoading) => {
         setDialog({
             message,
-            isLoading
-        })
-    }
-    const handleDelete = (item) => {
-        handleDialog("Are You Sure Delete Item??",true)
-        idHotels.current =item
+            isLoading,
+        });
     };
-
-    
-
+    const handleDelete = (item) => {
+        handleDialog('Are You Sure Delete Item??', true);
+        idHotels.current = item;
+    };
     const AreUSureDelete = (choose) => {
         if (choose) {
             httpRequest.deleTe(`KhachSans/${idHotels.current}`);
@@ -52,21 +55,14 @@ export default function Hotel() {
                     return post.id !== idHotels.current;
                 }),
             );
-            handleDialog("",false)
-        }else{
-            handleDialog("",false)
+            handleDialog('', false);
+        } else {
+            handleDialog('', false);
         }
     };
 
     React.useEffect(() => {
-        const fetchApi = async () => {
-            try {
-                const result = await httpRequest.get('TinhThanh');
-                setTinh(result);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+        
         const getHotel = async () => {
             try {
                 const result = await httpRequest.get('KhachSans');
@@ -76,14 +72,11 @@ export default function Hotel() {
                 console.log(error);
             }
         };
-        fetchApi();
         getHotel();
     }, []);
 
     const handleSelectFile = (event) => {
-       setFiles(event.target.files[0]);
-        
-        
+        setFiles(event.target.files[0]);
     };
 
     const handleSubmit = async (e) => {
@@ -93,29 +86,80 @@ export default function Hotel() {
             return getDownloadURL(data.ref);
         });
 
-
         const addHotel = async () => {
             try {
                 const result = await httpRequest.post(`KhachSans`, {
                     idTinhThanh,
-                    hinhAnh:img,
+                    hinhAnh: img,
                     maKhachSan,
                     tenKhachSan,
                     diaChi,
                     gioiThieu,
                     tieuDe,
-                    ghiChu
+                    ghiChu,
                 });
-                console.log(result);
-                return result;
-                
+                if (result) {
+                    toast.success('Bạn đã thêm thành công');
+                }
             } catch (error) {
                 if (error.response && error.response.status === 401) {
-                   console.log("lỗi xác thực rồi");
-                  } 
+                    toast.error('Thêm không thành công');
+                }
             }
         };
-       addHotel()
+        addHotel();
+    };
+
+    const handleEdit = async (id) => {
+        const imgs = ref(imgDB, `Imgs${v4()}`);
+        const img = await uploadBytes(imgs, files).then((data) => {
+            return getDownloadURL(data.ref);
+        });
+        const editHotel = async () => {
+            try {
+                const result = await httpRequest.put(`KhachSans/${id}`, hotel);
+                console.log(result);
+                if (result) {
+                    toast.success('Cập nhật thành công');
+                }
+            } catch (error) {
+                toast.error('Cập nhật thất bại');
+                console.log(error);
+            }
+        };
+        editHotel();
+    };
+    const fetchApi = async () => {
+        try {
+            const result = await httpRequest.get('TinhThanh');
+            setTinh(result);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handladd = () => {
+        fetchApi()
+        setEditMode(false);
+    };
+
+    const handleChange = (e) => {
+        setHotel({ ...hotel, [e.target.name]: e.target.value });
+    };
+    
+    const handlEdit = (id) => {
+        setEditMode(true);
+        fetchApi()
+        const getKsById = async () => {
+            try {
+                const result = await httpRequest.get(`KhachSans/${id}`);
+                setHotel(result);
+                // console.log(result);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getKsById();
     };
 
     return (
@@ -127,7 +171,12 @@ export default function Hotel() {
                     <FontAwesomeIcon icon={faSearch} className={cx('hotel-icon')} />
                 </div>
             </div>
-            <div className={cx('btn', 'btn-success', 'btn-addHotel')} data-bs-toggle="modal" data-bs-target="#addhotel">
+            <div
+                className={cx('btn', 'btn-success', 'btn-addHotel')}
+                onClick={handladd}
+                data-bs-toggle="modal"
+                data-bs-target="#addhotel"
+            >
                 Thêm Khách Sạn
             </div>
             <table className={cx('table', 'table-hover', 'table-hotel')}>
@@ -136,9 +185,7 @@ export default function Hotel() {
                         <th className={cx('header-hotel')} style={{ minWidth: '200px' }} scope="col">
                             Hình ảnh
                         </th>
-                        {/* <th className={cx('header-hotel')} style={{ minWidth: '100px' }} scope="col">
-                            Tỉnh Thành
-                        </th> */}
+                       
                         <th className={cx('header-hotel')} style={{ minWidth: '150px' }} scope="col">
                             Tên Khách sạn
                         </th>
@@ -165,16 +212,16 @@ export default function Hotel() {
                 <tbody className={cx('formHotel')}>
                     {hotels?.map((hotel, index) => {
                         return (
-                            <tr key={index}>     
+                            <tr key={index}>
                                 <td>
-                                    <img style={{width:'100%'}} src={hotel.hinhAnh} alt="" />
+                                    <img style={{ width: '100%' }} src={hotel.hinhAnh} alt="" />
                                 </td>
                                 {/* <td>{hotel.idTinhThanh}</td> */}
                                 <td>{hotel.tenKhachSan}</td>
                                 <td>{hotel.maKhachSan} </td>
                                 <td>{hotel.diaChi} </td>
                                 <td>{hotel.tieuDe} </td>
-                                <td>{hotel.gioiThieu} </td>
+                                <td className={cx('gioThieu')}>{hotel.gioiThieu} </td>
                                 <td>{hotel.ghiChu} </td>
                                 <td className={cx('action')}>
                                     <span
@@ -184,13 +231,22 @@ export default function Hotel() {
                                     >
                                         Delete
                                     </span>
+
+                                    <span
+                                        onClick={() => handlEdit(hotel.id)}
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#addhotel"
+                                        href="#"
+                                        className={cx('btn', 'btn-success', 'btn-action', 'ms-2')}
+                                    >
+                                        Edit
+                                    </span>
                                 </td>
                             </tr>
                         );
                     })}
                 </tbody>
             </table>
-            {/* modal add khách sạn */}
             <div
                 className="modal fade"
                 id="addhotel"
@@ -203,7 +259,7 @@ export default function Hotel() {
                     <div className={cx('modal-content')}>
                         <div className="modal-header">
                             <h5 className={cx('modal-title', 'modal-heading')} id="exampleModalLabel">
-                                Thêm Khách sạn
+                               {editMode ? "Cập nhật khách sạn" : "Thêm Khách Sạn"}
                             </h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
@@ -214,8 +270,9 @@ export default function Hotel() {
                                         Tên khách sạn
                                     </label>
                                     <input
-                                        value={tenKhachSan}
-                                        onChange={(e) => setTenKhachSan(e.target.value)}
+                                        name="tenKhachSan"
+                                        value={editMode ? hotel.tenKhachSan : tenKhachSan}
+                                        onChange={editMode ? handleChange : (e) => setTenKhachSan(e.target.value)}
                                         type="text"
                                         className={cx('hotel-input')}
                                         required
@@ -226,8 +283,9 @@ export default function Hotel() {
                                         Tỉnh Thành
                                     </label>
                                     <select
-                                        value={idTinhThanh}
-                                        onChange={(e) => setIdTinh(e.target.value)}
+                                        name="idTinhThanh"
+                                        value={editMode ? hotel.idTinhThanh : idTinhThanh}
+                                        onChange={editMode ? handleChange : (e) => setIdTinh(e.target.value)}
                                         className={cx('hotel-input')}
                                     >
                                         <option>-----Chọn tỉnh thành-----</option>
@@ -243,8 +301,10 @@ export default function Hotel() {
                                         Mã khách sạn
                                     </label>
                                     <input
-                                        value={maKhachSan}
-                                        onChange={(e) => setMaKs(e.target.value)}
+                                        name=""
+                                        maKhachSan
+                                        value={editMode ? hotel.maKhachSan : maKhachSan}
+                                        onChange={editMode ? handleChange : (e) => setMaKs(e.target.value)}
                                         type="text"
                                         className={cx('hotel-input')}
                                         required
@@ -255,8 +315,9 @@ export default function Hotel() {
                                         Địa chỉ
                                     </label>
                                     <input
-                                        value={diaChi}
-                                        onChange={(e) => setDiaChi(e.target.value)}
+                                        name="diaChi"
+                                        value={editMode ? hotel.diaChi : diaChi}
+                                        onChange={editMode ? handleChange : (e) => setDiaChi(e.target.value)}
                                         type="text"
                                         className={cx('hotel-input')}
                                         required
@@ -267,8 +328,9 @@ export default function Hotel() {
                                         Giới thiệu
                                     </label>
                                     <input
-                                        value={gioiThieu}
-                                        onChange={(e) => setGioiThieu(e.target.value)}
+                                        name="gioiThieu"
+                                        value={editMode ? hotel.gioiThieu : gioiThieu}
+                                        onChange={editMode ? handleChange : (e) => setGioiThieu(e.target.value)}
                                         type="text"
                                         className={cx('hotel-input')}
                                         required
@@ -279,8 +341,9 @@ export default function Hotel() {
                                         Tiêu đề
                                     </label>
                                     <input
-                                        value={tieuDe}
-                                        onChange={(e) => setTieuDe(e.target.value)}
+                                        value={editMode ? hotel.tieuDe : tieuDe}
+                                        name="tieuDe"
+                                        onChange={editMode ? handleChange : (e) => setTieuDe(e.target.value)}
                                         type="text"
                                         className={cx('hotel-input')}
                                         required
@@ -291,8 +354,9 @@ export default function Hotel() {
                                         Ghi Chú
                                     </label>
                                     <input
-                                        value={ghiChu}
-                                        onChange={(e) => setGhiChu(e.target.value)}
+                                        value={editMode ? hotel.ghiChu : ghiChu}
+                                        name="ghiChu"
+                                        onChange={editMode ? handleChange : (e) => setGhiChu(e.target.value)}
                                         type="text"
                                         className={cx('hotel-input')}
                                         required
@@ -302,23 +366,49 @@ export default function Hotel() {
                                     <label htmlFor="nameKS" className={cx('hotel-label')}>
                                         Hình Ảnh khách sạn
                                     </label>
-                                    <input onChange={(e)=>handleSelectFile(e)} type="file" className={cx('hotel-input')} />
+                                    <input
+                                        onChange={(e) => handleSelectFile(e)}
+                                        type="file"
+                                        className={cx('hotel-input')}
+                                    />
+                                    <img src={editMode? hotel?.hinhAnh: ""} alt=""/>
                                 </div>
+        
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button
-                                onClick={handleSubmit}
-                                className="btn btn-success"
-                                style={{ width: '100%', fontSize: '16px' }}
-                            >
-                                Thêm
-                            </button>
+                            {!editMode ? (
+                                <button
+                                    onClick={handleSubmit}
+                                    className="btn btn-success"
+                                    style={{ width: '100%', fontSize: '16px' }}
+                                >
+                                    Thêm
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => handleEdit(hotel.id)}
+                                    className="btn btn-success"
+                                    style={{ width: '100%', fontSize: '16px' }}
+                                >
+                                    Cập nhật
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
             {dialog.isLoading && <Dialog onDialog={AreUSureDelete} message={dialog.message} />}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                draggable
+                theme="light"
+                style={{ zIndex: '10000000' }}
+            />
         </div>
     );
 }

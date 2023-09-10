@@ -2,30 +2,23 @@
 import React from 'react';
 import styles from './AdminHeader.module.scss';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-regular-svg-icons';
-import { faGear, faGlobe } from '@fortawesome/free-solid-svg-icons';
+
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
 export default function HeaderAdmin() {
+    const user = useSelector((state) => state.user.user);
+    const handleClick = ()=>{
+        localStorage.clear()
+        window.location.href='/'
+    }
     return (
         <div className={cx('header')}>
             <div className={cx('container', 'content')}>
                 <div className={cx('logo')}>BookingDreams</div>
                 <nav className={cx('nav')}>
-                    <div className={cx('position-relative')}>
-                        <FontAwesomeIcon className={cx('notification', 'icon-nav')} icon={faBell} />
-                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            0<span className="visually-hidden">unread messages</span>
-                        </span>
-                    </div>
-                    <div className={cx('position-relative')}>
-                        <FontAwesomeIcon className={cx('notification', 'icon-nav')} icon={faGear} />
-                    </div>
-                    <div className={cx('position-relative')}>
-                        <FontAwesomeIcon className={cx('notification', 'icon-nav')} icon={faGlobe} />
-                    </div>
+                   
                     <div className={cx('nav-avatar')}>
                         <img
                             className={cx('avatar')}
@@ -34,11 +27,14 @@ export default function HeaderAdmin() {
                         />
 
                         <div className={cx('menu')}>
-                            <a className={cx('dropdown-item')} href="#">
+                            <a className={cx('dropdown-item')} href="#" onClick={handleClick}>
                                 Đăng xuất
                             </a>
                         </div>
                     </div>
+                    <li style={{listStyle:'none',cursor:'pointer'}}>
+                        <span href="">{user.hoTen}</span>
+                    </li>
                 </nav>
             </div>
         </div>

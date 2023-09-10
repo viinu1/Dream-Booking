@@ -18,7 +18,7 @@ export default function SidebarAdmin() {
                             <li className={cx('sidebarItem')}>
                                 <FontAwesomeIcon className={cx('sidebarIcon')} icon={faUser} />
                                 <span className={cx('sidebarLink')}>
-                                    Khách hàng
+                                    Quản lý Khách hàng
                                 </span>
                             </li>
                         </Link>
@@ -40,14 +40,14 @@ export default function SidebarAdmin() {
                             <li className={cx('sidebarItem')}>
                                 <FontAwesomeIcon className={cx('sidebarIcon')} icon={faList} />
                                 <span className={cx('sidebarLink')}>
-                                    Danh sách phòng
+                                    Quản lý phòng
                                 </span>
                             </li>
                         </Link>
                         <li className={cx('sidebarItem')}>
                             <FontAwesomeIcon className={cx('sidebarIcon')} icon={faList} />
                             <Link to={`/admin/order`} className={cx('sidebarLink')}>
-                                Danh sách đặt phòng
+                                Quản lý đặt phòng
                             </Link>
                         </li>
                         

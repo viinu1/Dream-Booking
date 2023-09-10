@@ -32,6 +32,7 @@ export default function RoomOrder() {
         getOrder();
     },[])
 
+    // Delete order room
     const [dialog, setDialog] = React.useState({
         message: '',
         isLoading: false,
@@ -47,9 +48,6 @@ export default function RoomOrder() {
         handleDialog("Are You Sure Delete Item??",true)
         idOrder.current =item
     };
-
-    
-
     const AreUSureDelete = (choose) => {
         if (choose) {
             httpRequest.deleTe(`DatPhong/${idOrder.current}`);
@@ -64,6 +62,25 @@ export default function RoomOrder() {
         }
     };
 
+    // Edit
+    // const [editMode, setEditMode] = useState(false);
+    // const [orderRoom, setOrderRoom] = useState({});
+
+    // const handleEdit = (id)=>{
+    //     setEditMode(true)
+    //     const getOrder = async ()=>{
+    //         try {
+    //             const result = await httpRequest.get(`DatPhong/${id}`)
+    //             setOrderRoom(result)
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    //     getOrder()
+    // }
+
+
+    
     return (
         <div className={cx('hotel')}>
             <h3 className={cx('hotelTitle')}>Quản lý đặt phòng</h3>
@@ -94,8 +111,11 @@ export default function RoomOrder() {
                         <th className={cx('header-hotel')} style={{ minWidth: '300px' }} scope="col">
                             Địa Chỉ
                         </th>
-                        <th className={cx('header-hotel')} style={{ minWidth: '200px' }} scope="col">
+                        <th className={cx('header-hotel')} style={{ minWidth: '100px' }} scope="col">
                             Phòng
+                        </th>
+                        <th className={cx('header-hotel')} style={{ minWidth: '200px' }} scope="col">
+                            Tên Khách Sạn
                         </th>
                         <th className={cx('header-hotel')} style={{ minWidth: '200px' }} scope="col">
                             Thời gian nhận phòng
@@ -123,10 +143,18 @@ export default function RoomOrder() {
                                 <td>{order.sdt} </td>
                                 <td>{order.diaChi}</td>
                                 <td>{order.idPhong}</td>
+                                <td>{order.tenKhachSan}</td>
                                 <td>{formatDate(order.thoiGianNhanPhong)}</td>
                                 <td>{formatDate(order.thoiGianTraPhong)}</td>
                                 <td>{order.tongTien}</td>
                                 <td className={cx('action')}>
+                                    {/* <span
+                                        onClick={() => handleEdit(order.id)}
+                                        href="#"
+                                        className={cx('btn', 'btn-success', 'btn-action','me-2')}
+                                    >
+                                        edit
+                                    </span> */}
                                     <span
                                         onClick={() => handleDelete(order.id)}
                                         href="#"

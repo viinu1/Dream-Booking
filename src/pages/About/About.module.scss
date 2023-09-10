@@ -1,0 +1,26 @@
+.about__header {
+    font-size: 2.4rem;
+    line-height: 1.25;
+    font-weight: 700;
+    color: #0a1121;
+}
+
+.about__content {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+
+    .about__content-header {
+        font-size: 2rem;
+        line-height: 1.25;
+        margin-bottom: 12px;
+        font-weight: 700;
+    }
+
+    .about__content-body{
+        line-height: 1.6;
+        font-size: 1.4rem;
+        text-align: justify;
+    }
+}

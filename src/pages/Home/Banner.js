@@ -1,17 +1,13 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
-import { faChevronDown, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 const cx = classNames.bind(styles)
 
 export default function Banner() {
-    const [countRoom,setCountRoom] = useState(1)
-    const [countAdult,setCountAdult] = useState(1)
-    const [countChildren,setCountChildren] = useState(0)
-
     let today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ today.getDate();
   return (
@@ -92,48 +88,9 @@ export default function Banner() {
                             <FontAwesomeIcon className={cx('search-icon')} icon={faCalendar}/>
                             <input type='date' className={cx('search-date','search-date__end')}/>
                         </div>
-                        <div className={cx('search-control')} role='button' id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                            <FontAwesomeIcon className={cx('search-icon')} icon={faUsers}/>
-                            <div className={cx('number')}>
-                                <div className={cx('number__people')}>
-                                    <div className={cx('number__adult')}>
-                                        <span>{countAdult}</span> Người lớn, <span>{countChildren}</span> trẻ em
-                                    </div>
-                                    <div className={cx('number__children')}>
-
-                                    </div>
-                                </div>
-                                <div className={cx('number__room')}>
-                                    {countRoom} Phòng
-                                </div>
-                            </div>
-                            <FontAwesomeIcon icon={faChevronDown} className={cx('search-icon','search-icon__down')}/>
-                        </div>
-                        <div className="dropdown-menu px-4" aria-labelledby="dropdownMenuLink" style={{width:'25%'}}>
-                            <div className={cx('chose')}>
-                                <div className={cx('chose-title')}>Phòng</div>
-                                <div className={cx('chose-click')}>
-                                    <button className={cx('chose-btn')}>-</button>
-                                    <span>{countRoom}</span>
-                                    <button className={cx('chose-btn')}>+</button>
-                                </div>
-                            </div>
-                            <div className={cx('chose')}>
-                                <div className={cx('chose-title')}>Người lớn</div>
-                                <div className={cx('chose-click')}>
-                                    <button className={cx('chose-btn')}>-</button>
-                                    <span>{countAdult}</span>
-                                    <button className={cx('chose-btn')}>+</button>
-                                </div>
-                            </div>
-                            <div className={cx('chose')}>
-                                <div className={cx('chose-title')}>Trẻ em</div>
-                                <div className={cx('chose-click')}>
-                                    <button className={cx('chose-btn')}>-</button>
-                                    <span>{countChildren}</span>
-                                    <button className={cx('chose-btn')}>+</button>
-                                </div>
-                            </div>
+                        <div className={cx('search-control')}>
+                            <FontAwesomeIcon className={cx('search-icon')} icon={faSearch}/>
+                            <input type='text' className={cx('search-date','search-date__end')}/>
                         </div>
                     </form> 
                     <button className='btn btn-primary w-100 mt-3' style={{height:'35px',fontSize:'18px',fontWeight:'bold'}}>Tìm Kiếm</button>            

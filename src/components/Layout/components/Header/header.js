@@ -23,7 +23,7 @@ function Header() {
     };
     const token = localStorage.getItem('token');
     useEffect(() => {
-        if (token) {
+        if (token && token !== null) {
             const decode = jwt(token);
             const roles = decode['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
             setRole(roles);
@@ -53,23 +53,15 @@ function Header() {
                                     Home
                                 </a>
                             </li>
-                            <li className={cx('nav-item')}>
-                                <Link className={cx('nav-item__link')} to="/search">
-                                    Room
-                                </Link>
-                            </li>
+                            
                             <li className={cx('nav-item')}>
                                 <Link className={cx('nav-item__link')} to="/">
                                     Facilities
                                 </Link>
                             </li>
+                            
                             <li className={cx('nav-item')}>
-                                <Link className={cx('nav-item__link')} to="/">
-                                    Contact Us
-                                </Link>
-                            </li>
-                            <li className={cx('nav-item')}>
-                                <Link className={cx('nav-item__link')} to="/upload">
+                                <Link className={cx('nav-item__link')} to="/about">
                                     About
                                 </Link>
                             </li>
@@ -143,7 +135,7 @@ function Header() {
                                     >
                                         Tài khoản
                                     </Link>
-                                    <Link className={cx('menu-account__item')} onClick={handleLogout}>Đăng xuất</Link>
+                                    <Link className={cx('menu-account__item','text-decoration-none')} onClick={handleLogout}>Đăng xuất</Link>
                                 </div>
                             </div>
                         </>

@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../Store/UserSlice';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -29,9 +29,9 @@ export default function Login() {
             };
             const result = dispath(loginUser(user));
             if (result) {
-                navigate('/')
-            }else{
-                toast.error("Đăng nhập thất bại!")
+                navigate('/');
+            } else {
+                toast.error('Đăng nhập thất bại!');
             }
         }
     };
@@ -39,9 +39,11 @@ export default function Login() {
     const validate = () => {
         let result = true;
         if (email === '' || email === null) {
+            toast.error('Vui lòng nhập email');
             result = false;
         }
         if (password === '' || password === null) {
+            toast.error('Vui lòng nhập mật khẩu');
             result = false;
         }
         return result;
@@ -111,14 +113,11 @@ export default function Login() {
             <ToastContainer
                 position="top-right"
                 autoClose={3000}
-                hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
                 rtl={false}
-                pauseOnFocusLoss
-                draggable
                 pauseOnHover
-                theme="light"            
+                theme="light"
             />
         </div>
     );

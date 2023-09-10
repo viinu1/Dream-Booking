@@ -2,18 +2,22 @@ import classNames from 'classnames/bind';
 import styles from './Discount.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as httpRequest from '../../api/httpRequests';
 import Dialog from '../../components/Dialog/Dialog';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 export default function Discount() {
     const [discounts, setDiscounts] = useState([]);
+    const [discount, setDiscount] = useState([]);
     const [hotels, setHotels] = useState([]);
 
     const [ma, setMa] = useState('');
     const [giaTri, setGiaTri] = useState('');
     const [idKhachSan, setIdKhachSan] = useState('');
+
+    const [editMode, setEditMode] = useState(false);
 
     useEffect(() => {
         const getMa = async () => {
@@ -24,18 +28,21 @@ export default function Discount() {
                 console.log(error);
             }
         };
-        const getHotel = async () => {
-            try {
-                const result = await httpRequest.get('KhachSans');
-                setHotels(result);
-                console.log(result);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        getHotel();
         getMa();
     }, []);
+    const getHotel = async () => {
+        try {
+            const result = await httpRequest.get('KhachSans');
+            setHotels(result);
+            console.log(result);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const handleAddMa = () => {
+        setEditMode(false);
+        getHotel();
+    };
 
     const handleSubmit = () => {
         const addDiscount = async () => {
@@ -46,7 +53,7 @@ export default function Discount() {
                     giaTri,
                 });
                 if (result.status === 'Success') {
-                    console.log('Add thành công');
+                    window.location.href = '/admin/discount';
                 }
             } catch (error) {
                 console.log(error);
@@ -54,6 +61,69 @@ export default function Discount() {
         };
         addDiscount();
     };
+
+    //delete
+    const [dialog, setDialog] = useState({
+        message: '',
+        isLoading: false,
+    });
+    const idDiscount = useRef();
+    const handleDialog = (message, isLoading) => {
+        setDialog({
+            message,
+            isLoading,
+        });
+    };
+    const handleDelete = (item) => {
+        handleDialog('Are You Sure Delete Item??', true);
+        idDiscount.current = item;
+    };
+    const AreUSureDelete = (choose) => {
+        if (choose) {
+            httpRequest.deleTe(`MaGiamGia?id=${idDiscount.current}`);
+            setDiscounts(
+                discounts.filter((post) => {
+                    return post.id !== idDiscount.current;
+                }),
+            );
+            handleDialog('', false);
+        } else {
+            handleDialog('', false);
+        }
+    };
+
+    // edit
+    const handleChangeData = (e) => {
+        setDiscount({ ...discount, [e.target.name]: e.target.value });
+    };
+    const handleEdit = (id) => {
+        setEditMode(true);
+        const getMagiamById = async () => {
+            try {
+                const result = await httpRequest.get(`MaGiamGia/GetById?id=${id}`);
+                setDiscount(result);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getMagiamById();
+        getHotel();
+    };
+    
+    const handleSubmitEdit = (id) => {
+        const editDiscount = async () => {
+            try {
+                const result = await httpRequest.put(`MaGiamGia?id=${id}`,discount);
+                if(result){
+                    toast.success('Cập nhật thành công')
+                } 
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        editDiscount();
+    };
+
     return (
         <div className={cx('Discount')}>
             <h3 className={cx('DiscountTitle')}>Quản lý Mã giảm giá</h3>
@@ -67,6 +137,7 @@ export default function Discount() {
                 className={cx('btn', 'btn-success', 'btn-addDiscount')}
                 data-bs-toggle="modal"
                 data-bs-target="#addDiscount"
+                onClick={handleAddMa}
             >
                 Thêm mã giảm giá
             </div>
@@ -100,11 +171,20 @@ export default function Discount() {
                                 <td>{discount.giaTri}% </td>
                                 <td className={cx('action')}>
                                     <span
-                                        // onClick={() => handleDelete(hotel.id)}
+                                        onClick={() => handleDelete(discount.id)}
                                         href="#"
-                                        className={cx('btn', 'btn-danger', 'btn-action')}
+                                        className={cx('btn', 'btn-danger', 'btn-action','me-2')}
                                     >
                                         Delete
+                                    </span>
+                                    <span
+                                        onClick={() => handleEdit(discount.id)}
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#addDiscount"
+                                        href="#"
+                                        className={cx('btn', 'btn-primary', 'btn-action')}
+                                    >
+                                        Edit
                                     </span>
                                 </td>
                             </tr>
@@ -125,7 +205,7 @@ export default function Discount() {
                     <div className={cx('modal-content')}>
                         <div className="modal-header">
                             <h5 className={cx('modal-title', 'modal-heading')} id="exampleModalLabel">
-                                Thêm Khách sạn
+                                {editMode ? "Cập nhật mã giảm giá" : "Thêm mã giảm giá"}
                             </h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
@@ -136,8 +216,9 @@ export default function Discount() {
                                         Mã Giảm Giám
                                     </label>
                                     <input
-                                        value={ma}
-                                        onChange={(e) => setMa(e.target.value)}
+                                        value={editMode ? discount.ma : ma}
+                                        name="ma"
+                                        onChange={editMode ? handleChangeData : (e) => setMa(e.target.value)}
                                         type="text"
                                         className={cx('hotel-input')}
                                         required
@@ -148,8 +229,9 @@ export default function Discount() {
                                         Giá Trị
                                     </label>
                                     <input
-                                        value={giaTri}
-                                        onChange={(e) => setGiaTri(e.target.value)}
+                                        value={editMode ? discount.giaTri : giaTri}
+                                        name="giaTri"
+                                        onChange={editMode ? handleChangeData : (e) => setGiaTri(e.target.value)}
                                         type="text"
                                         className={cx('hotel-input')}
                                         required
@@ -157,11 +239,15 @@ export default function Discount() {
                                 </div>
                                 <div className={cx('hotel-control')}>
                                     <label htmlFor="nameKS" className={cx('hotel-label')}>
-                                        Giá Trị
+                                        Khách sạn
                                     </label>
-                                    <select value={idKhachSan} onChange={(e) => setIdKhachSan(e.target.value)}>
+                                    <select
+                                        name="idKhachSan"  
+                                        value={editMode ? discount.idKhachSan : idKhachSan}
+                                        onChange={editMode ? handleChangeData : (e) => setIdKhachSan(e.target.value)}
+                                    >
                                         <option>-----Chọn Khách Sạn-----</option>
-                                        {hotels.map((hotel, index) => (
+                                        {hotels?.map((hotel, index) => (
                                             <option value={hotel.id} key={index}>
                                                 {hotel.tenKhachSan}
                                             </option>
@@ -171,6 +257,7 @@ export default function Discount() {
                             </form>
                         </div>
                         <div className="modal-footer">
+                            {!editMode ? (
                             <button
                                 onClick={handleSubmit}
                                 className="btn btn-success"
@@ -178,11 +265,20 @@ export default function Discount() {
                             >
                                 Thêm
                             </button>
+                            ) : (
+                                <button
+                                    onClick={()=>handleSubmitEdit(discount.id)}
+                                    className="btn btn-success"
+                                    style={{ width: '100%', fontSize: '16px' }}
+                                >
+                                    Cập nhật
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
-            {/* {dialog.isLoading && <Dialog onDialog={AreUSureDelete} message={dialog.message} />} */}
+            {dialog.isLoading && <Dialog onDialog={AreUSureDelete} message={dialog.message} />}
         </div>
     );
 }

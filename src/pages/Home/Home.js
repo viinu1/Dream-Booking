@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Banner from './Banner';
 
@@ -10,8 +10,6 @@ import styles from './Home.module.scss';
 import httpRequest from '../../api/httpRequests';
 
 const cx = classNames.bind(styles);
-
-
 
 const facilities = [
     {
@@ -42,23 +40,50 @@ const facilities = [
 ];
 
 function Home() {
+    const [randomItems, setRandomItems] = useState([]);
 
-    const [hotels,setHotel]= useState([])
-    useEffect(()=>{
+    const shuffle = (array) => {
+        let currentIndex = array.length;
+        let temporaryValue, randomIndex;
+
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    };
+
+    const [hotels, setHotel] = useState([]);
+    useEffect(() => {
         const fetchApi = async () => {
             try {
-                const res = await httpRequest.get("KhachSans");
+                const res = await httpRequest.get('KhachSans');
                 setHotel(res.data);
-                console.log(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        const getDanhgia = async () => {
+            try {
+                const res = await httpRequest.get('DanhGia');
+                const shuffledData = shuffle([...res.data]);
+                const selectedItems = shuffledData.slice(0, 4);
+                setRandomItems(selectedItems);
+                console.log(selectedItems);
             } catch (error) {
                 console.log(error);
             }
         };
         fetchApi();
-    },[])
-     
-    return (
+        getDanhgia();
+    }, []);
 
+    return (
         <div className={cx('home')}>
             <Banner />
             <div className={cx('container')}>
@@ -66,30 +91,41 @@ function Home() {
                     <div className={cx('room-list__title')}>Danh sách Phòng</div>
                     <div className={cx('row')}>
                         {hotels.map((item, index) => {
-                            
-                            return <div className={cx('col-lg-3')} key={index}>
-                                <Link to={`/detail/${item.id}`} style={{textDecoration:'none'}}>
-                                    <div className={cx('card', 'card-item')}>
-                                        <img
-                                
-                                            src={item.hinhAnh}
-                                            alt="phòng khách sạn"
-                                            className={cx('room-img')}
-                                        />
-                                        <div className={cx('card-body')}>
-                                            <h5 className={cx('card-title')}>{item.tenKhachSan}</h5>
-                                            <p className={cx('card-text')}>{item.gioiThieu}</p>
-                                            <div className='d-flex gap-2'>
-                                                <FontAwesomeIcon icon={faStar} style={{color:"#ff567d",marginBottom:'8px'}}/>
-                                                <FontAwesomeIcon icon={faStar} style={{color:"#ff567d",marginBottom:'8px'}}/>
-                                                <FontAwesomeIcon icon={faStar} style={{color:"#ff567d",marginBottom:'8px'}}/>
-                                                <FontAwesomeIcon icon={faStar} style={{color:"#ff567d",marginBottom:'8px'}}/>
-                                                <FontAwesomeIcon icon={faStar} style={{color:"#ff567d",marginBottom:'8px'}}/>
+                            return (
+                                <div className={cx('col-lg-3')} key={index}>
+                                    <Link to={`/detail/${item.id}`} style={{ textDecoration: 'none' }}>
+                                        <div className={cx('card', 'card-item')}>
+                                            <img src={item.hinhAnh} alt="phòng khách sạn" className={cx('room-img')} />
+                                            <div className={cx('card-body')}>
+                                                <h5 className={cx('card-title')}>{item.tenKhachSan}</h5>
+                                                <p className={cx('card-text')}>{item.gioiThieu}</p>
+                                                <div className="d-flex gap-2">
+                                                    <FontAwesomeIcon
+                                                        icon={faStar}
+                                                        style={{ color: '#ff567d', marginBottom: '8px' }}
+                                                    />
+                                                    <FontAwesomeIcon
+                                                        icon={faStar}
+                                                        style={{ color: '#ff567d', marginBottom: '8px' }}
+                                                    />
+                                                    <FontAwesomeIcon
+                                                        icon={faStar}
+                                                        style={{ color: '#ff567d', marginBottom: '8px' }}
+                                                    />
+                                                    <FontAwesomeIcon
+                                                        icon={faStar}
+                                                        style={{ color: '#ff567d', marginBottom: '8px' }}
+                                                    />
+                                                    <FontAwesomeIcon
+                                                        icon={faStar}
+                                                        style={{ color: '#ff567d', marginBottom: '8px' }}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </Link>
-                            </div>
+                                    </Link>
+                                </div>
+                            );
                         })}
                     </div>
                 </section>
@@ -113,46 +149,18 @@ function Home() {
                 <section className={cx('testimonials')}>
                     <div className={cx('room-list__title')}>Our Testimonials</div>
                     <div className="row">
-                        <div className="col-lg-3">
-                            <div className={cx('card-comment')}>
-                                <div className={cx('card-comment__title')}>Khách sạn Dream</div>
-                                <div className={cx('card-comment__place')}>Ở Đà nẵng</div>
-                                <div className={cx('card-comment__content')}>
-                                    Tôi hoàn toàn hài lòng khi nghỉ tại Klausturhof. Cám ơn Agoda rất nhiều.
+                        {randomItems?.map((item, index) => {
+                            return (
+                                <div className="col-lg-3">
+                                    <div className={cx('card-comment')}>
+                                        <div className={cx('card-comment__title')}>Khách sạn Dream</div>
+                                        {/* <div className={cx('card-comment__place')}>Ở Đà nẵng</div> */}
+                                        <div className={cx('card-comment__content')}>{item.binhLuan}</div>
+                                        <div className={cx('card-comment__by')}>- By {item.email}</div>
+                                    </div>
                                 </div>
-                                <div className={cx('card-comment__by')}>- By Độ Mixi</div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3">
-                            <div className={cx('card-comment')}>
-                                <div className={cx('card-comment__title')}>Khách sạn Dream</div>
-                                <div className={cx('card-comment__place')}>Ở Hồ Chí Minh</div>
-                                <div className={cx('card-comment__content')}>
-                                    Tôi hoàn toàn hài lòng khi nghỉ tại Klausturhof. Cám ơn Agoda rất nhiều.
-                                </div>
-                                <div className={cx('card-comment__by')}>- By Minh Thùy</div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3">
-                            <div className={cx('card-comment')}>
-                                <div className={cx('card-comment__title')}>Khách sạn Dream</div>
-                                <div className={cx('card-comment__place')}>Vũng tàu</div>
-                                <div className={cx('card-comment__content')}>
-                                    Tôi hoàn toàn hài lòng khi nghỉ tại Klausturhof. Cám ơn Agoda rất nhiều.
-                                </div>
-                                <div className={cx('card-comment__by')}>- By Anh Khoa</div>
-                            </div>
-                        </div>
-                        <div className="col-lg-3">
-                            <div className={cx('card-comment')}>
-                                <div className={cx('card-comment__title')}>Khách sạn Dream</div>
-                                <div className={cx('card-comment__place')}>Hà Nội</div>
-                                <div className={cx('card-comment__content')}>
-                                    Tôi hoàn toàn hài lòng khi nghỉ tại Klausturhof. Cám ơn Agoda rất nhiều.
-                                </div>
-                                <div className={cx('card-comment__by')}>- By Phương Thanh</div>
-                            </div>
-                        </div>
+                            );
+                        })}
                     </div>
                 </section>
             </div>

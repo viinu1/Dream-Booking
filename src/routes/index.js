@@ -11,6 +11,7 @@ import Account from "../pages/Account";
 import Hotel from "../Admin/Hotel/Hotel";
 import Discount from "../Admin/Discount";
 import RoomOrder from "../Admin/RoomOrder";
+import About from "../pages/About";
 
 //public Routes
 const publicRoutes = [
@@ -25,6 +26,10 @@ const publicRoutes = [
     {
         path: '/account',
         component: Account,
+    },
+    {
+        path: '/about',
+        component: About,
     },
     {
         path: '/detail/:id',

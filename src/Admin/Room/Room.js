@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/scope */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Room.module.scss';
@@ -7,35 +5,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import * as httpRequest from '../../api/httpRequests';
 import uploadImagesToFirebase from '../../until/uploadImagesToFirebase';
-import Dialog from '../../components/Dialog'
+import Dialog from '../../components/Dialog';
+import { ToastContainer, toast } from 'react-toastify';
+
 const cx = classNames.bind(styles);
 
 export default function Room() {
     const [files, setFiles] = useState([]);
     const [listImg, setListImg] = useState([]);
-    const [error,setError] = useState()
+    const [error, setError] = useState();
 
     const [hotels, setHotels] = useState([]);
     const [rooms, setRooms] = useState([]);
 
-    const [idKhachSan, setIdKhachSan] = useState('');
+    const [idKhachSan, setIdKhachSan] = useState();
     const [tenPhong, setTenPhong] = useState('');
     const [soPhong, setSoPhong] = useState('');
-    const [giaPhong, setGiaPhong] = useState('');
-    const [loai, setLoai] = useState('');
+    const [giaPhong, setGiaPhong] = useState();
+    const [loai, setLoai] = useState();
     const [moTa, setMoTa] = useState('');
-    const [soLuongNguoiLon, SetSoLuongNguoiLon] = useState('');
-    const [soLuongTreEm, SetSoLuongTreEm] = useState('');
+    const [soLuongNguoiLon, SetSoLuongNguoiLon] = useState();
+    const [soLuongTreEm, SetSoLuongTreEm] = useState();
+
     useEffect(() => {
-        const getHotel = async () => {
-            try {
-                const result = await httpRequest.get('KhachSans');
-                setHotels(result);
-                console.log(result);
-            } catch (error) {
-                console.log(error);
-            }
-        };
         const getPhong = async () => {
             try {
                 const result = await httpRequest.get(`Phong`);
@@ -45,15 +37,28 @@ export default function Room() {
             }
         };
         getPhong();
-        getHotel();
     }, []);
+
     // handle Image
     const handleChange = async (event) => {
         const selectFiles = Array.from(event.target.files);
         const imageArr = selectFiles.map((file) => URL.createObjectURL(file));
         setFiles((prev) => prev.concat(imageArr));
-
         setListImg(selectFiles);
+    };
+    const getHotel = async () => {
+        try {
+            const result = await httpRequest.get('KhachSans');
+            setHotels(result);
+            // console.log(result);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    // add room
+    const handleAdd = () => {
+        setEditMode(false);
+        getHotel();
     };
     const handleSubmit = async () => {
         const uploadedImageUrls = await uploadImagesToFirebase(listImg);
@@ -63,6 +68,7 @@ export default function Room() {
                     idKhachSan,
                     tenPhong,
                     soPhong,
+                    TenKhachsan: '',
                     giaPhong: Number(giaPhong),
                     loai: Number(loai),
                     hinhAnh: uploadedImageUrls,
@@ -70,44 +76,96 @@ export default function Room() {
                     soLuongNguoiLon: Number(soLuongNguoiLon),
                     soLuongTreEm: Number(soLuongTreEm),
                 });
-                if (res) {
-                    window.location.href = '/admin/room';
+                if(res){
+                    toast.success("Bạn Đã thêm thành công")
+                    setTimeout(() => {
+                        window.location.href='/admin/room'
+                    }, 3000);
                 }
             } catch (error) {
-                setError('Thêm không thành công')
+                setError('Thêm không thành công');
             }
         };
         fetchApi();
     };
 
+    //delete
     const [dialog, setDialog] = useState({
         message: '',
         isLoading: false,
     });
     const idRooms = useRef();
-    const handleDialog = (message,isLoading)=>{
+    const handleDialog = (message, isLoading) => {
         setDialog({
             message,
-            isLoading
-        })
-    }
+            isLoading,
+        });
+    };
     const handleDelete = (item) => {
-        handleDialog("Are You Sure Delete Item??",true)
-        idRooms.current =item
+        handleDialog('Are You Sure Delete Item??', true);
+        idRooms.current = item;
     };
     const AreUSureDelete = (choose) => {
         if (choose) {
             httpRequest.deleTe(`Phong/${idRooms.current}`);
-            setHotels(
+
+            setRooms(
                 rooms.filter((post) => {
                     return post.id !== idRooms.current;
                 }),
             );
-            handleDialog("",false)
-        }else{
-            handleDialog("",false)
+            handleDialog('', false);
+        } else {
+            handleDialog('', false);
         }
     };
+
+    //edit
+    const [editMode, setEditMode] = useState(false);
+    const [room, setRoom] = useState({});
+
+    const handleEdit =  async (id) => {
+        const uploadedImageUrls = await uploadImagesToFirebase(listImg);
+        const editRoom = async () => {
+            try {
+                const result = await httpRequest.put(`Phong?id=${id}`, room);
+                if (result) {
+                    toast.success("Cập nhật phòng thành công")
+                    setTimeout(() => {
+                        window.location.href='/admin/room'
+                    }, 3000);
+                }
+            } catch (error) {
+                toast.error('Cập nhật thất bại');
+                console.log(error);
+            }
+        };
+        console.log(room);
+        editRoom();
+    };
+
+    const handleChangeRoom = async (e) => {
+        setRoom({
+            ...room,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleEditRoom = (id) => {
+        console.log(id);
+        setEditMode(true);
+        const getRoom = async () => {
+            try {
+                const result = await httpRequest.get(`Phong/${id}`);
+                setRoom(result);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getRoom();
+        getHotel();
+    };
+
     return (
         <div className={cx('room')}>
             <h3 className={cx('room-title')}>Quản lý danh sách phòng</h3>
@@ -118,6 +176,7 @@ export default function Room() {
                 </div>
                 <div className={cx('room__add')}>
                     <span
+                        onClick={handleAdd}
                         className={cx('btn', 'btn-success', 'btn-add-room')}
                         data-bs-toggle="modal"
                         data-bs-target="#addCustomer"
@@ -170,25 +229,35 @@ export default function Room() {
                             <tr key={index}>
                                 <td>{room.idKhachSan}</td>
 
-                                <td scope="row">
+                                <td>
                                     <img className={cx('room__img')} src={result[0]} alt="" />
                                 </td>
                                 <td>{room.tenPhong}</td>
                                 <td>{room.soPhong}</td>
-                                <td>{formattedNumber} <span style={{textDecoration:'underline'}}>đ</span></td>
+                                <td>
+                                    {formattedNumber} <span style={{ textDecoration: 'underline' }}>đ</span>
+                                </td>
                                 <td>{room.loai}</td>
                                 <td className={cx('room-mota')}>{room.moTa}</td>
                                 <td>{room.soLuongNguoiLon}</td>
                                 <td>{room.soLuongTreEm}</td>
                                 <td className={cx('action')}>
-                                    
-                                    <a
+                                    <span
+                                        onClick={() => handleEditRoom(room.id)}
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#addCustomer"
+                                        href="#"
+                                        className={cx('btn', 'btn-primary', 'btn-room')}
+                                    >
+                                        Edit
+                                    </span>
+                                    <span
                                         onClick={() => handleDelete(room.id)}
                                         href="#"
                                         className={cx('btn', 'btn-danger', 'btn-room')}
                                     >
                                         Delete
-                                    </a>
+                                    </span>
                                 </td>
                             </tr>
                         );
@@ -208,7 +277,7 @@ export default function Room() {
                     <div className={cx('modal-content')}>
                         <div className="modal-header">
                             <h5 className={cx('modal-title', 'modal-heading')} id="exampleModalLabel">
-                                Thêm Phòng
+                                {editMode ? 'Cập nhật phòng' : 'Thêm phòng'}
                             </h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
@@ -218,10 +287,10 @@ export default function Room() {
                                     <label htmlFor="">Tên phòng:</label>
                                     <br />
                                     <input
-                                        id=""
-                                        onChange={(e) => setTenPhong(e.target.value)}
+                                        onChange={editMode ? handleChangeRoom : (e) => setTenPhong(e.target.value)}
                                         type="text"
-                                        value={tenPhong}
+                                        value={editMode ? room.tenPhong : tenPhong}
+                                        name="tenPhong"
                                         placeholder="Nhập Tên Phòng"
                                         required
                                     />
@@ -230,9 +299,9 @@ export default function Room() {
                                     <label htmlFor="">Số phòng:</label>
                                     <br />
                                     <input
-                                        onChange={(e) => setSoPhong(e.target.value)}
-                                        value={soPhong}
-                                        id=""
+                                        onChange={editMode ? handleChangeRoom : (e) => setSoPhong(e.target.value)}
+                                        value={editMode ? room.soPhong : soPhong}
+                                        name="soPhong"
                                         type="text"
                                         placeholder="Nhập Số Phòng"
                                         required
@@ -243,9 +312,9 @@ export default function Room() {
                                     <label htmlFor="">Giá phòng:</label>
                                     <br />
                                     <input
-                                        onChange={(e) => setGiaPhong(e.target.value)}
-                                        id=""
-                                        value={giaPhong}
+                                        onChange={editMode ? handleChangeRoom : (e) => setGiaPhong(e.target.value)}
+                                        name="giaPhong"
+                                        value={editMode ? room.giaPhong : giaPhong}
                                         type="text"
                                         placeholder="Nhập Giá Phòng"
                                         required
@@ -255,9 +324,9 @@ export default function Room() {
                                     <label htmlFor="">Mô Tả:</label>
                                     <br />
                                     <input
-                                        onChange={(e) => setMoTa(e.target.value)}
-                                        id=""
-                                        value={moTa}
+                                        onChange={editMode ? handleChangeRoom : (e) => setMoTa(e.target.value)}
+                                        name="moTa"
+                                        value={editMode ? room.moTa : moTa}
                                         type="text"
                                         placeholder="Nhập mô tả"
                                         required
@@ -268,8 +337,9 @@ export default function Room() {
                                     <br />
                                     <input
                                         type="text"
-                                        value={loai}
-                                        onChange={(e) => setLoai(e.target.value)}
+                                        value={editMode ? room.loai : loai}
+                                        name="loai"
+                                        onChange={editMode ? handleChangeRoom : (e) => setLoai(e.target.value)}
                                         placeholder="Nhập loại"
                                         required
                                     />
@@ -279,8 +349,11 @@ export default function Room() {
                                     <br />
                                     <input
                                         type="text"
-                                        value={soLuongNguoiLon}
-                                        onChange={(e) => SetSoLuongNguoiLon(e.target.value)}
+                                        name="soLuongNguoiLon"
+                                        value={editMode ? room.soLuongNguoiLon : soLuongNguoiLon}
+                                        onChange={
+                                            editMode ? handleChangeRoom : (e) => SetSoLuongNguoiLon(e.target.value)
+                                        }
                                         placeholder="Nhập số lượng người lớn"
                                         required
                                     />
@@ -290,8 +363,9 @@ export default function Room() {
                                     <br />
                                     <input
                                         type="text"
-                                        value={soLuongTreEm}
-                                        onChange={(e) => SetSoLuongTreEm(e.target.value)}
+                                        value={editMode ? room.soLuongTreEm : soLuongTreEm}
+                                        name="soLuongTreEm"
+                                        onChange={editMode ? handleChangeRoom : (e) => SetSoLuongTreEm(e.target.value)}
                                         placeholder="Nhập số lượng trẻ em"
                                         required
                                     />
@@ -300,8 +374,9 @@ export default function Room() {
                                     <label htmlFor="">Khách sạn:</label>
                                     <br />
                                     <select
-                                        value={idKhachSan}
-                                        onChange={(e) => setIdKhachSan(e.target.value)}
+                                        value={editMode ? room.idKhachSan : idKhachSan}
+                                        name="idKhachsan"
+                                        onChange={editMode ? handleChangeRoom : (e) => setIdKhachSan(e.target.value)}
                                         style={{ width: '100%' }}
                                     >
                                         <option>-----Chọn Khách Sạn-----</option>
@@ -319,7 +394,7 @@ export default function Room() {
                                         name="img"
                                         type="file"
                                         multiple
-                                        onChange={(e) => handleChange(e)}
+                                        onChange={handleChange}
                                         accept="image/png,image/jpeg,image/webp"
                                     />
                                     <div className={cx('list-img')}>
@@ -340,24 +415,46 @@ export default function Room() {
                                             ))}
                                     </div>
                                 </div>
-                                <p style={{color:'red',fontSize:'16px',textAlign:'center'}}>{error}</p>
+                                <p style={{ color: 'red', fontSize: '16px', textAlign: 'center' }}>{error}</p>
                             </form>
-                            
                         </div>
-                        
+
                         <div className="modal-footer">
-                            <button
-                                onClick={handleSubmit}
-                                className="btn btn-success"
-                                style={{ width: '100%', fontSize: '16px' }}
-                            >
-                                Thêm
-                            </button>
+                            {editMode ? (
+                                <button
+                                    onClick={()=>handleEdit(room.id)}
+                                    className="btn btn-success"
+                                    style={{ width: '100%', fontSize: '16px' }}
+                                >
+                                    Cập nhật
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={handleSubmit}
+                                    className="btn btn-success"
+                                    style={{ width: '100%', fontSize: '16px' }}
+                                >
+                                    Thêm
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
             {dialog.isLoading && <Dialog onDialog={AreUSureDelete} message={dialog.message} />}
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+         
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                
+                draggable
+                
+                theme="light"
+                style={{zIndex:"10000"}}
+            />
         </div>
     );
 }

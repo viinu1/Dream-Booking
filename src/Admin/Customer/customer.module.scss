@@ -1,7 +1,10 @@
 // list customer
-.customerAdd,
+// .customerAdd,
 .customer {
     padding: 12px;
+    overflow-x: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #6969dd #e0e0e0;
 }
 .customerTitle {
     text-align: center;
@@ -50,5 +53,54 @@
     right: 5%;
 }
 
-// add new customer
+.btn-action{
+    font-size: 1.8rem;
+}
+// modal customer
 
+.modal-heading{
+    font-size: 1.8rem;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: center;
+}
+
+.hotel-control{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 6px;
+
+    .hotel-label {
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 400;
+        color: #333;
+    }
+    .hotel-input {
+        display: block;
+        appearance: none;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+        width: 100%;
+        color: rgb(42, 42, 46);
+        border: 1px solid rgb(206, 208, 212);
+        padding: 8px;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    .hotel-input:focus {
+        border-color: rgb(83, 146, 249);
+        outline: 0px;
+        box-shadow: rgba(0, 0, 0, 0.075) 0px 1px 1px inset, rgb(83, 146, 249) 0px 0px 6px;
+    }
+}
+
+.btn-action{
+    font-size: 1.8rem;
+    margin: auto;
+}

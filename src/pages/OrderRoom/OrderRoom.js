@@ -7,7 +7,7 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import * as httpRequest from '../../api/httpRequests';
 import { useSelector } from 'react-redux';
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -24,6 +24,7 @@ const night = (start, end) => {
     const daysDifference1 = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
     return daysDifference1;
 };
+
 export default function OrderRoom() {
 
     const { idHotel , id} = useParams();
@@ -33,13 +34,20 @@ export default function OrderRoom() {
     const [address, setAddress] = useState('');
     const [timeCome, setTimeCome] = useState('');
     const [timeBack, setTimeBack] = useState('');
-    const [hoTen, setHoTen] = useState(user.hoTen);
-    const [email, setEmail] = useState(user.email);
-    const [ngaySinh, setNgaySinh] = useState(user.ngaySinh);
-    const [cccd, setCCCD] = useState(user.cccd);
-    const [sdt, setSDT] = useState(user.sdt);
-    const [selectedOption, setSelectedOption] = useState(null);
+
+    const [hoTen, setHoTen] = useState(user ?user.hoTen:'');
+    const [email, setEmail] = useState(user ? user.email:'');
+
+    const [ngaySinh, setNgaySinh] = useState(user?user.ngaySinh:'');
+    const [cccd, setCCCD] = useState(user?user.cccd:'');
+    const [sdt, setSDT] = useState(user?user.sdt:'');
+
+    const [selectedOption, setSelectedOption] = useState(0);
+
+    const [hotel, setHotel] = useState({});
     
+    
+    const nagivate = useNavigate()
 
     useEffect(() => {
         const getRooms = async () => {
@@ -63,10 +71,19 @@ export default function OrderRoom() {
                 console.log(error);
             }
         };
-
+        const getKs = async () => {
+            try {
+                const result = await httpRequest.get(`KhachSans/${idHotel}`);
+                setHotel(result)
+                console.log(result);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getKs()
         getMaByIdKs()
         getRooms();
-    }, [id]);
+    }, [id, idHotel]);
     const time = night(timeCome, timeBack);
 
     const handleOrder = () => {
@@ -80,16 +97,22 @@ export default function OrderRoom() {
                     sdt,
                     diaChi: address,
                     idPhong: id,
+                    tenKhachSan:hotel.tenKhachSan,
                     thoiGianNhanPhong: timeCome,
                     thoiGianTraPhong: timeBack,
-                    maGiamGia: String(selectedOption),
+                    maGiamGia:String(selectedOption),
                     tongTien: room.giaPhong * (isNaN(time) ? 1 : time) - room.giaPhong*(selectedOption/100),
                 });
+                console.log(result==="");
                 if (result) {
                     toast.success('Bạn Đã đặt phòng thành Công');
+                    setTimeout(() => {
+                        nagivate("/")
+                    }, 2000);
                 }
             } catch (error) {
                 toast.error("Vui lòng nhập đủ thông tin")
+                console.log(error);
             }
         };
         bookingNow();
@@ -225,9 +248,7 @@ export default function OrderRoom() {
                                 <div className={cx('discount__control-header')}>Mã Giảm Giá</div>
                             </div>
                             <div className={cx('discount__control', 'mt-2')}>
-                                {mas?.map((ma,index)=>(
-                                    
-
+                                {mas.map((ma,index)=>(
                                     <div key={index} className='d-flex gap-2 mb-3'>
                                         <input
                                             name="maDiscount"
@@ -253,7 +274,7 @@ export default function OrderRoom() {
                             <div className={cx('price__control', 'discount')}>
                                 <FontAwesomeIcon className={cx('price__icon')} icon={faCheckCircle} />
                                 <div className={cx('discount__name')}>Đã áp dụng Phiếu Giảm Giá</div>
-                                <div className={cx('discount__price')}>{room.giaPhong ? (room.giaPhong*(selectedOption/100)).toLocaleString('en-US'):0} đ</div>
+                                <div className={cx('discount__price')}>{room.giaPhong ? (room.giaPhong*(selectedOption/100)).toLocaleString('en-US') : 0} đ</div>
                             </div>
                             <div className={cx('price__control')}>
                                 <div className={cx('price__control-left')}>
@@ -291,14 +312,14 @@ export default function OrderRoom() {
             </div>
             <ToastContainer
                 position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
+                autoClose={2000}
+                
                 newestOnTop={false}
                 closeOnClick
                 rtl={false}
                 pauseOnFocusLoss
                 draggable
-                pauseOnHover
+                
                 theme="light"
             />
         </div>

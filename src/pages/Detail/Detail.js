@@ -9,7 +9,6 @@ import {
     faMartiniGlass,
     faParking,
     faSnowplow,
-    faStar,
     faUtensils,
     faWaterLadder,
     faWifi,
@@ -19,24 +18,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ListRoom from '../../components/ListRoom';
 import { useParams } from 'react-router-dom';
 import * as httpRequest from '../../api/httpRequests';
+import Comment from '../../components/Comment';
 const cx = classNames.bind(styles);
 
 export default function Detail() {
     const { id } = useParams();
-    const [hotel, setHotel] = useState({});
+    const [hotel, setHotel] = useState();
 
-    useEffect(() => {
-        const fetchApi = async () => {
+    useEffect(()=>{
+        const getHotel = async()=>{
             try {
-                const res = await httpRequest.get(`KhachSans/${id}`);
-                setHotel(res);
-                // console.log(res.data);
+                const result = await httpRequest.get(`KhachSans/${id}`)
+                setHotel(result)
+                console.log(result);
             } catch (error) {
                 console.log(error);
             }
-        };
-        fetchApi()
-    }, [id]);
+        }
+        getHotel()
+    },[id])
+
+    const [message, setMessage] = useState()
+
+    const callbackFunction = (childData) => {
+      setMessage(childData)
+    }
+    console.log(message);
 
     return (
         <div className="container">
@@ -45,28 +52,24 @@ export default function Detail() {
                     <div className={cx('detail-img', 'col-lg-5')}>
                         <img
                             className={cx('img__primary')}
-                            src={hotel.hinhAnh}
+                            src={hotel?.hinhAnh}
                             alt=""
                         />
                     </div>
                     <div className={cx('detail-content', 'col-lg-7')}>
                         <div className={cx('detail-content__name')}>
                             <div>
-                                {hotel.tenKhachSan}
-                                <p className={cx('detail-content__address')}>{hotel.diaChi}</p>
+                                {hotel?.tenKhachSan}
+                                <p className={cx('detail-content__address')}>{hotel?.diaChi}</p>
                             </div>
                         </div>
                         <div className={cx('detail-content__votes')}>
                             <div className="d-flex gap-2">
-                                <FontAwesomeIcon icon={faStar} style={{ color: '#ff567d', fontSize: '20px' }} />
-                                <FontAwesomeIcon icon={faStar} style={{ color: '#ff567d', fontSize: '20px' }} />
-                                <FontAwesomeIcon icon={faStar} style={{ color: '#ff567d', fontSize: '20px' }} />
-                                <FontAwesomeIcon icon={faStar} style={{ color: '#ff567d', fontSize: '20px' }} />
-                                <FontAwesomeIcon icon={faStar} style={{ color: '#ff567d', fontSize: '20px' }} />
+                                {message?.rate} sao
                             </div>
-                            <div className={cx('detail-content__danhgia')}>4 Đánh giá</div>
+                            <div className={cx('detail-content__danhgia')}>{message?.rateLength} Đánh giá</div>
                         </div>
-                        <div className={cx('detail-desc')}>{hotel.gioiThieu}</div>
+                        <div className={cx('detail-desc')}>{hotel?.gioiThieu}</div>
                         <div className={cx('detail-convenient')}>
                             <div className={cx('detail-convenient__title')}>Tiện Nghi:</div>
                             <div className="row">
@@ -141,8 +144,9 @@ export default function Detail() {
                         </div>
                     </div>
                 </div>
-                <ListRoom id={hotel.id} name={hotel.tenKhachSan}/>
-                
+                <ListRoom id={hotel?.id} name={hotel?.tenKhachSan}/>
+
+                <Comment id={hotel?.id} name={hotel?.tenKhachSan} parentCallback={callbackFunction}/>
             </div>
         </div>
     );

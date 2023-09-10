@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as httpRequests from '../api/httpRequests';
-import { useNavigate } from 'react-router-dom';
 
 const initialState = {
     user: null,
@@ -10,8 +9,10 @@ const initialState = {
 export const loginUser = createAsyncThunk('user/loginUser', async (user) => {
     try {
         const request = await httpRequests.post('TaiKhoan/DangNhap', user);
-        localStorage.setItem('token', JSON.stringify(request.token));
-        if (request) {
+        if (request !== false) {
+            localStorage.setItem('token', JSON.stringify(request.token));
+        }
+        if (request !== false) {
             window.location.href = '/'
         }
         return request;
@@ -27,7 +28,7 @@ const userSlice = createSlice({
         builder
             .addCase(loginUser.pending, (state) => {
                 state.user = null;
-                state.isAuthenticated = false;
+                state.isAuthenticated = false;              
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.user = action.payload;
@@ -36,6 +37,7 @@ const userSlice = createSlice({
             .addCase(loginUser.rejected, (state, action) => {
                 state.isAuthenticated = false;
                 state.user = null;
+                
             });
     },
 });

@@ -8,16 +8,15 @@ const cx = classNames.bind(styles);
 
 export default function ListRoom({ id,name }) {
     const [rooms, setListRooms] = useState([]);
-    // console.log(data);
 
     useEffect(() => {
         const fetchApi = async () => {
             try {
                 const res = await httpRequest.get(`Phong/GetByKhachSan?id=${id}`);
                 setListRooms(res);
-                console.log(res);
+                // console.log(res);
             } catch (error) {
-                console.log(error);
+                setListRooms([])
             }
         };
         fetchApi();
@@ -36,6 +35,8 @@ export default function ListRoom({ id,name }) {
                             <div className={cx('room-info')}>
                                 <div className={cx('room-name')}>{room.tenPhong}</div>
                                 <div className={cx('room-desc')}>{room.moTa}</div>
+                                <div className={cx('room-number')}>Số lượng người lớn: {room.soLuongNguoiLon} <br/> Số lượng trẻ em: {room.soLuongTreEm}</div>
+                                {/* <div className={cx('room-desc')}></div> */}
                                 <div className={cx('room-price')}>
                                     <span>{room.giaPhong} đ/night</span>
                                 </div>
