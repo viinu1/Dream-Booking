@@ -60,7 +60,7 @@ export default function Register() {
     };
     const validate = () => {
         const regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        // const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        const expression = /^((?:[A-Za-z0-9!#$%&'*+\-\/=?^_`{|}~]|(?<=^|\.)"|"(?=$|\.|@)|(?<=".*)[ .](?=.*")|(?<!\.)\.){1,64})(@)((?:[A-Za-z0-9.\-])*(?:[A-Za-z0-9])\.(?:[A-Za-z0-9]){2,})$/i;
         let result = true;
         if (email === '' || email === null) {
             result = false;
@@ -77,6 +77,12 @@ export default function Register() {
         }else{
             result = false
             toast.error('Mặt khẩu cần ít nhất 1 chữ cái in hoa 1 số và 1 ký tư đặt biệt')
+        }
+        if(expression.test(email)){
+            result =  true
+        }else{
+            result = false
+            toast.error('Email Không đúng định dạng')
         }
         return result;
     };
