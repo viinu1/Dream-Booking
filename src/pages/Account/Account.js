@@ -143,7 +143,7 @@ export default function Account() {
                                 <thead>
                                     <tr>
                                         {/* <th scope="col">Họ và tên</th> */}
-                                        <th scope="col">email</th>
+                                        <th scope="col">Email</th>
                                         <th scope="col">Tên khách sạn</th>
                                         {/* <th scope="col">id Phong</th> */}
                                         <th scope="col">Thời gian nhận phòng</th>

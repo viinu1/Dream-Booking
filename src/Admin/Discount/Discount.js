@@ -5,7 +5,8 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useRef, useState } from 'react';
 import * as httpRequest from '../../api/httpRequests';
 import Dialog from '../../components/Dialog/Dialog';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+// import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 export default function Discount() {
@@ -18,6 +19,7 @@ export default function Discount() {
     const [idKhachSan, setIdKhachSan] = useState('');
 
     const [editMode, setEditMode] = useState(false);
+    // const navigate = useNavigate();
 
     useEffect(() => {
         const getMa = async () => {
@@ -52,8 +54,11 @@ export default function Discount() {
                     ma,
                     giaTri,
                 });
-                if (result.status === 'Success') {
-                    window.location.href = '/admin/discount';
+                if (result) {
+                    toast.success("Bạn đã thêm thành công")
+                    setTimeout(() => {
+                        window.location.href="/admin/discount"
+                    }, 2000);
                 }
             } catch (error) {
                 console.log(error);
@@ -116,6 +121,9 @@ export default function Discount() {
                 const result = await httpRequest.put(`MaGiamGia?id=${id}`,discount);
                 if(result){
                     toast.success('Cập nhật thành công')
+                    setTimeout(() => {
+                        window.location.href='/admin/discount'
+                    }, 3000);
                 } 
             } catch (error) {
                 console.log(error);
@@ -213,7 +221,7 @@ export default function Discount() {
                             <form action="" method="">
                                 <div className={cx('hotel-control')}>
                                     <label htmlFor="nameKS" className={cx('hotel-label')}>
-                                        Mã Giảm Giám
+                                        Mã Giảm Giá
                                     </label>
                                     <input
                                         value={editMode ? discount.ma : ma}
@@ -279,6 +287,16 @@ export default function Discount() {
                 </div>
             </div>
             {dialog.isLoading && <Dialog onDialog={AreUSureDelete} message={dialog.message} />}
+            <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                // newestOnTop={false}
+                closeOnClick
+                // rtl={false}
+                draggable
+                theme="light"
+                style={{ zIndex: '10000000' }}
+            />
         </div>
     );
 }

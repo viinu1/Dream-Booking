@@ -120,6 +120,13 @@
     line-height: 1.5;
     font-style: italic;
     height: calc(2rem * 2 * 1.5);
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* số dòng hiển thị */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+
 }
 .card-text {
     font-size: 16px;

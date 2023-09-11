@@ -42,11 +42,11 @@ export default function Register() {
                         sdt: phone,
                         DiaChi: address,
                     });
-                    console.log(res);
-                    if (res.status==='Error') {
+                    console.log(res.data);
+                    if (res.data.status ==='Error') {
                         toast.error("Email đã tồn tại")
                     }
-                    if(res.status === 'Success'){
+                    if(res.data.status === 'Success'){
 
                         toast.success('Đã đăng ký thành công');
                     }
@@ -231,14 +231,12 @@ export default function Register() {
             </div>
             <ToastContainer
                 position="top-right"
-                autoClose={3000}
+                autoClose={2000}
                 hideProgressBar={false}
-                newestOnTop={false}
+                
                 closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
+               
                 draggable
-                pauseOnHover
                 theme="light"            
             />
         </div>

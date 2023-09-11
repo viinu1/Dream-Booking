@@ -110,15 +110,7 @@ export default function Login() {
                     </div>
                 </div>
             </div>
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnHover
-                theme="light"
-            />
+            <ToastContainer position="top-right" autoClose={2000} newestOnTop={false} closeOnClick theme="light" />
         </div>
     );
 }

@@ -100,6 +100,9 @@ export default function Hotel() {
                 });
                 if (result) {
                     toast.success('Bạn đã thêm thành công');
+                    setTimeout(() => {
+                        window.location.href='/admin/hotel'
+                    }, 2000);
                 }
             } catch (error) {
                 if (error.response && error.response.status === 401) {
@@ -121,6 +124,9 @@ export default function Hotel() {
                 console.log(result);
                 if (result) {
                     toast.success('Cập nhật thành công');
+                    setTimeout(() => {
+                        window.location.href='/admin/hotel'
+                    }, 2000);
                 }
             } catch (error) {
                 toast.error('Cập nhật thất bại');
@@ -401,10 +407,10 @@ export default function Hotel() {
             {dialog.isLoading && <Dialog onDialog={AreUSureDelete} message={dialog.message} />}
             <ToastContainer
                 position="top-right"
-                autoClose={3000}
-                newestOnTop={false}
+                autoClose={2000}
+                // newestOnTop={false}
                 closeOnClick
-                rtl={false}
+                // rtl={false}
                 draggable
                 theme="light"
                 style={{ zIndex: '10000000' }}

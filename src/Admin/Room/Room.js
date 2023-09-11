@@ -76,11 +76,11 @@ export default function Room() {
                     soLuongNguoiLon: Number(soLuongNguoiLon),
                     soLuongTreEm: Number(soLuongTreEm),
                 });
-                if(res){
-                    toast.success("Bạn Đã thêm thành công")
+                if (res) {
+                    toast.success('Bạn Đã thêm thành công');
                     setTimeout(() => {
-                        window.location.href='/admin/room'
-                    }, 3000);
+                        window.location.href = '/admin/room';
+                    }, 2000);
                 }
             } catch (error) {
                 setError('Thêm không thành công');
@@ -124,16 +124,16 @@ export default function Room() {
     const [editMode, setEditMode] = useState(false);
     const [room, setRoom] = useState({});
 
-    const handleEdit =  async (id) => {
+    const handleEdit = async (id) => {
         const uploadedImageUrls = await uploadImagesToFirebase(listImg);
         const editRoom = async () => {
             try {
                 const result = await httpRequest.put(`Phong?id=${id}`, room);
                 if (result) {
-                    toast.success("Cập nhật phòng thành công")
+                    toast.success('Cập nhật phòng thành công');
                     setTimeout(() => {
-                        window.location.href='/admin/room'
-                    }, 3000);
+                        window.location.href = '/admin/room';
+                    }, 2000);
                 }
             } catch (error) {
                 toast.error('Cập nhật thất bại');
@@ -147,7 +147,7 @@ export default function Room() {
     const handleChangeRoom = async (e) => {
         setRoom({
             ...room,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     };
 
@@ -422,7 +422,7 @@ export default function Room() {
                         <div className="modal-footer">
                             {editMode ? (
                                 <button
-                                    onClick={()=>handleEdit(room.id)}
+                                    onClick={() => handleEdit(room.id)}
                                     className="btn btn-success"
                                     style={{ width: '100%', fontSize: '16px' }}
                                 >
@@ -444,16 +444,14 @@ export default function Room() {
             {dialog.isLoading && <Dialog onDialog={AreUSureDelete} message={dialog.message} />}
             <ToastContainer
                 position="top-right"
-                autoClose={3000}
-         
-                newestOnTop={false}
+                autoClose={2000}
+                // newestOnTop={false}
                 closeOnClick
-                rtl={false}
-                
+                // rtl={false}
+
                 draggable
-                
                 theme="light"
-                style={{zIndex:"10000"}}
+                style={{ zIndex: '10000' }}
             />
         </div>
     );
