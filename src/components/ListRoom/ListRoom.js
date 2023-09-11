@@ -38,7 +38,7 @@ export default function ListRoom({ id,name }) {
                                 <div className={cx('room-number')}>Số lượng người lớn: {room.soLuongNguoiLon} <br/> Số lượng trẻ em: {room.soLuongTreEm}</div>
                                 {/* <div className={cx('room-desc')}></div> */}
                                 <div className={cx('room-price')}>
-                                    <span>{room.giaPhong} đ/night</span>
+                                    <span>{room.giaPhong.toLocaleString('en-US')} đ/đêm</span>
                                 </div>
                             </div>
                             <div>

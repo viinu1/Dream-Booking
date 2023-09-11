@@ -132,9 +132,9 @@ function Home() {
 
                 <section className={cx('facilities')}>
                     <div className={cx('room-list__title')}>Khám Phá</div>
-                    <div className="row row-cols-5">
+                    <div className="row">
                         {facilities.map((item, index) => (
-                            <div className="col" key={index}>
+                            <div className="col-lg-3 col-md-6 col-12 mb-4" key={index}>
                                 <div className={cx('facilities-item')}>
                                     <img className={cx('facilities-img')} src={item.src} alt={item.title} />
                                     <div className={cx('facilities-titile')}>{item.title}</div>
