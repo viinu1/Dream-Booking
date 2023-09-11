@@ -64,8 +64,8 @@ export default function Detail() {
                             </div>
                         </div>
                         <div className={cx('detail-content__votes')}>
-                            <div className="d-flex gap-2">
-                                {message?.rate} sao
+                            <div className="d-flex gap-2 align-items-center">
+                                {(message?.rate.toFixed(2))} <span style={{color:'yellow',fontSize:'24px'}}>★</span>
                             </div>
                             <div className={cx('detail-content__danhgia')}>{message?.rateLength} Đánh giá</div>
                         </div>

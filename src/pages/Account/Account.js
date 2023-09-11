@@ -28,7 +28,7 @@ export default function Account() {
     useEffect(() => {
         const getOrderByEmail = async () => {
             try {
-                const result = await httpRequest.get(`DatPhong/Email?email=${user.email}`);
+                const result = await httpRequest.get(`DatPhong/GetByEmail?email=${user.email}`);
                 setOrder(result);
                 console.log(result);
             } catch (error) {
@@ -55,9 +55,10 @@ export default function Account() {
         idOrder.current = item;
     };
     // const [orderRoom,setOrderRoom] = useState([]);
-    const AreUSureDelete = (choose) => {
+    const AreUSureDelete = async (choose) => {
         if (choose) {
-            httpRequest.deleTe(`DatPhong/${idOrder.current}`);
+            const res = await httpRequest.deleTe(`DatPhong/${idOrder.current}`);
+            console.log(res);
             setOrder(
                 order.filter((post) => {
                     return post.id !== idOrder.current;

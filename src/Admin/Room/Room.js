@@ -166,13 +166,33 @@ export default function Room() {
         getHotel();
     };
 
+    const [searchRoom, setSearchRoom] = useState('');
+
+    const handleSearch = () => {
+        const getSearch = async () => {
+            try {
+                const result = await httpRequest.get(`Phong/SearchRoomByName?tenPhong=${searchRoom}`);
+                setRooms(result);
+                console.log(result);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getSearch();
+    };
+
     return (
         <div className={cx('room')}>
             <h3 className={cx('room-title')}>Quản lý danh sách phòng</h3>
             <div className={cx('room__header')}>
                 <div className={cx('room__search')}>
-                    <input type="text" placeholder="Nhập loại phòng" />
-                    <FontAwesomeIcon icon={faSearch} className={cx('search-icon')} />
+                    <input
+                        value={searchRoom}
+                        onChange={(e) => setSearchRoom(e.target.value)}
+                        type="text"
+                        placeholder="Nhập Tên phòng"
+                    />
+                    <FontAwesomeIcon onClick={handleSearch} icon={faSearch} className={cx('search-icon')} />
                 </div>
                 <div className={cx('room__add')}>
                     <span
@@ -185,7 +205,7 @@ export default function Room() {
                     </span>
                 </div>
             </div>
-            <table className={cx('table', 'table-hover', 'table-room')}>
+            <table className={cx('table', 'table-hover', 'table-room',"table-striped")}>
                 <thead>
                     <tr className={cx('header__table')}>
                         <th style={{ minWidth: '150px' }} scope="col">

@@ -149,7 +149,7 @@ export default function Discount() {
             >
                 Thêm mã giảm giá
             </div>
-            <table className={cx('table', 'table-hover', 'table-Discount')}>
+            <table className={cx('table', 'table-hover', 'table-Discount','table-striped')}>
                 <thead>
                     <tr className={cx('table-header')}>
                         <th className={cx('header-Discount')} style={{ minWidth: '50px' }} scope="col">

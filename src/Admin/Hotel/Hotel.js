@@ -101,7 +101,7 @@ export default function Hotel() {
                 if (result) {
                     toast.success('Bạn đã thêm thành công');
                     setTimeout(() => {
-                        window.location.href='/admin/hotel'
+                        window.location.href='/admin/khachsan'
                     }, 2000);
                 }
             } catch (error) {
@@ -125,7 +125,7 @@ export default function Hotel() {
                 if (result) {
                     toast.success('Cập nhật thành công');
                     setTimeout(() => {
-                        window.location.href='/admin/hotel'
+                        window.location.href='/admin/khachsan'
                     }, 2000);
                 }
             } catch (error) {
@@ -168,13 +168,26 @@ export default function Hotel() {
         getKsById();
     };
 
+    const [nameKs,setNameKs] = useState('')
+    const handleSearch =()=>{
+        const search = async ()=>{
+            try {
+                const res = await httpRequest.get(`KhachSans/SearchKSByName?ten=${nameKs}`)
+                setHotels(res)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        search()
+    }
+
     return (
         <div className={cx('hotel')}>
             <h3 className={cx('hotelTitle')}>Quản lý Khách sạn</h3>
             <div className={cx('form-searchHotel')}>
                 <div className={cx('search-hotel')}>
-                    <input type="text" placeholder="Nhập tên khách hàng" />
-                    <FontAwesomeIcon icon={faSearch} className={cx('hotel-icon')} />
+                    <input value={nameKs} onChange={e=>setNameKs(e.target.value)} type="text" placeholder="Nhập tên khách hàng" />
+                    <FontAwesomeIcon onClick={handleSearch} icon={faSearch} className={cx('hotel-icon')} />
                 </div>
             </div>
             <div
@@ -185,7 +198,7 @@ export default function Hotel() {
             >
                 Thêm Khách Sạn
             </div>
-            <table className={cx('table', 'table-hover', 'table-hotel')}>
+            <table className={cx('table', 'table-hover', 'table-hotel','table-striped')}>
                 <thead>
                     <tr className={cx('table-header')}>
                         <th className={cx('header-hotel')} style={{ minWidth: '200px' }} scope="col">

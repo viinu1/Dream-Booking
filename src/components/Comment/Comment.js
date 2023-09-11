@@ -46,7 +46,7 @@ export default function Comment(props) {
                     binhLuan: comment,
                 });
                 // console.log(result);
-                // setComments([...comments,result])
+                setComments([...comments,result])
                 return result;
             } catch (error) {
                 console.log(error);
@@ -76,7 +76,7 @@ export default function Comment(props) {
         }
         sendData()
         getComment();
-    }, [comments, data, props, props.id]);
+    }, [props.id, comment]);
 
     // const handleDelete = (id) =>{
     //     const deleteComment = async ()=>{

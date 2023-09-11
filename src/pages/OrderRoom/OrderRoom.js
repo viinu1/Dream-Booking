@@ -31,7 +31,7 @@ export default function OrderRoom() {
     const user = useSelector((state) => state.user.user);
     const [room, setRoom] = useState({});
     const [mas, setMas] = useState([]);
-    const [address, setAddress] = useState('');
+    const [address, setAddress] = useState(user? user.diaChi:'');
     const [timeCome, setTimeCome] = useState('');
     const [timeBack, setTimeBack] = useState('');
 

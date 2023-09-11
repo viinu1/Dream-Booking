@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../Store/UserSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
@@ -93,6 +93,7 @@ export default function Login() {
                                 />
                             )}
                         </div>
+                        <Link to={`/change-pass`} className={cx('form-control-form','forgot-password')}>Quên mật khẩu</Link>
                         <button type="submit" className={cx('btn', 'btn-success', 'btn-login')}>
                             Đăng nhập
                         </button>

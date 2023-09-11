@@ -79,6 +79,20 @@ export default function RoomOrder() {
     //     getOrder()
     // }
 
+    const [searchRoom, setSearchRoom] = useState('');
+
+    const handleSearch = () => {
+        const getSearch = async () => {
+            try {
+                const result = await httpRequest.get(`DatPhong/GetByEmail?email=${searchRoom}`);
+                setOrders(result);
+                console.log(result);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getSearch();
+    };
 
     
     return (
@@ -86,11 +100,11 @@ export default function RoomOrder() {
             <h3 className={cx('hotelTitle')}>Quản lý đặt phòng</h3>
             <div className={cx('form-searchHotel')}>
                 <div className={cx('search-hotel')}>
-                    <input type="text" placeholder="Nhập tên khách hàng" />
-                    <FontAwesomeIcon icon={faSearch} className={cx('hotel-icon')} />
+                    <input value={searchRoom} onChange={e=>setSearchRoom(e.target.value)} type="text" placeholder="Nhập email khách hàng" />
+                    <FontAwesomeIcon onClick={handleSearch} icon={faSearch} className={cx('hotel-icon')} />
                 </div>
             </div>
-            <table className={cx('table', 'table-hover', 'table-hotel')}>
+            <table className={cx('table', 'table-hover', 'table-hotel','table-striped')}>
                 <thead>
                     <tr className={cx('table-header')}>
                         <th className={cx('header-hotel')} style={{ minWidth: '200px' }} scope="col">

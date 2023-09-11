@@ -54,7 +54,7 @@ export default function Customer() {
                     <FontAwesomeIcon icon={faSearch} className={cx('search-icon')} />
                 </div>
             </div>
-            <table className={cx('table', 'table-hover')}>
+            <table className={cx('table', 'table-hover','table-striped')}>
                 <thead>
                     <tr>
                         <th style={{ minWidth: '150px' }} scope="col">

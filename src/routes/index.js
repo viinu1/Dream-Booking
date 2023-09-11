@@ -12,6 +12,7 @@ import Hotel from "../Admin/Hotel/Hotel";
 import Discount from "../Admin/Discount";
 import RoomOrder from "../Admin/RoomOrder";
 import About from "../pages/About";
+import ChangePass from "../pages/ChangePass";
 
 //public Routes
 const publicRoutes = [
@@ -20,7 +21,7 @@ const publicRoutes = [
         component: Home,
     },
     {
-        path: '/search',
+        path: '/search/:tentinh/:start/:end',
         component: Search,
     },
     {
@@ -30,6 +31,10 @@ const publicRoutes = [
     {
         path: '/about',
         component: About,
+    },
+    {
+        path: '/change-pass',
+        component: ChangePass,
     },
     {
         path: '/detail/:id',

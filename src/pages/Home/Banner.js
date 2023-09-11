@@ -5,11 +5,19 @@ import styles from './Home.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles)
 
 export default function Banner() {
     let today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ today.getDate();
+    const [dateStart,setDateStart] = useState()
+    const [dateEnd,setDateEnd] = useState()
+    const [tinh,setTentinh] = useState()
+
+
+
+    
   return (
     <div className={cx('banner', 'row')}>
                 <div id="carouselExampleIndicators" className={cx('carousel', 'slide')} data-bs-ride="carousel">
@@ -77,23 +85,24 @@ export default function Banner() {
                         <span className={cx('visually-hidden')}>Next</span>
                     </button>
                 </div>
+
                 <div className={cx('search','container')} style={{width:'70%'}}>
                     <div className={cx('search-title')}>Check Availability</div>              
                     <form action='' method='' className={cx('form__search')}>
                         <div className={cx('search-control')}>
                             <FontAwesomeIcon className={cx('search-icon')} icon={faCalendar}/>
-                            <input type='date' className={cx('search-date','search-date__start')}/>
+                            <input value={dateStart} onChange={e=>setDateStart(e.target.value)} type='date' className={cx('search-date','search-date__start')}/>
                         </div>
                         <div className={cx('search-control')}>
                             <FontAwesomeIcon className={cx('search-icon')} icon={faCalendar}/>
-                            <input type='date' className={cx('search-date','search-date__end')}/>
+                            <input value={dateEnd} onChange={e=>setDateEnd(e.target.value)} type='date' className={cx('search-date','search-date__end')}/>
                         </div>
                         <div className={cx('search-control')}>
                             <FontAwesomeIcon className={cx('search-icon')} icon={faSearch}/>
-                            <input type='text' className={cx('search-date','search-date__end')}/>
+                            <input value={tinh} onChange={e=>setTentinh(e.target.value)} type='text' className={cx('search-date','search-date__end')}/>
                         </div>
                     </form> 
-                    <button className='btn btn-primary w-100 mt-3' style={{height:'35px',fontSize:'18px',fontWeight:'bold'}}>Tìm Kiếm</button>            
+                    <Link to={`/search/${tinh}/${dateStart}/${dateEnd}`}  className='btn btn-primary w-100 mt-3' style={{height:'35px',fontSize:'18px',fontWeight:'bold'}}>Tìm Kiếm</Link>            
                 </div>
             </div>
   )

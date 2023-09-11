@@ -88,7 +88,7 @@ function Home() {
             <Banner />
             <div className={cx('container')}>
                 <section className={cx('room-list')}>
-                    <div className={cx('room-list__title')}>Danh sách Phòng</div>
+                    <div className={cx('room-list__title')}>Danh Sách Khách Sạn</div>
                     <div className={cx('row')}>
                         {hotels.map((item, index) => {
                             return (
@@ -131,7 +131,7 @@ function Home() {
                 </section>
 
                 <section className={cx('facilities')}>
-                    <div className={cx('room-list__title')}>Khám Phá</div>
+                    <div className={cx('room-list__title')}>Facilities</div>
                     <div className="row">
                         {facilities.map((item, index) => (
                             <div className="col-lg-3 col-md-6 col-12 mb-4" key={index}>
