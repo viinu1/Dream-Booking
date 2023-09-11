@@ -151,7 +151,7 @@ function Home() {
                     <div className="row">
                         {randomItems?.map((item, index) => {
                             return (
-                                <div className="col-lg-3">
+                                <div className="col-lg-3" key={index}>
                                     <div className={cx('card-comment')}>
                                         <div className={cx('card-comment__title')}>Khách sạn Dream</div>
                                         {/* <div className={cx('card-comment__place')}>Ở Đà nẵng</div> */}

@@ -42,9 +42,15 @@ export default function Register() {
                         sdt: phone,
                         DiaChi: address,
                     });
-                    if (res) {
+                    console.log(res);
+                    if (res.status==='Error') {
+                        toast.error("Email đã tồn tại")
+                    }
+                    if(res.status === 'Success'){
+
                         toast.success('Đã đăng ký thành công');
                     }
+                    
                 } catch (error) {
                     console.log('false');
                 }

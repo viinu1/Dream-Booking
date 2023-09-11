@@ -221,8 +221,8 @@ export default function Hotel() {
                                 <td>{hotel.maKhachSan} </td>
                                 <td>{hotel.diaChi} </td>
                                 <td>{hotel.tieuDe} </td>
-                                <td className={cx('gioThieu')}>{hotel.gioiThieu} </td>
-                                <td>{hotel.ghiChu} </td>
+                                <td style={{textAlign:'justify'}}>{hotel.gioiThieu} </td>
+                                <td style={{textAlign:'justify'}}>{hotel.ghiChu} </td>
                                 <td className={cx('action')}>
                                     <span
                                         onClick={() => handleDelete(hotel.id)}

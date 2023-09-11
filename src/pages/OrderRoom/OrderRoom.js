@@ -103,7 +103,7 @@ export default function OrderRoom() {
                     maGiamGia:String(selectedOption),
                     tongTien: room.giaPhong * (isNaN(time) ? 1 : time) - room.giaPhong*(selectedOption/100),
                 });
-                console.log(result==="");
+                
                 if (result) {
                     toast.success('Bạn Đã đặt phòng thành Công');
                     setTimeout(() => {
@@ -111,8 +111,14 @@ export default function OrderRoom() {
                     }, 2000);
                 }
             } catch (error) {
-                toast.error("Vui lòng nhập đủ thông tin")
-                console.log(error);
+                // toast.error("Vui lòng nhập đủ thông tin")
+                if(error.message === 'Request failed with status code 401'){
+                    toast.error("Vui long đăng nhập để đặt phòng")
+                }
+                if(error.message === 'Request failed with status code 400'){
+                    toast.error("Vui lòng nhập đủ thông tin")
+                }
+                // console.log(error);
             }
         };
         bookingNow();

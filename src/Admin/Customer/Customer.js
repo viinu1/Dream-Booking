@@ -63,7 +63,7 @@ export default function Customer() {
                         <th style={{ minWidth: '150px' }} scope="col">
                             CCCD
                         </th>
-                        <th style={{ minWidth: '150px' }} scope="col">
+                        <th style={{ minWidth: '100px' }} scope="col">
                             Giới tính
                         </th>
                         <th style={{ minWidth: '150px' }} scope="col">
@@ -75,9 +75,9 @@ export default function Customer() {
                         <th style={{ minWidth: '150px' }} scope="col">
                             Ngày Sinh
                         </th>
-                        <th style={{ minWidth: '150px' }} scope="col">
+                        {/* <th style={{ minWidth: '150px' }} scope="col">
                             Action
-                        </th>
+                        </th> */}
                     </tr>
                 </thead>
                 <tbody className={cx('formUser')}>
@@ -95,7 +95,7 @@ export default function Customer() {
                                 <td>{user.phoneNumber}</td>
                                 <td>{user.diaChi} </td>
                                 <td>{formattedDate}</td>
-                                <td className={cx('action')}>
+                                {/* <td className={cx('action')}>
                                     <span>
                                         <span
                                             data-bs-toggle="modal"
@@ -106,7 +106,7 @@ export default function Customer() {
                                             Edit
                                         </span>
                                     </span>
-                                </td>
+                                </td> */}
                             </tr>
                         );
                     })}
